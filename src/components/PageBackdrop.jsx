@@ -31,7 +31,7 @@ export function HeroBackdrop({ paused = false, variation = 3 }) {
   return (
     <div ref={ref} className="hero-backdrop" data-background-kind="silk" data-running={running} aria-hidden="true">
       <Suspense fallback={null}>
-        <Silk color="#b90f24" sheenColor="#ff646c" speed={3.2} scale={1.45} rotation={-0.25} sheen={0.45} depth={0.7} glow={0.04} noiseIntensity={0.2} ripple={0.8} wave={1.2} variation={variation} intro mouseInteraction clickRipple={false} paused={!running} />
+        <Silk color="#b90f24" sheenColor="#ff646c" speed={3.2} scale={1.45} rotation={-0.25} sheen={0.45} depth={0.7} glow={0} noiseIntensity={0} dpr={0.6} ripple={0.8} wave={1.2} variation={variation} intro mouseInteraction clickRipple={false} paused={!running} />
       </Suspense>
     </div>
   );

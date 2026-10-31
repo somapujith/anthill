@@ -129,14 +129,14 @@ export default function HomeHero({ lead, poster, logos }) {
   useGSAP(
     () => {
       const hero = root.current;
-      const state = { t: 1.25, lift: 0 };
+      const state = { t: 1.25 };
       let curve = DESKTOP_CURVE;
 
       const draw = () => {
-        drawSurface(sky.current, edge.current, curve, state.t, state.lift);
+        drawSurface(sky.current, edge.current, curve, state.t, 0);
         const x = Math.min(state.t, 0.955);
         head.current.style.left = `${x * 100}%`;
-        head.current.style.top = `${surfaceY(x, curve, state.t, state.lift) * 100}%`;
+        head.current.style.top = `${surfaceY(x, curve, state.t, 0) * 100}%`;
         const reached = milestones.filter((m) => m.x <= state.t).length;
         if (reached > litRef.current) {
           litRef.current = reached;
@@ -191,13 +191,12 @@ export default function HomeHero({ lead, poster, logos }) {
           .timeline({
             scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true },
           })
-          .to(state, { lift: 1, ease: "power1.in", duration: 1, onUpdate: draw }, 0)
+          .to(q(".hero-sky"), { yPercent: -100, ease: "power1.in", duration: 1 }, 0)
           .to(q(".hero-copy, .hero-meta"), { y: -90, autoAlpha: 0, ease: "none", duration: 0.45 }, 0)
           .to(q(".hero-proof, .hero-film, .hero-rail, .hero-head, .hero-trail"), { autoAlpha: 0, ease: "none", duration: 0.16 }, 0);
 
         return () => {
           state.t = 1.25;
-          state.lift = 0;
           splits.forEach((split) => split.revert());
         };
       });
@@ -233,7 +232,8 @@ export default function HomeHero({ lead, poster, logos }) {
       <div className="hero-paths" aria-hidden="true">
         <BackgroundPaths
           color="#ffc9ce"
-          count={30}
+          count={18}
+          fade
           angle={-24}
           spread={0.7}
           speed={0.6}

@@ -4,7 +4,8 @@
 
 import { useEffect, useRef } from "react";
 
-const SAMPLES = 64;
+const SAMPLES = 40;
+const FRAME_MS = 1000 / 30;
 const OVERSCAN = 0.06;
 const DRAW_MS = 1400;
 const DRAW_STAGGER_MS = 40;
@@ -95,6 +96,7 @@ export default function BackgroundPaths({
   speed = 1,
   interactive = true,
   paused = false,
+  fade = false,
 }) {
   const canvasRef = useRef(null);
   const pausedRef = useRef(paused);
@@ -105,8 +107,9 @@ export default function BackgroundPaths({
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return undefined;
+    // Touch devices get a still frame: the lines are subtle and the battery cost is not.
     const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
+      "(prefers-reduced-motion: reduce), (pointer: coarse)",
     ).matches;
     const shape = {
       count,
@@ -127,11 +130,22 @@ export default function BackgroundPaths({
     let raf = 0;
     let onScreen = true;
     const visible = () => onScreen && !document.hidden;
-    const paint = () => drawLines(ctx, frame, shape, color);
+    const paint = () => {
+      drawLines(ctx, frame, shape, color);
+      if (!fade) return;
+      // Erasing here is far cheaper than a CSS mask over a canvas that repaints.
+      const gradient = ctx.createLinearGradient(frame.width * 0.38, 0, frame.width * 0.82, 0);
+      gradient.addColorStop(0, "#000");
+      gradient.addColorStop(1, "transparent");
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, frame.width, frame.height);
+      ctx.globalCompositeOperation = "source-over";
+    };
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const dpr = 1;
       frame.width = rect.width;
       frame.height = rect.height;
       canvas.width = Math.round(rect.width * dpr);
@@ -145,6 +159,9 @@ export default function BackgroundPaths({
       if (!start) {
         start = now;
         last = now;
+      } else if (now - last < FRAME_MS - 0.25) {
+        raf = requestAnimationFrame(loop);
+        return;
       }
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
@@ -206,7 +223,7 @@ export default function BackgroundPaths({
       document.removeEventListener("visibilitychange", play);
       window.removeEventListener("pointermove", onMove);
     };
-  }, [count, spread, angle, speed, interactive, color]);
+  }, [count, spread, angle, speed, interactive, color, fade]);
 
   useEffect(() => {
     if (!paused) wakeRef.current?.();
