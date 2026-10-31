@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, useReducedMotion } from "motion/react";
-import { ArrowUpRight, ArrowRight, Plus } from "lucide-react";
+import { ArrowUpRight, ArrowRight, ArrowLeft, Plus } from "lucide-react";
 import siteContent from "../../data/view-content.json";
 import PageStage from "../../components/PageStage.jsx";
 import SpotlightCard from "../../components/reactbits/SpotlightCard.jsx";
@@ -202,7 +202,7 @@ export function Reveal({ children, className = "", delay = 0 }) {
       className={className}
       initial={reduced ? false : { opacity: 0, y: 14 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.12 }}
+      viewport={{ once: true, amount: 0 }}
       transition={{ duration: 0.45, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
@@ -326,6 +326,9 @@ export function InlineText({ text, page }) {
   const links = (page?.links || []).filter(
     (l) => l.text && text.includes(l.text) && l.text.length < 120,
   );
+  for (const email of text.match(/[\w.+-]+@[\w-]+(?:\.[\w-]+)+/g) || [])
+    if (!links.some((l) => l.text === email))
+      links.push({ text: email, href: `mailto:${email}` });
   if (!links.length) return text;
   const segments = [];
   let remaining = text;
@@ -430,6 +433,33 @@ export function UtilityForm({ form, index }) {
   );
 }
 
+function BlockList({ list, page }) {
+  const Tag = list.ordered ? "ol" : "ul";
+  return (
+    <Tag className={`content-list ${list.ordered ? "content-list--ordered" : ""}`}>
+      {list.items.map((item, i) => (
+        <li className="content-list-item" key={i}>
+          <span aria-hidden="true" />
+          <span>
+            <InlineText text={words(item)} page={page} />
+          </span>
+        </li>
+      ))}
+    </Tag>
+  );
+}
+
+const groupLists = (blocks) => {
+  const grouped = [];
+  for (const block of blocks) {
+    const last = grouped[grouped.length - 1];
+    if (typeOf(block) !== "li") grouped.push(block);
+    else if (last?.type === "list") last.items.push(block);
+    else grouped.push({ type: "list", items: [block] });
+  }
+  return grouped;
+};
+
 export function Block({ block, page, index = 0 }) {
   const type = typeOf(block);
   const text = words(block);
@@ -441,6 +471,7 @@ export function Block({ block, page, index = 0 }) {
         ))}
       </div>
     );
+  if (type === "list") return <BlockList list={block} page={page} />;
   if (type === "gallery")
     return (
       <div className="content-logo-gallery">
@@ -497,6 +528,7 @@ export function Block({ block, page, index = 0 }) {
           alt={block.alt || ""}
           loading="lazy"
         />
+        {block.caption && <figcaption>{block.caption}</figcaption>}
       </figure>
     );
   }
@@ -504,13 +536,15 @@ export function Block({ block, page, index = 0 }) {
     return (
       <SmartLink href={block.href} className="content-source-link">
         <span>{text}</span>
-        <ArrowUpRight size={18} />
+        <i className="content-link-icon" aria-hidden="true">
+          <ArrowUpRight size={18} />
+        </i>
       </SmartLink>
     );
   if (type === "li")
     return (
       <div className="content-list-item">
-        <span aria-hidden="true">↗</span>
+        <span aria-hidden="true" />
         <span>
           <InlineText text={text} page={page} />
         </span>
@@ -610,6 +644,11 @@ export function enrichBlocks(blocks, page) {
         i++;
       continue;
     }
+    if (block.src && typeOf(blocks[i + 1] || {}) === "figcaption") {
+      result.push({ ...block, caption: words(blocks[i + 1]) });
+      i++;
+      continue;
+    }
     const value = words(block);
     const numeric =
       /^\$?\d[\d.,]*\s?[MBXx%+×]+$/.test(value) ||
@@ -697,7 +736,9 @@ export function FAQ({ blocks, page }) {
         <details key={entry.question}>
           <summary>
             <span>{entry.question}</span>
-            <Plus size={20} />
+            <i className="content-link-icon" aria-hidden="true">
+              <Plus size={20} />
+            </i>
           </summary>
           <div className="content-faq-answer">
             {entry.answer.map((b, i) => (
@@ -713,7 +754,417 @@ export function FAQ({ blocks, page }) {
   );
 }
 
+const anchorFor = (text, seen) => {
+  const base =
+    text
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "") || "section";
+  const count = (seen.get(base) || 0) + 1;
+  seen.set(base, count);
+  return count > 1 ? `${base}-${count}` : base;
+};
+
+// Marks the heading most recently scrolled past, for the table of contents.
+function useActiveAnchor(ids) {
+  const [active, setActive] = useState(ids[0]);
+  const key = ids.join(" ");
+  useEffect(() => {
+    const headings = key
+      .split(" ")
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+    const update = () => {
+      const line = window.innerHeight * 0.3;
+      const passed = headings.filter(
+        (h) => h.getBoundingClientRect().top <= line,
+      );
+      setActive((passed[passed.length - 1] || headings[0])?.id);
+    };
+    const observer = new IntersectionObserver(update, {
+      rootMargin: "0px 0px -70% 0px",
+    });
+    headings.forEach((h) => observer.observe(h));
+    return () => observer.disconnect();
+  }, [key]);
+  return active;
+}
+
+function DocContents({ items }) {
+  const active = useActiveAnchor(items.map((item) => item.id));
+  const list = (onPick) => (
+    <ol className="content-toc-list">
+      {items.map((item) => (
+        <li key={item.id} className={item.level > 2 ? "is-sub" : undefined}>
+          <a
+            href={`#${item.id}`}
+            aria-current={active === item.id ? "location" : undefined}
+            onClick={onPick}
+          >
+            {item.title}
+          </a>
+        </li>
+      ))}
+    </ol>
+  );
+  return (
+    <aside className="content-toc">
+      <nav className="content-toc-rail" aria-label="On this page">
+        <p className="content-toc-title">On this page</p>
+        {list()}
+      </nav>
+      <details className="content-toc-fold">
+        <summary>
+          <span>On this page</span>
+          <i className="content-link-icon" aria-hidden="true">
+            <Plus size={18} />
+          </i>
+        </summary>
+        <nav aria-label="On this page">
+          {list((event) => {
+            event.currentTarget.closest("details").open = false;
+          })}
+        </nav>
+      </details>
+    </aside>
+  );
+}
+
+const leadIn = /^([^.:]{2,60}:|[A-Z][^.:]{2,30}\.)\s+(.+)$/s;
+const definedTerm = /^([A-Z][\w’' ]*?)\s+((?:means|refers to|is|are)\b.*|\(.*)$/s;
+const cookieSpec =
+  /^(.+?)\s+(Type:)\s+(.+?)\s+(Administered by:)\s+(.+?)\s+(Purpose:)\s+(.+)$/s;
+
+function DocList({ list, page, plain = false }) {
+  const texts = list.items.map(words);
+  if (!plain && texts.every((t) => cookieSpec.test(t)))
+    return (
+      <ul className="content-doc-specs">
+        {texts.map((t) => {
+          const [, name, ...facts] = t.match(cookieSpec);
+          return (
+            <li key={t}>
+              <p className="content-doc-spec-name">
+                {name.replace(/[\u200b-\u200d\ufeff]/g, "").trim()}
+              </p>
+              <dl>
+                {[0, 2, 4].map((n) => (
+                  <div key={n}>
+                    <dt>{facts[n]}</dt>
+                    <dd>{facts[n + 1]}</dd>
+                  </div>
+                ))}
+              </dl>
+            </li>
+          );
+        })}
+      </ul>
+    );
+  if (!plain && texts.every((t) => definedTerm.test(t)))
+    return (
+      <dl className="content-doc-terms">
+        {texts.map((t) => {
+          const [, term, meaning] = t.match(definedTerm);
+          return (
+            <div key={t}>
+              <dt>{term}</dt>
+              <dd>
+                <InlineText text={meaning} page={page} />
+              </dd>
+            </div>
+          );
+        })}
+      </dl>
+    );
+  const Tag = list.ordered ? "ol" : "ul";
+  return (
+    <Tag className={`content-list ${list.ordered ? "content-list--ordered" : ""}`}>
+      {texts.map((t, i) => {
+        const lead = t.match(leadIn);
+        return (
+          <li className="content-list-item" key={i}>
+            <span aria-hidden="true" />
+            <span>
+              {lead ? (
+                <>
+                  <strong>{lead[1]}</strong>{" "}
+                  <InlineText text={lead[2]} page={page} />
+                </>
+              ) : (
+                <InlineText text={t} page={page} />
+              )}
+            </span>
+          </li>
+        );
+      })}
+    </Tag>
+  );
+}
+
+function DocBlocks({ blocks, page }) {
+  return groupLists(blocks).map((block, i) => {
+    if (block.type === "doc-heading") {
+      const Tag = `h${block.level}`;
+      return (
+        <Tag
+          key={i}
+          id={block.id}
+          className={`content-doc-heading is-${block.visual || Tag}`}
+        >
+          <InlineText text={block.text} page={page} />
+        </Tag>
+      );
+    }
+    if (block.type === "list") return <DocList list={block} page={page} key={i} />;
+    return <Block block={block} page={page} key={i} />;
+  });
+}
+
+// The source nests most of the policy under one stray level, so the outline is rebuilt.
+const POLICY_SUBSECTIONS = ["Interpretation", "Definitions"];
+
+function PolicyDocument({ blocks, page }) {
+  const seen = new Map();
+  const sections = [];
+  const contents = [];
+  for (const block of blocks) {
+    if (!isHeading(block)) {
+      sections[sections.length - 1]?.blocks.push(block);
+      continue;
+    }
+    const source = typeOf(block);
+    const text = words(block);
+    const level =
+      source === "h1" || source === "h2"
+        ? 2
+        : source === "h3"
+          ? POLICY_SUBSECTIONS.includes(text)
+            ? 3
+            : 2
+          : source === "h4"
+            ? 3
+            : 4;
+    const id = anchorFor(text, seen);
+    if (level < 4) contents.push({ id, title: text, level });
+    if (level === 2) sections.push({ id, title: text, blocks: [] });
+    else
+      sections[sections.length - 1]?.blocks.push({
+        type: "doc-heading",
+        level,
+        text,
+        id,
+      });
+  }
+  return (
+    <div className="content-doc-layout">
+      <DocContents items={contents} />
+      <article className="content-doc-article">
+        {sections.map((section) => (
+          <section className="content-doc-section" key={section.id}>
+            <h2 id={section.id} className="content-doc-heading is-h2">
+              {section.title}
+            </h2>
+            <DocBlocks blocks={section.blocks} page={page} />
+          </section>
+        ))}
+      </article>
+    </div>
+  );
+}
+
+function Specimen({ label, children, night = false }) {
+  return (
+    <div className={`content-specimen ${night ? "is-night" : ""}`}>
+      <p className="content-specimen-label">{label}</p>
+      <div className="content-specimen-body">{children}</div>
+    </div>
+  );
+}
+
+const GUIDE_SECTIONS = [
+  "Color",
+  "Typography",
+  "Form",
+  "Buttons",
+  "Other HTML Tags",
+  "Rich Text",
+];
+
+const guidePairs = (blocks) => {
+  const pairs = [];
+  for (let i = 0; i < blocks.length; i++) {
+    const sample = blocks[i + 1];
+    pairs.push({ label: words(blocks[i]), sample });
+    if (sample) i++;
+  }
+  return pairs;
+};
+
+function GuideSection({ section, page }) {
+  const { title, blocks } = section;
+  if (title === "Color")
+    return (
+      <ul className="content-guide-colors">
+        {blocks.map((b) => (
+          <li key={words(b)}>{words(b)}</li>
+        ))}
+      </ul>
+    );
+  if (title === "Typography")
+    return guidePairs(blocks).map(({ label, sample }) => (
+      <Specimen label={label} key={label}>
+        <p className={`content-spec-${label.toLowerCase().replace(/\s+/g, "-")}`}>
+          {words(sample || {})}
+        </p>
+      </Specimen>
+    ));
+  if (title === "Form")
+    return (
+      <Specimen label={words(blocks[0] || {})}>
+        {blocks.slice(1).map((b, i) => (
+          <Block block={b} page={page} key={i} />
+        ))}
+      </Specimen>
+    );
+  if (title === "Buttons")
+    return guidePairs(blocks).map(({ label, sample }) => (
+      <Specimen label={label} key={label} night={label === "Footer Button"}>
+        {sample?.href && (
+          <SmartLink
+            href={sample.href}
+            className={`button ${label === "Large Button" ? "content-spec-large-button" : ""}`}
+          >
+            {label === "Go Back Button" && <ArrowLeft size={17} />}
+            {words(sample)}
+            {label !== "Go Back Button" && <ArrowRight size={17} />}
+          </SmartLink>
+        )}
+      </Specimen>
+    ));
+  if (title === "Other HTML Tags") {
+    const groups = [];
+    for (const b of blocks) {
+      if (/^All /.test(words(b)) && !b.href)
+        groups.push({ label: words(b), blocks: [] });
+      else groups[groups.length - 1]?.blocks.push(b);
+    }
+    return groups.map((group) => (
+      <Specimen label={group.label} key={group.label}>
+        {groupLists(group.blocks).map((b, i) =>
+          b.type === "list" ? (
+            <DocList
+              list={{ ...b, ordered: /Ordered/.test(group.label) }}
+              page={page}
+              plain
+              key={i}
+            />
+          ) : (
+            <Block block={b} page={page} key={i} />
+          ),
+        )}
+      </Specimen>
+    ));
+  }
+  // Rich text keeps each sample's look while its tag stays in the page outline.
+  const rich = blocks.map((b) =>
+    isHeading(b)
+      ? {
+          type: "doc-heading",
+          level: Math.max(3, Math.min(Number(typeOf(b)[1]) + 1, 6)),
+          visual: typeOf(b),
+          text: words(b),
+        }
+      : b,
+  );
+  return (
+    <div className="content-guide-rich">
+      <DocBlocks blocks={rich} page={page} />
+    </div>
+  );
+}
+
+function GuideDocument({ blocks, page }) {
+  const seen = new Map();
+  const sections = [];
+  for (const block of blocks) {
+    // The source title uses a non-breaking space in "HTML Tags".
+    const text = words(block).replace(/\s+/g, " ");
+    if (!block.href && !block.src && GUIDE_SECTIONS.includes(text))
+      sections.push({ id: anchorFor(text, seen), title: text, blocks: [] });
+    else sections[sections.length - 1]?.blocks.push(block);
+  }
+  return (
+    <div className="content-doc-layout">
+      <DocContents
+        items={sections.map(({ id, title }) => ({ id, title, level: 2 }))}
+      />
+      <article className="content-doc-article">
+        {sections.map((section) => (
+          <section className="content-doc-section" key={section.id}>
+            <h2 id={section.id} className="content-doc-heading is-h2">
+              {section.title}
+            </h2>
+            <GuideSection section={section} page={page} />
+          </section>
+        ))}
+      </article>
+    </div>
+  );
+}
+
+function EntryDocument({ blocks, page }) {
+  const entries = [];
+  for (const block of blocks) {
+    const current = entries[entries.length - 1];
+    const label =
+      !block.href &&
+      !block.src &&
+      typeOf(block) !== "p" &&
+      words(block).length < 40 &&
+      (!current || current.blocks.length > 0);
+    if (label) entries.push({ title: words(block), blocks: [] });
+    else if (current) current.blocks.push(block);
+    else entries.push({ title: "", blocks: [block] });
+  }
+  return (
+    <div className="content-doc-entries">
+      {entries.map((entry, i) => (
+        <section className="content-doc-entry" key={i}>
+          {entry.title && <h2>{entry.title}</h2>}
+          <div>
+            <DocBlocks blocks={entry.blocks} page={page} />
+          </div>
+        </section>
+      ))}
+    </div>
+  );
+}
+
+function ReadingDocument({ blocks, page, pathname }) {
+  const enriched = enrichBlocks(blocks, page);
+  const kind =
+    pathname === "/privacy-policy"
+      ? "policy"
+      : pathname === "/info/styleguide"
+        ? "guide"
+        : "entries";
+  const Document = {
+    policy: PolicyDocument,
+    guide: GuideDocument,
+    entries: EntryDocument,
+  }[kind];
+  return (
+    <div
+      className={`container content-body content-reading content-doc content-doc--${kind}`}
+    >
+      <Document blocks={enriched} page={page} />
+    </div>
+  );
+}
+
 export function BodyContent({ blocks, page, pathname, reading = false }) {
+  if (reading && (pathname === "/privacy-policy" || pathname.startsWith("/info/")))
+    return <ReadingDocument blocks={blocks} page={page} pathname={pathname} />;
   const sections = groupSections(enrichBlocks(blocks, page));
   return (
     <div
@@ -760,14 +1211,14 @@ export function BodyContent({ blocks, page, pathname, reading = false }) {
                     className={`content-section-copy ${leading.some((b) => ["metric", "hub", "cards", "gallery"].includes(typeOf(b))) ? "content-wide-copy" : ""}`}
                   >
                     <div className="content-leading-blocks">
-                      {leading
-                        .filter(
+                      {groupLists(
+                        leading.filter(
                           (b) =>
                             !features.length || !/^\d{1,2}$/.test(words(b)),
-                        )
-                        .map((block, i) => (
-                          <Block block={block} page={page} index={i} key={i} />
-                        ))}
+                        ),
+                      ).map((block, i) => (
+                        <Block block={block} page={page} index={i} key={i} />
+                      ))}
                     </div>
                   </div>
                 )}
@@ -779,11 +1230,13 @@ export function BodyContent({ blocks, page, pathname, reading = false }) {
                       <div className="content-feature" key={i}>
                         <h3>{feature.title}</h3>
                         <div>
-                          {feature.blocks
-                            .filter((b) => !/^\d{1,2}$/.test(words(b)))
-                            .map((b, j) => (
-                              <Block block={b} page={page} key={j} />
-                            ))}
+                          {groupLists(
+                            feature.blocks.filter(
+                              (b) => !/^\d{1,2}$/.test(words(b)),
+                            ),
+                          ).map((b, j) => (
+                            <Block block={b} page={page} key={j} />
+                          ))}
                         </div>
                       </div>
                     ))}
