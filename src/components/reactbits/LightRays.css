@@ -1,0 +1,20 @@
+.light-rays {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.light-rays__canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.light-rays::before { content:""; position:absolute; inset:-30% -40% 0; background:repeating-conic-gradient(from -30deg at 50% 120%,transparent 0deg 5deg,#f4a2ad66 7deg 9deg,transparent 12deg 16deg); }
+.light-rays__canvas { opacity:0; }
+.light-rays[data-rendered="true"] .light-rays__canvas { opacity:1; }
+.light-rays[data-rendered="true"]::before { opacity:0; }

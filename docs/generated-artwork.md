@@ -1,0 +1,7 @@
+# Programs artwork
+
+Created with the built-in image-generation tool on November 1, 2026. Final project asset: `public/media/editorial/program-growth.png` (1086 × 1448). This is a conceptual architectural illustration, not a photograph of an Anthill property or portfolio company.
+
+## Prompt
+
+Use case: stylized-concept. Asset type: final editorial artwork for the empty left column of Anthill Ventures' startup scaling program page. Create one premium architectural scale-model photograph, vertical 3:4 composition. A continuous vivid Anthill-red concrete ribbon walkway climbs through four staggered ivory architectural terraces and bridges, with believable junctions, clean rectilinear geometry, elegant long shadows and a quiet warm-white studio environment. The composition should feel like an art-directed architectural magazine image: one coherent, physically plausible structure, tactile matte red painted concrete, off-white stone, generous but not empty framing, strong perspective and tangible depth. Growth through stages is the visual idea. Red #E6212B, ivory, charcoal shadows only. Soft directional daylight from upper left; sophisticated gallery-quality composition. Structure fills most of the canvas with breathing room around edges, portrait crop suitable for a 340px-wide website side panel. No people, no text, no letters, no logo, no watermark, no UI, no charts, no generic floating spheres, no neon, no glass blobs, no sparkles, no orbit rings, no futuristic city or space scene. Deliver a finished raster image, not a website screenshot.

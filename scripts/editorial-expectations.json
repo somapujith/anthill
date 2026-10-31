@@ -1,0 +1,308 @@
+{
+  "description": "Explicit display edits requested in the November 2026 visual and copy cleanup. All remaining archive content, links, images and documents remain covered by the rendered audit.",
+  "changes": [
+    {
+      "route": "/portfolio",
+      "source": "Anthill’s portfolio showcases transformative investments in health tech, climate solutions, urban innovation, AI‑powered media and next‑gen consumer brands, fueling visionary entrepreneurs.",
+      "replacement": "Explore the companies in our portfolio across health, consumer, urban tech and media."
+    },
+    {
+      "route": "/about",
+      "source": "For the past decade Anthill Ventures has redefined early stage investing by uniting speed scaling discipline with bold innovation. Across Living Healthy, Mitigating Climate Change, and Enhancing Urban Lifestyle, we help founders compress years of growth into months through capital, 100+ market access channels, and our data driven Scalability Quotient™. Our operators and domain experts craft breakthrough products, shape resilient business models, and leverage deep analytics to turn intellectual property into category leadership. We advance India’s 2030 vision while setting new global benchmarks for impact and return.",
+      "replacement": "We invest in early-stage companies and work with founders on funding, mentorship and market access."
+    },
+    {
+      "route": "/about",
+      "source": "Empowering Visionaries Through Strategic Support",
+      "replacement": "How we support founders"
+    },
+    {
+      "route": "/about",
+      "source": "Partnering for Growth, Shaping the Future",
+      "replacement": "Our leadership"
+    },
+    {
+      "route": "/about",
+      "source": "Anthill Essentials: Frequently Asked Questions",
+      "replacement": "Frequently asked questions"
+    },
+    {
+      "route": "/about",
+      "source": "Fueling Innovation,",
+      "replacement": "About Anthill"
+    },
+    {
+      "route": "/about",
+      "source": "Shaping the Future.",
+      "replacement": "About Anthill"
+    },
+    {
+      "route": "/team",
+      "source": "Anthill’s leadership brings deep global experience and operator mindset to scale ventures with speed, precision, and purpose.",
+      "replacement": "Meet the investment and operations team working with Anthill's founders and portfolio companies."
+    },
+    {
+      "route": "/programs",
+      "source": "Build Smarter, Scale Faster with Anthill",
+      "replacement": "The program"
+    },
+    {
+      "route": "/programs",
+      "source": "Scaling ventures with precision, purpose, and proven market insight.",
+      "replacement": "Support for each stage of growth"
+    },
+    {
+      "route": "/programs",
+      "source": "We invest in early-stage startups building for India’s future market through our venture scaling programs, offering crucial access to resources. Are you a startup focused on India’s consumers, ready to grow your portfolio? Apply to our venture scaling program today!",
+      "replacement": "Our venture scaling program brings early-stage companies access to capital, industry expertise and distribution networks."
+    },
+    {
+      "route": "/speedscalers",
+      "source": "Backed by 70+ seasoned speed scalers with deep operational expertise, Anthill delivers global guidance to help ventures scale with speed, precision, and purpose.",
+      "replacement": "Meet the founders, operators and industry specialists in Anthill's mentorship network."
+    },
+    {
+      "route": "/philosophy",
+      "source": "Scaling with Speed, Investing with Purpose.",
+      "replacement": "Our approach"
+    },
+    {
+      "route": "/philosophy",
+      "source": "Where Speed Meets Purpose",
+      "replacement": "How we invest"
+    },
+    {
+      "route": "/philosophy",
+      "source": "We assess ventures across 9 core pillars that signal scale readiness and unlock faster, smarter growth.",
+      "replacement": "Nine areas we assess before investing"
+    },
+    {
+      "route": "/philosophy",
+      "source": "Anthill’s philosophy is rooted in speed with scale. We empower founders with capital, mentorship and market access to accelerate growth. Focused on living healthy, mitigating climate change and enhancing urban lifestyle, we back ventures driving meaningful, sustainable impact for India 2030.",
+      "replacement": "Capital, mentorship and market access for companies working in health, climate and urban lifestyles."
+    },
+    {
+      "route": "/stories",
+      "source": "Explore founder stories, diverse expert viewpoints, podcasts, and Anthill Ventures news. Discover insights from others in our network.",
+      "replacement": "Founder interviews, conversations and news from across the Anthill network."
+    },
+    {
+      "route": "/insights",
+      "source": "Unlock actionable strategies, speed-scaling frameworks, and operational blueprints. Leverage proven methodologies designed to accelerate your startup's growth journey.",
+      "replacement": "Reports and playbooks on company building, market trends and our portfolio's impact."
+    },
+    {
+      "route": "/",
+      "source": "We help fearless founders with a strong purpose to impact a billion people by building powerful companies for the consumer of the new and next, now.",
+      "replacement": "We back founders building businesses in health, climate and urban life, with capital, mentorship and market access."
+    },
+    {
+      "route": "/",
+      "source": "We fuel Living Healthy innovation, investing in digital therapeutics and genomics to improve health outcomes and quality of life.",
+      "replacement": "Digital therapeutics, genomics and technology that improve health outcomes and quality of life."
+    },
+    {
+      "route": "/",
+      "source": "We invest in breakthrough solutions to mitigate climate change, decarbonizing energy and industry to build a sustainable future.",
+      "replacement": "Solutions to decarbonize energy and industry and reduce the impact of climate change."
+    },
+    {
+      "route": "/",
+      "source": "We elevate urban lifestyles, investing in consumer brands and platforms that fuse convenience, culture, and sustainability for young India.",
+      "replacement": "Consumer brands and platforms serving young India's urban lifestyles, with convenience, culture and sustainability in mind."
+    },
+    {
+      "route": "/",
+      "source": "By investing globally, we connect breakthrough founders, frontier technologies and high‑growth markets. This lens powers our speed scaling model, delivering returns and lasting impact across our India 2030 portfolio.",
+      "replacement": "We connect founders with technology, markets and experienced operators across India, the US and Singapore."
+    },
+    {
+      "route": "/",
+      "source": "At Anthill, we accelerate innovation through speed-scaling investments. Our portfolio comprises over 80 breakthrough startups in health tech, climate solutions, urban innovation, and media across ten countries. Collectively, our portfolio companies have gone on to raise over $1 billion in follow-on capital, underscoring our drive for growth, success, and sector transformation.",
+      "replacement": "Anthill's portfolio includes more than 80 startups across ten countries. Together, these companies have raised over $1 billion in follow-on capital."
+    },
+    {
+      "route": "/",
+      "source": "To pitch your idea to Anthill, show how it aligns with living healthy, mitigating climate change or enhancing urban lifestyle, and can be speed‑scaled. Present a crisp plan with market proof, unit economics and staged projections. Demonstrate traction, a resilient team and measurable impact. Keep slides clear, concise, data‑led, and invite iterative feedback to secure our rapid engagement today.",
+      "replacement": "Share your pitch deck, traction, market opportunity and the team behind it. Tell us how you plan to grow and where Anthill can help."
+    },
+    {
+      "route": "/",
+      "source": "Fueling Big Ideas, Scaling Impact.",
+      "replacement": "Our focus"
+    },
+    {
+      "route": "/",
+      "source": "One world, endless possibilities",
+      "replacement": "People & reach"
+    },
+    {
+      "route": "/",
+      "source": "Numbers driving a brighter future.",
+      "replacement": "The Anthill network"
+    },
+    {
+      "route": "/",
+      "source": "Investing in a Brighter Tomorrow",
+      "replacement": "Our network in numbers"
+    },
+    {
+      "route": "/",
+      "source": "Urban Costumers",
+      "replacement": "Urban consumers"
+    },
+    {
+      "route": "/",
+      "source": "Increase in values",
+      "replacement": "Increase in value"
+    },
+    {
+      "route": "/",
+      "source": "Visionaries Driving Impact",
+      "replacement": "Our people"
+    },
+    {
+      "route": "/",
+      "source": "Discover the Minds Driving Innovation",
+      "replacement": "Meet the team"
+    },
+    {
+      "route": "/",
+      "source": "Mentors Accelerating Scale",
+      "replacement": "Our mentors"
+    },
+    {
+      "route": "/",
+      "source": "Meet Our 70 + Speed Scalers Worldwide",
+      "replacement": "70+ speed scalers worldwide"
+    },
+    {
+      "route": "/",
+      "source": "Growth amplified",
+      "replacement": "Portfolio"
+    },
+    {
+      "route": "/",
+      "source": "Partnering for Growth, Shaping the Future",
+      "replacement": "Selected companies"
+    },
+    {
+      "route": "/",
+      "source": "readY to pitch?",
+      "replacement": "Ready to pitch?"
+    },
+    {
+      "route": "/about",
+      "source": "02",
+      "replacement": "",
+      "reason": "Removed decorative list numbering"
+    },
+    {
+      "route": "/about",
+      "source": "04",
+      "replacement": "",
+      "reason": "Removed decorative list numbering"
+    },
+    {
+      "route": "/about",
+      "source": "01",
+      "replacement": "",
+      "reason": "Removed decorative list numbering"
+    },
+    {
+      "route": "/about",
+      "source": "03",
+      "replacement": "",
+      "reason": "Removed decorative list numbering"
+    },
+    {
+      "route": "/philosophy",
+      "source": "02",
+      "replacement": "",
+      "reason": "Removed decorative list numbering"
+    },
+    {
+      "route": "/philosophy",
+      "source": "04",
+      "replacement": "",
+      "reason": "Removed decorative list numbering"
+    },
+    {
+      "route": "/philosophy",
+      "source": "06",
+      "replacement": "",
+      "reason": "Removed decorative list numbering"
+    },
+    {
+      "route": "/philosophy",
+      "source": "07",
+      "replacement": "",
+      "reason": "Removed decorative list numbering"
+    },
+    {
+      "route": "/philosophy",
+      "source": "01",
+      "replacement": "",
+      "reason": "Removed decorative list numbering"
+    },
+    {
+      "route": "/philosophy",
+      "source": "08",
+      "replacement": "",
+      "reason": "Removed decorative list numbering"
+    },
+    {
+      "route": "/philosophy",
+      "source": "09",
+      "replacement": "",
+      "reason": "Removed decorative list numbering"
+    },
+    {
+      "route": "/philosophy",
+      "source": "03",
+      "replacement": "",
+      "reason": "Removed decorative list numbering"
+    },
+    {
+      "route": "/philosophy",
+      "source": "05",
+      "replacement": "",
+      "reason": "Removed decorative list numbering"
+    },
+    {
+      "route": "/",
+      "source": "Investing in visionary companies, transforming industries. Partnering with entrepreneurs to shape the future.",
+      "replacement": "",
+      "reason": "Removed repeated generic company boilerplate; company-specific summaries checked separately"
+    },
+    {
+      "route": "/",
+      "source": "Leveraging decades of collective experience, our team navigates growth complexities, identifies opportunities.",
+      "replacement": "",
+      "reason": "Removed repeated generic company boilerplate; company-specific summaries checked separately"
+    },
+    {
+      "route": "/",
+      "source": "Collaborating closely, we craft customized plans aligning growth objectives, market insights and financial expertise. Together, achieve visionary goals, maximize returns and transform your business.",
+      "replacement": "",
+      "reason": "Removed repeated generic company boilerplate; company-specific summaries checked separately"
+    },
+    {
+      "route": "/",
+      "source": "Beyond transactions, we foster lasting relationships built on trust, transparency and shared success. Our collaborative approach ensures alignment, trust and exceptional results..",
+      "replacement": "",
+      "reason": "Removed repeated generic company boilerplate; company-specific summaries checked separately"
+    }
+  ],
+  "requiredText": {
+    "/": [
+      "A platform connecting scientists, policymakers and innovators in biotechnology, medicine and human augmentation.",
+      "An experiential department store bringing direct-to-consumer brands, live events and creator spaces together.",
+      "AI digital avatars and holographic technology for real-time engagement across sports, education and advertising.",
+      "Personal health recommendations informed by lifestyle data, lab reports and genetics.",
+      "Electric vehicle fleets and fleet-management software for last-mile deliveries.",
+      "Men's wellness products with discreet delivery in India.",
+      "Saliva-based testing technology for non-invasive early oral cancer detection."
+    ]
+  }
+}

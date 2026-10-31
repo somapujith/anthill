@@ -1,0 +1,19 @@
+.silk-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.silk-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.silk-container::before { content: ""; position:absolute; inset:0; background:repeating-linear-gradient(124deg,#410817 0%,#9d162d 14%,#e73a4b 22%,#7a1128 30%,#350a1c 42%); }
+.silk-canvas { opacity:0; }
+.silk-container[data-rendered="true"] .silk-canvas { opacity:1; }
+.silk-container[data-rendered="true"]::before { opacity:0; }
