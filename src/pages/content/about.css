@@ -1,1 +1,947 @@
-/* Styles owned by this page family. */
+/* About page body. Everything is scoped: all CSS is bundled globally. */
+
+.about-page {
+  --night: #0a0507;
+  --on-night: #eaddde;
+  --night-eyebrow: #ffd9dc;
+  --night-line: #ffffff24;
+  --gutter: clamp(22px, 4.7vw, 88px);
+  --band: clamp(72px, 9vw, 148px);
+  overflow-x: clip;
+}
+
+.about-page h2,
+.about-page h3 {
+  font-weight: 500;
+}
+
+.about-page .about-eyebrow {
+  margin-bottom: 18px;
+  font-family: var(--body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.about-page .about-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px 48px;
+  margin-bottom: clamp(40px, 5vw, 76px);
+}
+
+.about-page .about-head h2 {
+  max-width: 14ch;
+  font-size: clamp(44px, 6.4vw, 104px);
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+}
+
+.about-page .about-link-wrap {
+  display: inline-block;
+}
+
+.about-page .about-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  padding: 12px 0 11px;
+  border-bottom: 1px solid currentColor;
+  font-family: var(--display);
+  font-size: clamp(17px, 1.4vw, 20px);
+  font-weight: 500;
+}
+
+.about-page .about-cue {
+  display: inline-flex;
+  color: var(--red);
+}
+
+/* Story: a reading sentence at poster size, then a film still off the page edge. */
+
+.about-page .about-story {
+  padding-block: var(--band) 0;
+  background: var(--paper);
+}
+
+.about-page .about-story h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: clamp(24px, 3vw, 44px);
+  font-size: clamp(17px, 1.4vw, 20px);
+  letter-spacing: -0.01em;
+}
+
+.about-page .about-story h2::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: var(--red);
+}
+
+.about-page .about-story-lead {
+  max-width: 19ch;
+  font-family: var(--display);
+  font-size: clamp(38px, 7vw, 124px);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.about-page .about-story-lead em {
+  font-style: normal;
+  color: var(--red);
+}
+
+.about-page .about-story-spread {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(32px, 6vw, 110px);
+  align-items: end;
+  margin-top: clamp(48px, 7vw, 112px);
+}
+
+.about-page .about-film {
+  position: relative;
+  margin: 0 0 0 calc((100vw - min(100vw, 1536px)) / -2 - var(--gutter));
+  aspect-ratio: 7 / 5;
+  overflow: hidden;
+  background: var(--night);
+}
+
+.about-page .about-film img {
+  position: absolute;
+  top: -6%;
+  left: 0;
+  width: 100%;
+  height: 112%;
+  object-fit: cover;
+}
+
+.about-page .about-story-rest {
+  display: grid;
+  gap: 22px;
+  padding-bottom: calc(clamp(0px, 6vw, 92px) + 40px);
+}
+
+.about-page .about-story-rest p {
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+  font-size: clamp(17px, 1.55vw, 22px);
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+/* Scale: the 5.4x multiple, measured on a ruler drawn in true proportion. */
+
+.about-page .about-scale {
+  margin-top: calc(clamp(0px, 6vw, 92px) * -1);
+  padding-block: clamp(64px, 8vw, 130px) clamp(56px, 6vw, 96px);
+  background: var(--night);
+  color: #fff;
+}
+
+.about-page .about-scale-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px 48px;
+}
+
+.about-page .about-numeral {
+  font-family: var(--display);
+  font-size: clamp(116px, 27vw, 440px);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.045em;
+  line-height: 0.82;
+  color: #fff;
+}
+
+.about-page .about-scale-caption {
+  padding-bottom: clamp(4px, 1.6vw, 28px);
+  max-width: 340px;
+}
+
+.about-page .about-scale .about-eyebrow {
+  color: var(--night-eyebrow);
+}
+
+.about-page .about-scale-label {
+  font-family: var(--display);
+  font-size: clamp(26px, 2.9vw, 44px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  color: #fff;
+}
+
+.about-page .about-ruler {
+  position: relative;
+  height: 62px;
+  margin-top: clamp(36px, 4.4vw, 68px);
+  border-bottom: 1px solid var(--night-line);
+}
+
+.about-page .about-ruler-fill {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 10px;
+  background: var(--red);
+  transform-origin: left center;
+}
+
+.about-page .about-ruler-tick,
+.about-page .about-ruler-end {
+  position: absolute;
+  top: 0;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--on-night);
+}
+
+.about-page .about-ruler-tick {
+  transform: translateX(-50%);
+}
+
+.about-page .about-ruler-tick::after {
+  content: "";
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  width: 1px;
+  height: 40px;
+  background: var(--night-line);
+}
+
+.about-page .about-ruler-end {
+  right: 0;
+  color: #fff;
+}
+
+/* Support: four kinds of help meeting at the founder. */
+
+.about-page .about-support {
+  padding-block: var(--band);
+  background: var(--paper);
+}
+
+.about-page .about-cross {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.about-page .about-cross-h,
+.about-page .about-cross-v {
+  position: absolute;
+  z-index: 1;
+  background: var(--ink);
+  pointer-events: none;
+}
+
+.about-page .about-cross-h {
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+.about-page .about-cross-v {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+}
+
+.about-page .about-cross-node {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: clamp(112px, 10vw, 150px);
+  aspect-ratio: 1;
+  margin: calc(clamp(112px, 10vw, 150px) / -2) 0 0 calc(clamp(112px, 10vw, 150px) / -2);
+  background: var(--red);
+  color: #fff;
+  font-family: var(--display);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.about-page .about-quad {
+  display: flex;
+  min-height: clamp(280px, 24vw, 360px);
+  padding: clamp(28px, 3.4vw, 54px);
+  transition: background-color 0.35s ease;
+}
+
+.about-page .about-quad:nth-of-type(1) {
+  padding-left: 0;
+  padding-right: clamp(72px, 8vw, 120px);
+}
+
+.about-page .about-quad:nth-of-type(2) {
+  padding-left: clamp(72px, 8vw, 120px);
+  padding-right: 0;
+}
+
+.about-page .about-quad:nth-of-type(3) {
+  align-items: flex-end;
+  padding-left: 0;
+  padding-right: clamp(72px, 8vw, 120px);
+}
+
+.about-page .about-quad:nth-of-type(4) {
+  align-items: flex-end;
+  padding-left: clamp(72px, 8vw, 120px);
+  padding-right: 0;
+}
+
+.about-page .about-quad h3 {
+  font-size: clamp(30px, 3.4vw, 54px);
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+  transition: color 0.25s ease;
+}
+
+.about-page .about-quad p {
+  max-width: 42ch;
+  margin-top: 16px;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.about-page .about-quad:hover h3 {
+  color: var(--red);
+}
+
+/* Home: the three hubs at their real positions on the map. */
+
+.about-page .about-home {
+  padding-block: var(--band) clamp(48px, 5vw, 80px);
+  background: var(--ink);
+  color: #fff;
+}
+
+.about-page .about-home .about-eyebrow {
+  color: var(--night-eyebrow);
+}
+
+.about-page .about-home .about-head {
+  margin-bottom: clamp(20px, 2vw, 32px);
+}
+
+.about-page .about-map {
+  position: relative;
+  aspect-ratio: 119 / 45;
+}
+
+.about-page .about-map svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.about-page .about-map-land {
+  fill: none;
+  stroke: #ffffff4d;
+  stroke-width: 0.86;
+  stroke-linecap: square;
+}
+
+.about-page .about-map-arc {
+  fill: none;
+  stroke: var(--red);
+  stroke-width: 0.28;
+}
+
+.about-page .about-pin {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.about-page .about-pin i {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 12px;
+  height: 12px;
+  background: var(--red);
+  outline: 2px solid var(--ink);
+  transition: transform 0.25s ease;
+}
+
+.about-page .about-pin b {
+  position: absolute;
+  top: -30px;
+  padding: 3px 7px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.about-page .about-pin--right b {
+  left: 8px;
+}
+
+.about-page .about-pin--left b {
+  right: 8px;
+}
+
+.about-page .about-pin.is-active i {
+  transform: scale(1.5);
+}
+
+.about-page .about-pin.is-active b {
+  background: var(--red);
+  color: #fff;
+}
+
+.about-page .about-hub-names {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: clamp(32px, 4vw, 60px);
+  border-top: 1px solid var(--night-line);
+}
+
+.about-page .about-hub {
+  flex: 1 1 auto;
+  padding-block: clamp(20px, 2.4vw, 36px) 0;
+  overflow: hidden;
+}
+
+.about-page .about-hub + .about-hub {
+  padding-left: clamp(16px, 3vw, 48px);
+  border-left: 1px solid var(--night-line);
+}
+
+.about-page .about-hub h3 {
+  font-size: clamp(38px, 7.6vw, 128px);
+  letter-spacing: -0.045em;
+  line-height: 1.04;
+  transition: color 0.25s ease;
+}
+
+.about-page .about-hub:hover h3 {
+  color: var(--red);
+}
+
+/* Leadership: a founder-led cascade. Size and offset follow the listed order. */
+
+.about-page .about-leaders {
+  padding-block: var(--band);
+  background: var(--paper);
+}
+
+.about-page .about-people {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 4fr) minmax(0, 3fr);
+  gap: clamp(20px, 2.8vw, 44px);
+  align-items: start;
+}
+
+.about-page .about-person:nth-child(2) {
+  margin-top: clamp(40px, 7vw, 116px);
+}
+
+.about-page .about-person:nth-child(3) {
+  margin-top: clamp(80px, 14vw, 232px);
+}
+
+.about-page .about-portrait {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.about-page .about-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  filter: grayscale(1) contrast(1.04);
+  transition: filter 0.5s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.about-page .about-person a:hover img,
+.about-page .about-person a:focus-visible img {
+  filter: none;
+  transform: scale(1.03);
+}
+
+.about-page .about-person-copy {
+  padding-top: 18px;
+}
+
+.about-page .about-role {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: #c01a23;
+}
+
+.about-page .about-person h3 {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+  font-size: clamp(28px, 2.5vw, 38px);
+}
+
+.about-page .about-person:first-child h3 {
+  font-size: clamp(32px, 4.4vw, 68px);
+}
+
+.about-page .about-person h3 .about-cue {
+  flex: none;
+  margin-top: 6px;
+}
+
+.about-page .about-bio {
+  margin-top: 14px;
+  max-width: 54ch;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+/* Wall: the title and the portfolio link are cells of the wall itself. */
+
+.about-page .about-wall {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  background: var(--night);
+  color: #fff;
+  border-top: 1px solid var(--night-line);
+}
+
+.about-page .about-wall-title,
+.about-page .about-wall-cell,
+.about-page .about-wall-link {
+  aspect-ratio: 1;
+  border-right: 1px solid var(--night-line);
+  border-bottom: 1px solid var(--night-line);
+}
+
+.about-page .about-wall-title {
+  display: flex;
+  align-items: flex-end;
+  padding: clamp(20px, 2.1vw, 36px);
+  padding-left: var(--gutter);
+}
+
+.about-page .about-wall-title h2 {
+  font-size: clamp(26px, 2.7vw, 44px);
+  letter-spacing: -0.035em;
+  line-height: 1.04;
+}
+
+.about-page .about-wall-cell {
+  display: grid;
+  place-items: center;
+  padding: clamp(24px, 3vw, 56px);
+  transition: background-color 0.3s ease;
+}
+
+.about-page .about-wall-cell:hover {
+  background: #ffffff10;
+}
+
+.about-page .about-wall-cell img {
+  width: 100%;
+  height: 100%;
+  max-width: 200px;
+  object-fit: contain;
+}
+
+.about-page .about-wall-link {
+  background: var(--red);
+  border-right: 0;
+  transition: background-color 0.25s ease;
+}
+
+.about-page .about-wall-link:hover {
+  background: #ba131c;
+}
+
+.about-page .about-wall-link a {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+  height: 100%;
+  padding: clamp(20px, 2.1vw, 36px);
+  font-family: var(--display);
+  font-size: clamp(24px, 2.4vw, 38px);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.04;
+  color: #fff;
+}
+
+.about-page .about-wall-link a:focus-visible {
+  outline-color: #fff;
+  outline-offset: -6px;
+}
+
+.about-page .about-wall-link .about-cue {
+  align-self: flex-end;
+  order: -1;
+  color: #fff;
+}
+
+.about-page .about-wall-link .about-cue svg {
+  width: 30px;
+  height: 30px;
+}
+
+/* FAQ: native disclosures, set at reading size. */
+
+.about-page .about-faq {
+  padding-block: var(--band);
+  background: var(--paper);
+}
+
+.about-page .about-faq .container {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(32px, 5vw, 88px);
+  align-items: start;
+}
+
+.about-page .about-faq-head h2 {
+  font-size: clamp(40px, 4.8vw, 76px);
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.about-page .content-faq {
+  max-width: none;
+  margin: 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.about-page .content-faq details {
+  border-top: 1px solid var(--line);
+}
+
+.about-page .content-faq summary {
+  align-items: flex-start;
+  padding: clamp(20px, 2vw, 30px) 0;
+  font-family: var(--display);
+  font-size: clamp(20px, 1.95vw, 30px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.16;
+  transition: color 0.2s ease;
+}
+
+.about-page .content-faq summary:hover {
+  color: var(--red);
+}
+
+.about-page .content-faq summary svg {
+  width: 24px;
+  height: 24px;
+  margin-top: 2px;
+  color: var(--red);
+  transition: transform 0.3s ease;
+}
+
+.about-page .content-faq details[open] summary svg {
+  transform: rotate(45deg);
+}
+
+.about-page .content-faq-answer {
+  padding: 0 44px clamp(22px, 2vw, 30px) 0;
+}
+
+.about-page .content-faq-answer p {
+  max-width: 60ch;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .about-page .content-faq details {
+    interpolate-size: allow-keywords;
+  }
+
+  .about-page .content-faq details::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition: block-size 0.35s ease, content-visibility 0.35s allow-discrete;
+  }
+
+  .about-page .content-faq details[open]::details-content {
+    block-size: auto;
+  }
+}
+
+/* Pitch: the page ends on the one thing a founder should do next. */
+
+.about-page .about-pitch {
+  background: var(--red);
+  color: #fff;
+  transition: background-color 0.25s ease;
+}
+
+.about-page .about-pitch:hover {
+  background: #ba131c;
+}
+
+.about-page .about-pitch a {
+  display: block;
+  padding-block: clamp(40px, 5vw, 80px) clamp(32px, 4vw, 64px);
+}
+
+.about-page .about-pitch a:focus-visible {
+  outline-color: #fff;
+  outline-offset: -8px;
+}
+
+.about-page .about-pitch-inner {
+  display: block;
+}
+
+.about-page .about-pitch-label {
+  display: block;
+  font-family: var(--display);
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.about-page .about-pitch-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: clamp(12px, 1.6vw, 24px);
+}
+
+.about-page .about-pitch-word {
+  font-family: var(--display);
+  font-size: clamp(50px, 13.2vw, 228px);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 0.96;
+}
+
+.about-page .about-pitch-arrow {
+  display: inline-flex;
+  flex: none;
+}
+
+.about-page .about-pitch-arrow svg {
+  width: clamp(36px, 9vw, 150px);
+  height: clamp(36px, 9vw, 150px);
+  stroke-width: 1.4;
+}
+
+/* Responsive */
+
+@media (max-width: 1099px) {
+  .about-page .about-wall {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .about-page .about-wall-title {
+    grid-column: 1 / -1;
+    aspect-ratio: auto;
+    padding-block: 28px;
+    border-right: 0;
+  }
+
+  .about-page .about-faq .container {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .about-page .about-story-spread {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .about-page .about-film {
+    margin-right: calc(var(--gutter) * -1);
+  }
+
+  .about-page .about-story-rest {
+    padding-bottom: var(--band);
+  }
+
+  .about-page .about-scale {
+    margin-top: 0;
+  }
+
+  .about-page .about-people {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .about-page .about-person:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .about-page .about-person:first-child a {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(20px, 3.4vw, 32px);
+    align-items: end;
+  }
+
+  .about-page .about-person:nth-child(2) {
+    margin-top: 0;
+  }
+
+  .about-page .about-person:nth-child(3) {
+    margin-top: clamp(32px, 7vw, 60px);
+  }
+}
+
+@media (max-width: 680px) {
+  .about-page .about-cross {
+    grid-template-columns: minmax(0, 1fr);
+    padding-left: 28px;
+  }
+
+  /* The cross straightens into a spine with the founder at the top. */
+  .about-page .about-cross-h {
+    display: none;
+  }
+
+  .about-page .about-cross-v {
+    left: 0;
+  }
+
+  .about-page .about-cross-node {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 112px;
+    margin: 0 0 12px -28px;
+  }
+
+  .about-page .about-quad:nth-of-type(n) {
+    min-height: 0;
+    padding: 22px 0;
+    align-items: flex-start;
+  }
+
+  .about-page .about-hub-names {
+    display: block;
+  }
+
+  .about-page .about-hub {
+    padding-block: 14px;
+    border-bottom: 1px solid var(--night-line);
+  }
+
+  .about-page .about-hub + .about-hub {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .about-page .about-hub h3 {
+    font-size: clamp(44px, 15vw, 72px);
+  }
+
+  /* The 5x mark sits too close to the 5.4x end label to carry its own number here. */
+  .about-page .about-ruler-tick:nth-of-type(6) {
+    color: transparent;
+  }
+
+  .about-page .about-pin b {
+    top: -26px;
+    padding: 2px 5px;
+  }
+
+  .about-page .about-pin i {
+    top: -4px;
+    left: -4px;
+    width: 8px;
+    height: 8px;
+  }
+
+  .about-page .about-people {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .about-page .about-person:nth-child(n) {
+    grid-column: auto;
+    margin-top: 0;
+  }
+
+  .about-page .about-person:first-child a {
+    display: block;
+  }
+
+  .about-page .about-person:nth-child(2) {
+    width: 86%;
+    margin-left: auto;
+  }
+
+  .about-page .about-person:nth-child(3) {
+    width: 72%;
+  }
+
+  .about-page .about-wall {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .about-page .about-wall-link {
+    grid-column: 1 / -1;
+    aspect-ratio: auto;
+  }
+
+  .about-page .about-wall-link a {
+    flex-direction: row;
+    align-items: center;
+    padding: 24px var(--gutter);
+  }
+
+  .about-page .about-wall-link .about-cue {
+    order: 1;
+    align-self: center;
+  }
+
+  .about-page .about-wall-cell:nth-of-type(2n + 1) {
+    border-right: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-page .about-portrait img,
+  .about-page .about-quad h3,
+  .about-page .about-hub h3 {
+    transition: none;
+  }
+}

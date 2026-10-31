@@ -1,1 +1,485 @@
-/* Styles owned by this page family. */
+/* Philosophy page body. Everything is scoped: all CSS is bundled globally. */
+
+.philosophy-page {
+  --night: #0a0507;
+  --on-night: #eaddde;
+  --night-eyebrow: #ffd9dc;
+  --night-line: #ffffff24;
+  --band: clamp(72px, 9vw, 148px);
+  overflow-x: clip;
+}
+
+.philosophy-page h2,
+.philosophy-page h3 {
+  font-weight: 500;
+}
+
+.philosophy-page .phil-eyebrow {
+  margin-bottom: 18px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.philosophy-page .phil-head {
+  margin-bottom: clamp(40px, 5vw, 80px);
+}
+
+.philosophy-page .phil-head h2 {
+  font-size: clamp(50px, 9.6vw, 168px);
+  letter-spacing: -0.045em;
+  line-height: 0.96;
+}
+
+/* How we invest: one line, followed through the four steps. */
+
+.philosophy-page .phil-invest {
+  padding-block: var(--band);
+  background: var(--night);
+  color: #fff;
+}
+
+.philosophy-page .phil-invest .phil-eyebrow {
+  color: var(--night-eyebrow);
+}
+
+.philosophy-page .phil-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.philosophy-page .phil-drawing {
+  position: relative;
+  aspect-ratio: 320 / 340;
+}
+
+.philosophy-page .phil-drawing svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.philosophy-page .phil-strand {
+  fill: none;
+  transition: stroke 0.25s ease;
+}
+
+.philosophy-page .phil-strand--thin {
+  stroke: #ffffff8c;
+  stroke-width: 1.2;
+}
+
+.philosophy-page .phil-strand--partner {
+  stroke: var(--night-eyebrow);
+  stroke-width: 1.2;
+}
+
+.philosophy-page .phil-strand--main {
+  stroke: var(--red);
+  stroke-width: 3.2;
+}
+
+.philosophy-page .phil-node {
+  fill: var(--red);
+}
+
+.philosophy-page .phil-tag {
+  position: absolute;
+  max-width: 62%;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+}
+
+.philosophy-page .phil-tag--center {
+  white-space: nowrap;
+  max-width: none;
+  transform: translateX(-50%);
+}
+
+.philosophy-page .phil-tag--end {
+  max-width: none;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.philosophy-page .phil-flow:has(.phil-step:hover) .phil-step:not(:hover) .phil-drawing {
+  opacity: 0.4;
+}
+
+.philosophy-page .phil-drawing {
+  transition: opacity 0.25s ease;
+}
+
+.philosophy-page .phil-step:hover .phil-strand--thin,
+.philosophy-page .phil-step:hover .phil-strand--partner {
+  stroke: #fff;
+}
+
+.philosophy-page .phil-step-copy {
+  margin-top: clamp(20px, 2.4vw, 36px);
+  padding-top: 20px;
+  padding-right: clamp(20px, 2.4vw, 40px);
+  border-top: 1px solid var(--night-line);
+}
+
+.philosophy-page .phil-step-number {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--night-eyebrow);
+}
+
+.philosophy-page .phil-step h3 {
+  font-size: clamp(34px, 3.5vw, 58px);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.philosophy-page .phil-step h3 a {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 8px;
+  transition: color 0.2s ease;
+}
+
+.philosophy-page .phil-step h3 a:hover {
+  color: var(--night-eyebrow);
+}
+
+.philosophy-page .phil-step h3 svg {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  color: var(--red);
+  transition: transform 0.25s ease;
+}
+
+.philosophy-page .phil-step h3 a:hover svg {
+  transform: translate(3px, -3px);
+}
+
+.philosophy-page .phil-step p {
+  margin-top: 18px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--on-night);
+}
+
+/* Nine areas: an annotated instrument. Every row is wired to its wedge. */
+
+.philosophy-page .phil-framework {
+  padding-block: var(--band);
+  background: var(--paper);
+}
+
+.philosophy-page .phil-framework .phil-head h2 {
+  max-width: 13ch;
+  font-size: clamp(44px, 7.4vw, 128px);
+  line-height: 0.98;
+}
+
+.philosophy-page .phil-stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 34vw) minmax(0, 1fr);
+  gap: clamp(36px, 4.4vw, 76px);
+  align-items: stretch;
+}
+
+.philosophy-page .phil-leaders {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.philosophy-page .phil-leaders path {
+  fill: none;
+  stroke: #c9c9c4;
+  stroke-width: 1;
+  transition: stroke 0.2s ease;
+}
+
+.philosophy-page .phil-leaders .phil-leader-tip {
+  stroke: var(--ink);
+  stroke-width: 5;
+  stroke-linecap: square;
+}
+
+.philosophy-page .phil-leaders .is-active path {
+  stroke: var(--red);
+  stroke-width: 1.5;
+}
+
+.philosophy-page .phil-leaders .is-active .phil-leader-tip {
+  stroke-width: 7;
+}
+
+.philosophy-page .phil-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(20px, 2vw, 30px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.philosophy-page .phil-column--left {
+  text-align: right;
+}
+
+.philosophy-page .phil-glyph {
+  display: none;
+}
+
+.philosophy-page .phil-pillar h3 {
+  font-size: clamp(20px, 1.75vw, 28px);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.philosophy-page .phil-pillar button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  text-align: inherit;
+  transition: color 0.2s ease;
+}
+
+.philosophy-page .phil-pillar.is-active button,
+.philosophy-page .phil-pillar button[aria-pressed="true"] {
+  color: #c01a23;
+}
+
+.philosophy-page .phil-pillar p {
+  margin-top: 8px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.philosophy-page .phil-wheel {
+  position: relative;
+  align-self: center;
+  aspect-ratio: 1;
+}
+
+.philosophy-page .phil-wheel svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.philosophy-page .phil-wedge {
+  fill: var(--line);
+  cursor: pointer;
+  transition: fill 0.35s ease;
+}
+
+.philosophy-page .phil-wedge.is-lit {
+  fill: var(--ink);
+}
+
+.philosophy-page .phil-wedge.is-current {
+  fill: var(--red);
+}
+
+.philosophy-page .phil-wheel-rings {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.philosophy-page .phil-wheel-rings circle {
+  fill: none;
+  stroke: #ffffff2e;
+  stroke-width: 1;
+}
+
+.philosophy-page .phil-wheel-core {
+  position: absolute;
+  inset: 29%;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  font-family: var(--display);
+  pointer-events: none;
+}
+
+.philosophy-page .phil-wheel-core strong {
+  display: block;
+  font-size: clamp(60px, 7vw, 116px);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 0.9;
+  color: var(--red);
+}
+
+.philosophy-page .phil-wheel-core span {
+  display: block;
+  margin-top: 6px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.philosophy-page .phil-wheel-core em {
+  font-size: clamp(15px, 1.25vw, 20px);
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.14;
+}
+
+/* Close: the proof of all of the above. */
+
+.philosophy-page .phil-close {
+  border-top: 1px solid var(--line);
+  background: var(--paper);
+  background-image: linear-gradient(var(--red), var(--red));
+  background-repeat: no-repeat;
+  background-size: 0 100%;
+  transition: background-size 0.5s cubic-bezier(0.22, 1, 0.36, 1), color 0.25s ease;
+}
+
+.philosophy-page .phil-close:hover,
+.philosophy-page .phil-close:focus-within {
+  background-size: 100% 100%;
+  color: #fff;
+}
+
+.philosophy-page .phil-close a {
+  display: block;
+  padding-block: clamp(32px, 4vw, 64px);
+}
+
+.philosophy-page .phil-close a:focus-visible {
+  outline-color: #fff;
+  outline-offset: -8px;
+}
+
+.philosophy-page .phil-close-inner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.philosophy-page .phil-close-word {
+  font-family: var(--display);
+  font-size: clamp(46px, 11.6vw, 200px);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+}
+
+.philosophy-page .phil-close-arrow {
+  display: inline-flex;
+  flex: none;
+  color: var(--red);
+  transition: color 0.25s ease;
+}
+
+.philosophy-page .phil-close:hover .phil-close-arrow,
+.philosophy-page .phil-close:focus-within .phil-close-arrow {
+  color: #fff;
+}
+
+.philosophy-page .phil-close-arrow svg {
+  width: clamp(36px, 8.4vw, 140px);
+  height: clamp(36px, 8.4vw, 140px);
+  stroke-width: 1.4;
+}
+
+/* Responsive */
+
+@media (max-width: 1099px) {
+  .philosophy-page .phil-flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(40px, 6vw, 64px) 0;
+  }
+
+  .philosophy-page .phil-stage {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(32px, 5vw, 48px) clamp(28px, 4vw, 44px);
+  }
+
+  .philosophy-page .phil-wheel {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    justify-self: center;
+    width: min(100%, 460px);
+  }
+
+  .philosophy-page .phil-column {
+    justify-content: flex-start;
+  }
+
+  .philosophy-page .phil-column--left {
+    text-align: left;
+  }
+
+  /* Off the wheel, each row carries its own small key to the diagram. */
+  .philosophy-page .phil-pillar {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 14px;
+    align-items: start;
+  }
+
+  .philosophy-page .phil-glyph {
+    display: block;
+    width: 40px;
+    height: 40px;
+  }
+
+  .philosophy-page .phil-glyph path {
+    fill: var(--line);
+  }
+
+  .philosophy-page .phil-glyph path.is-own {
+    fill: var(--red);
+  }
+}
+
+@media (max-width: 680px) {
+  .philosophy-page .phil-flow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .philosophy-page .phil-step-copy {
+    padding-right: 0;
+  }
+
+  .philosophy-page .phil-stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .philosophy-page .phil-wedge,
+  .philosophy-page .phil-close,
+  .philosophy-page .phil-close-arrow,
+  .philosophy-page .phil-drawing,
+  .philosophy-page .phil-strand {
+    transition: none;
+  }
+}
