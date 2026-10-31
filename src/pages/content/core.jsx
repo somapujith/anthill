@@ -60,6 +60,8 @@ export const heroCopy = {
 };
 
 export const editorialCopy = [
+  ["readt to pitch?", "Ready to pitch?"],
+  ["Our Leadship", "Our leadership"],
   [
     "For the past decade Anthill",
     "Anthill Ventures invests in early-stage companies across health, climate and urban lifestyles. Founders work with our operators, domain experts and network on funding, product development and market access. Our Scalability Quotient helps assess a company's readiness to grow.",

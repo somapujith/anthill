@@ -2,6 +2,16 @@
   "description": "Explicit display edits requested in the November 2026 visual and copy cleanup. All remaining archive content, links, images and documents remain covered by the rendered audit.",
   "changes": [
     {
+      "route": "/about",
+      "source": "readt to pitch?",
+      "replacement": "Ready to pitch?"
+    },
+    {
+      "route": "/about",
+      "source": "Our Leadship",
+      "replacement": "Our leadership"
+    },
+    {
       "route": "/portfolio",
       "source": "Anthill’s portfolio showcases transformative investments in health tech, climate solutions, urban innovation, AI‑powered media and next‑gen consumer brands, fueling visionary entrepreneurs.",
       "replacement": "Explore the companies in our portfolio across health, consumer, urban tech and media."
