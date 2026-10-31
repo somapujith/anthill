@@ -101,40 +101,26 @@
   width: 100%;
   padding: calc(var(--hero-header) + clamp(16px, 2.4svh, 28px)) var(--hero-gutter) 0;
 }
-.hero-meta {
-  display: flex;
-  align-items: center;
-  gap: 12px 28px;
-  min-height: 36px;
-}
-.hero-meta .eyebrow {
-  color: #ffd9dc;
-}
-.hero-geography {
-  font-size: 11px;
-  color: #d7cccd;
-}
 .atmosphere-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 36px;
+  display: grid;
+  place-items: center;
+  align-self: center;
+  width: 44px;
+  height: 44px;
   padding: 0;
-  border: 0;
+  border: 1px solid #ffffff38;
+  border-radius: 50%;
   background: transparent;
   color: #d7cccd;
-  font-size: 11px;
 }
 .atmosphere-toggle:hover {
+  border-color: #fff;
   color: #fff;
-}
-.atmosphere-toggle:disabled {
-  opacity: 0.75;
 }
 
 .hero-copy {
   max-width: 1120px;
-  margin-top: clamp(8px, 1.6svh, 18px);
+  margin-top: clamp(14px, 4svh, 44px);
 }
 .home-hero h1 {
   font-size: clamp(38px, min(7.2vw, 11.6svh), 140px);
@@ -394,7 +380,6 @@
   }
 }
 @media (min-width: 1101px) and (max-height: 640px) {
-  .hero-geography,
   .hero-lead {
     display: none;
   }
@@ -407,9 +392,6 @@
   }
   .hero-silk::after {
     background: linear-gradient(to top, #12040ae6, #12040a73 34%, transparent 52%);
-  }
-  .atmosphere-toggle {
-    margin-left: auto;
   }
   .hero-paths {
     opacity: 0.2;
@@ -492,9 +474,6 @@
 @media (max-width: 760px) {
   .home-hero {
     --hero-header: 74px;
-  }
-  .hero-geography {
-    display: none;
   }
   .hero-actions .hero-cta {
     flex: 1 1 auto;

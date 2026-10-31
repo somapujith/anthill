@@ -175,7 +175,6 @@ export default function HomeHero({ lead, poster, logos }) {
 
         const intro = gsap.timeline({ defaults: { ease: "expo.out" } });
         intro
-          .from(q(".hero-meta > *"), { autoAlpha: 0, duration: 0.8, stagger: 0.08 }, 0.1)
           .from(splits[0].words, { yPercent: 110, duration: 1.1, stagger: 0.08 }, 0.15)
           .from(q(".hero-rotator"), { clipPath: "inset(0 100% 0 0)", duration: 0.9, ease: "power4.inOut", clearProps: "clipPath" }, 0.35)
           .from(splits[1].words, { yPercent: 110, duration: 1.1, stagger: 0.05 }, 0.55)
@@ -192,7 +191,7 @@ export default function HomeHero({ lead, poster, logos }) {
             scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true },
           })
           .to(q(".hero-sky"), { yPercent: -100, ease: "power1.in", duration: 1 }, 0)
-          .to(q(".hero-copy, .hero-meta"), { y: -90, autoAlpha: 0, ease: "none", duration: 0.45 }, 0)
+          .to(q(".hero-copy"),{ y: -90, autoAlpha: 0, ease: "none", duration: 0.45 }, 0)
           .to(q(".hero-proof, .hero-film, .hero-rail, .hero-head, .hero-trail"), { autoAlpha: 0, ease: "none", duration: 0.16 }, 0);
 
         return () => {
@@ -245,30 +244,6 @@ export default function HomeHero({ lead, poster, logos }) {
       </span>
 
       <div className="hero-inner">
-        <div className="hero-meta">
-          <span className="eyebrow">Speed-scaling venture capital</span>
-          <span className="hero-geography">India / United States / Singapore</span>
-          <button
-            type="button"
-            className="atmosphere-toggle"
-            aria-label={
-              reduced
-                ? "Background animation disabled for reduced motion"
-                : paused
-                  ? "Resume background animation"
-                  : "Pause background animation"
-            }
-            aria-pressed={motionPaused}
-            disabled={Boolean(reduced)}
-            onClick={() => setPaused(!paused)}
-          >
-            {motionPaused ? <Play size={13} /> : <Pause size={13} />}
-            <span>
-              {reduced ? "Reduced motion" : paused ? "Resume motion" : "Pause motion"}
-            </span>
-          </button>
-        </div>
-
         <div className="hero-copy">
           <h1
             id="hero-title"
@@ -308,6 +283,18 @@ export default function HomeHero({ lead, poster, logos }) {
                 <ArrowUpRight size={20} />
               </motion.span>
             </MotionLink>
+            {/* The pause control stays, as an icon, because the background moves continuously. */}
+            {!reduced && (
+              <button
+                type="button"
+                className="atmosphere-toggle"
+                aria-label={paused ? "Resume background animation" : "Pause background animation"}
+                aria-pressed={paused}
+                onClick={() => setPaused(!paused)}
+              >
+                {paused ? <Play size={14} /> : <Pause size={14} />}
+              </button>
+            )}
           </div>
         </div>
 
