@@ -34,3 +34,7 @@ Night launch. Anthill's film shows the red A lifting off from a dark landscape, 
 ## Stage
 
 Every route already opens with `PageStage` (or `HomeHero` on `/`): a dark hero with a silk curve under a transparent header. The next section starts right below it.
+
+## Banned assets
+
+Do not use the stippled red icon illustrations `living-healthy.png`, `world.png` or `urbannn.png` anywhere. The owner rejected them as old-fashioned. Prefer photography, type or real data over clip-art icons.
