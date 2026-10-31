@@ -9,7 +9,6 @@ export default defineConfig({
         manualChunks(id) {
           if (id.includes("view-content.json")) return "content";
           if (id.includes("node_modules")) {
-            if (/[\\/]three[\\/]/.test(id)) return "three";
             if (/motion/.test(id)) return "motion";
             if (/lucide-react/.test(id)) return "icons";
             return "vendor";

@@ -1,9 +1,8 @@
 ﻿# Third-party component notices
 
-This Anthill Ventures website includes adapted source components from React Bits by David Haz: Threads, Silk, SpotlightCard, RotatingText, CountUp and LogoLoop. Retrieved November 1, 2026 from the official repository.
+This Anthill Ventures website includes adapted source components from React Bits by David Haz: Silk, SpotlightCard, RotatingText, CountUp and LogoLoop. Retrieved November 1, 2026 from the official repository.
 
 Sources:
-- https://github.com/DavidHDev/react-bits/tree/main/src/content/Backgrounds/Threads
 - https://github.com/DavidHDev/react-bits/tree/main/src/content/Backgrounds/Silk
 - https://github.com/DavidHDev/react-bits/tree/main/src/content/Components/SpotlightCard
 - https://github.com/DavidHDev/react-bits/tree/main/src/content/TextAnimations/RotatingText
