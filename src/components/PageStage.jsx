@@ -14,6 +14,14 @@ import "./page-stage.css";
 gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
 
 const STACKED = "(max-width: 900px)";
+// These visuals are drawn on the night, so the silk waits underneath them.
+const CLEAR_OF_SILK = ["philosophy", "contact"];
+
+// "/team" is "team", "/team/mike-binn" is "team-detail": every layout hangs off this one key.
+const routeKey = (pathname) => {
+  const parts = pathname.split("/").filter(Boolean);
+  return parts.length > 1 ? `${parts[0]}-detail` : parts[0] || "home";
+};
 
 export default function PageStage({ pathname, title, description, label, back, quiet, visual }) {
   const reduced = useReducedMotion();
@@ -29,10 +37,10 @@ export default function PageStage({ pathname, title, description, label, back, q
   useGSAP(
     () => {
       const stage = root.current;
-      const state = { t: 1.25, lift: 0 };
+      const state = { t: 1.25 };
       let curve = { ground: 0.9, rise: 0.8, power: 5 };
       const draw = () => {
-        if (sky.current) drawSurface(sky.current, edge.current, curve, state.t, state.lift);
+        if (sky.current) drawSurface(sky.current, edge.current, curve, state.t, 0);
       };
       // The curve is read from the layout so it can never run behind the copy.
       const measure = () => {
@@ -43,9 +51,14 @@ export default function PageStage({ pathname, title, description, label, back, q
           const bottom = (area.bottom - box.top) / box.height;
           curve = { ground: bottom, rise: bottom - top, power: 2.4 };
         } else {
-          const end = copy.current.getBoundingClientRect().bottom;
+          const clear = CLEAR_OF_SILK.includes(stage.dataset.route);
+          const held = clear ? stage.querySelector(".stage-visual") : null;
+          const end = Math.max(
+            copy.current.getBoundingClientRect().bottom,
+            held ? held.getBoundingClientRect().bottom : 0,
+          );
           const ground = Math.min(0.94, (end - box.top + 34) / box.height);
-          curve = { ground, rise: ground - 0.1, power: 5 };
+          curve = { ground, rise: ground - 0.1, power: clear ? 18 : 5 };
         }
         draw();
       };
@@ -70,6 +83,9 @@ export default function PageStage({ pathname, title, description, label, back, q
         const rising = q("[data-rise]");
         if (rising.length)
           intro.from(rising, { y: 34, autoAlpha: 0, duration: 0.9, stagger: 0.07 }, 0.55);
+        const faded = q("[data-fade]");
+        if (faded.length)
+          intro.from(faded, { autoAlpha: 0, duration: 0.9, stagger: 0.025, ease: "power1.out" }, 0.5);
         const drawn = q("[data-draw]");
         if (drawn.length)
           intro.fromTo(
@@ -82,12 +98,16 @@ export default function PageStage({ pathname, title, description, label, back, q
         const leave = gsap.timeline({
           scrollTrigger: { trigger: stage, start: "top top", end: "bottom top", scrub: true },
         });
-        leave.to(q(".stage-copy, .stage-visual"), { y: -60, autoAlpha: 0, ease: "none", duration: 0.55 }, 0);
-        if (sky.current) leave.to(state, { lift: 1, ease: "power1.in", duration: 1, onUpdate: draw }, 0);
+        // Copy and the visuals drawn on the night fade before the silk reaches them. The solid
+        // visuals stay opaque, so the curve and silk never show through them mid-fade.
+        const onNight = CLEAR_OF_SILK.includes(stage.dataset.route);
+        leave.to(q(onNight ? ".stage-copy, .stage-visual" : ".stage-copy"), { y: -60, autoAlpha: 0, ease: "none", duration: 0.42 }, 0);
+        if (!onNight) leave.to(q(".stage-visual"), { y: -60, ease: "none", duration: 0.42 }, 0);
+        // The flood moves the night as one layer, so scrolling never redraws the curve.
+        if (sky.current) leave.to(q(".stage-sky"), { yPercent: -100, ease: "power1.in", duration: 1 }, 0);
 
         return () => {
           state.t = 1.25;
-          state.lift = 0;
           split.revert();
         };
       });
@@ -105,10 +125,16 @@ export default function PageStage({ pathname, title, description, label, back, q
   return (
     <section
       ref={root}
-      className={`page-stage${quiet ? " page-stage--quiet" : ""}${title.length > 30 ? " page-stage--long" : ""}`}
+      className={`page-stage${quiet ? " page-stage--quiet" : ""}${title.length > 30 ? " page-stage--long" : ""}${body ? "" : " page-stage--plain"}`}
+      data-route={routeKey(pathname)}
       data-paused={motionPaused}
     >
-      {!quiet && (
+      {quiet ? (
+        // Reading pages keep the growth line, drawn once, without the silk.
+        <svg className="stage-quiet-line" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 96 C52 96 84 92 100 8" vectorEffect="non-scaling-stroke" />
+        </svg>
+      ) : (
         <>
           <div className="stage-silk">
             <HeroBackdrop paused={motionPaused} variation={variation} />

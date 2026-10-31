@@ -1,87 +1,141 @@
+import { Link, useLocation } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import site from "../data/view-content.json";
 
-const pageImage = (route, term) =>
-  (site.pages[route]?.images || []).find((item) =>
-    item.src.toLowerCase().includes(term),
-  )?.local;
-const images = (route, terms) =>
-  terms.map((term) => pageImage(route, term)).filter(Boolean);
+// Source URLs escape spaces (%20) and local files hyphenate them, so both are compared in one form.
+const normal = (value = "") => value.toLowerCase().replace(/%20|\s+/g, "-");
+const fileOf = (item) => item?.local || item?.src || null;
+const isArt = (item) => Boolean(fileOf(item)) && !/arrow|\.svg$/i.test(fileOf(item));
+
+const pageImage = (route, term) => {
+  const needle = normal(term);
+  return fileOf(
+    (site.pages[route]?.images || []).find((item) =>
+      [item.src, item.local].some((value) => normal(value).includes(needle)),
+    ),
+  );
+};
+
+// What the collection pages actually say about each entry.
+const entries = (route) =>
+  (site.pages[route]?.cards || []).map((card) => {
+    const text = card.blocks.filter((block) => block.text).map((block) => block.text);
+    return {
+      href: card.links?.[0]?.href,
+      title: text[0],
+      detail: text[1],
+      src: fileOf((card.images || []).find(isArt)),
+    };
+  });
+
+const entry = (list, slug) => list.find((item) => item.href?.endsWith(`/${slug}`));
+
+// The next text on a page after a given label.
+const textAfter = (route, label) => {
+  const blocks = site.pages[route]?.blocks || [];
+  const index = blocks.findIndex((block) => block.text === label);
+  return index < 0 ? "" : blocks[index + 1]?.text || "";
+};
+
+// Goutham Uppaluri's source record has stock images where a portrait belongs.
+const isPortrait = (src) => Boolean(src) && !/vestal_heroimage|frame-10-min/i.test(src);
 
 function Team() {
-  const faces = images("/team", ["prasad", "sailesh", "mikebinn", "bhargav", "faizal"]);
+  const people = entries("/team");
   return (
-    <div className="stage-faces" aria-hidden="true">
-      {faces.map((src, index) => (
-        <span key={src} data-rise style={{ "--step": index }}>
-          <img src={src} alt="" />
-        </span>
+    <div className="stage-masthead">
+      {people.map((person, index) => (
+        <Link
+          key={person.href}
+          to={person.href}
+          className={`stage-person${index === 0 ? " is-lead" : ""}${isPortrait(person.src) ? "" : " is-text"}`}
+          data-rise
+        >
+          {isPortrait(person.src) && <img src={person.src} alt="" />}
+          <span className="stage-person-caption">
+            <strong>{person.title}</strong>
+            <small>{person.detail}</small>
+          </span>
+        </Link>
       ))}
+      <p className="stage-masthead-fact" data-rise>
+        <strong>5.4×</strong> <span>scale over the past decade</span>
+      </p>
     </div>
   );
 }
 
 const mentorNodes = [
-  [14, 66, 1],
-  [31, 26, 1.22],
-  [50, 60, 1.5],
-  [67, 18, 1],
-  [87, 42, 1.22],
-  [33, 88, 0.86],
-  [73, 82, 1],
+  ["ajai-kumar", 54, 47, 1.75],
+  ["rana-daggubati", 19, 27, 1.28],
+  ["kishore-biyani", 84, 16, 1.3],
+  ["aditya-ghosh", 47, 12, 1.02],
+  ["neeraj-bhargava", 87, 56, 1.22],
+  ["anjali-ajai-kumar", 21, 66, 1.08],
+  ["vivek-biyani", 58, 83, 1.02],
+  ["chris-rynning", 85, 87, 0.98],
+  ["amit-mehta", 37, 87, 0.86],
+  ["kiran-grandhi", 11, 90, 0.82],
+  ["srini-koppolu", 73, 32, 0.8],
+  ["cristina-ventura", 7, 47, 0.8],
 ];
 const mentorEdges = [
   [0, 1],
-  [1, 2],
   [0, 2],
-  [2, 3],
-  [3, 4],
-  [2, 4],
+  [0, 3],
+  [0, 4],
   [0, 5],
-  [5, 2],
-  [2, 6],
-  [4, 6],
+  [0, 6],
+  [0, 7],
+  [0, 8],
+  [1, 3],
+  [1, 11],
+  [3, 2],
+  [2, 10],
+  [10, 4],
+  [4, 7],
+  [7, 6],
+  [6, 8],
+  [8, 9],
+  [9, 5],
+  [5, 11],
 ];
 
 function Mentors() {
-  const faces = images("/speedscalers", [
-    "rana-dag",
-    "kishore-biyani",
-    "ajai-kumar.jpg",
-    "aditya_ghosh",
-    "neeraj",
-    "anjali-ajai",
-    "vivek-biyani",
-  ]);
+  const mentors = entries("/speedscalers");
   return (
-    <div className="stage-network" aria-hidden="true">
-      <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+    <div className="stage-network">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
         {mentorEdges.map(([a, b]) => (
           <line
             key={`${a}-${b}`}
-            data-draw
-            pathLength="1"
-            x1={mentorNodes[a][0]}
-            y1={mentorNodes[a][1]}
-            x2={mentorNodes[b][0]}
-            y2={mentorNodes[b][1]}
+            data-fade
+            x1={mentorNodes[a][1]}
+            y1={mentorNodes[a][2]}
+            x2={mentorNodes[b][1]}
+            y2={mentorNodes[b][2]}
             vectorEffect="non-scaling-stroke"
           />
         ))}
       </svg>
-      {faces.map((src, index) => (
-        <span
-          key={src}
-          data-rise
-          style={{
-            left: `${mentorNodes[index][0]}%`,
-            top: `${mentorNodes[index][1]}%`,
-            "--scale": mentorNodes[index][2],
-          }}
-        >
-          <img src={src} alt="" />
-        </span>
-      ))}
+      {mentorNodes.map(([slug, x, y, scale]) => {
+        const mentor = entry(mentors, slug);
+        if (!mentor?.src) return null;
+        return (
+          <Link
+            key={slug}
+            to={mentor.href}
+            className="stage-node"
+            data-rise
+            style={{ left: `${x}%`, top: `${y}%`, "--scale": scale }}
+          >
+            <span className="stage-node-face">
+              <img src={mentor.src} alt="" />
+            </span>
+            <span className="stage-node-name">{mentor.title}</span>
+          </Link>
+        );
+      })}
     </div>
   );
 }
@@ -99,55 +153,110 @@ const logoFiles = [
 
 function Portfolio() {
   return (
-    <div className="stage-logos" aria-hidden="true">
-      {logoFiles.map(([term, shape]) => (
-        <span key={term} data-rise className={shape ? `is-${shape}` : ""}>
-          <img src={pageImage("/about", term)} alt="" />
-        </span>
-      ))}
+    <div className="stage-logos">
+      {logoFiles.map(([term, shape]) => {
+        const src = pageImage("/about", term);
+        if (!src) return null;
+        return (
+          <span key={term} data-rise className={shape ? `is-${shape}` : ""} aria-hidden="true">
+            <img src={src} alt="" />
+          </span>
+        );
+      })}
+      <p className="stage-logos-fact" data-rise>
+        <strong>80+</strong> <span>Startups backed</span>
+      </p>
     </div>
   );
 }
 
 function Programs() {
   const sectors = [
-    ["live-healthy", "Live Healthy"],
-    ["mitigate-climate", "Mitigate Climate Change"],
-    ["enhance-urban", "Enhance Urban Lifestyle"],
+    ["live-healthy", "Live Healthy", "58% 12%"],
+    ["mitigate-climate", "Mitigate Climate Change", "74% 28%"],
+    ["enhance-urban", "Enhance Urban Lifestyle", "54% 42%"],
   ];
   return (
     <div className="stage-sectors" aria-hidden="true">
-      {sectors.map(([term, name], index) => (
-        <figure key={term} data-rise style={{ "--step": index }}>
-          <img src={pageImage("/programs", term)} alt="" />
-          <figcaption>{name}</figcaption>
-        </figure>
+      {sectors.map(([term, name, focus], index) => {
+        const src = pageImage("/programs", term);
+        if (!src) return null;
+        return (
+          <figure key={term} data-rise style={{ "--step": index }}>
+            <img src={src} alt="" style={{ objectPosition: focus }} />
+            <figcaption>{name}</figcaption>
+          </figure>
+        );
+      })}
+    </div>
+  );
+}
+
+function Stories() {
+  const stories = entries("/stories").filter((story) => story.src);
+  return (
+    <div className="stage-front">
+      {stories.map((story, index) => (
+        <Link
+          key={story.href}
+          to={story.href}
+          className={index === 0 ? "is-lead" : ""}
+          data-rise
+        >
+          <img src={story.src} alt="" />
+          <span>
+            {story.title} <ArrowUpRight size={18} aria-hidden="true" />
+          </span>
+        </Link>
       ))}
     </div>
   );
 }
 
-function Publications({ route, terms, fanned }) {
+function Insights() {
+  const reports = entries("/insights").filter((report) => report.src);
+  const cover = (slug, className) => {
+    const report = entry(reports, slug);
+    if (!report) return null;
+    return (
+      <Link key={slug} to={report.href} className={className} data-rise>
+        <img src={report.src} alt={report.title} />
+      </Link>
+    );
+  };
   return (
-    <div className={`stage-covers${fanned ? " is-fanned" : ""}`} aria-hidden="true">
-      {images(route, terms).map((src, index) => (
-        <span key={src} data-rise style={{ "--step": index }}>
-          <img src={src} alt="" />
-        </span>
-      ))}
+    <div className="stage-reports-wrap">
+      <div className="stage-reports">
+        {cover("urban-lifestyle", "is-lead")}
+        <div>
+          {cover("climate-impact-report")}
+          {cover("carbon-markets")}
+        </div>
+      </div>
     </div>
   );
 }
 
 function Philosophy() {
   const inputs = [
-    ["M0 70 C150 70 190 214 320 232", "Capital", 56],
-    ["M0 210 C130 210 200 226 320 232", "Mentorship", 196],
-    ["M0 350 C150 350 190 250 320 232", "Market access", 336],
+    ["M0 196 H196 C330 196 300 422 442 422", "Capital", 172],
+    ["M0 322 H216 C330 322 320 430 442 430", "Mentorship", 298],
+    ["M0 476 H240 C330 476 340 438 442 438", "Market access", 452],
   ];
   return (
-    <div className="stage-converge" aria-hidden="true">
-      <svg viewBox="0 0 560 420">
+    <div className="stage-converge">
+      <svg
+        viewBox="0 0 720 500"
+        preserveAspectRatio="xMinYMax meet"
+        role="img"
+        aria-label="Capital, mentorship and market access become one rising line: speed with scale."
+      >
+        <path
+          data-draw
+          pathLength="1"
+          className="stage-converge-rise"
+          d="M440 430 C560 430 650 300 690 70"
+        />
         {inputs.map(([path, label, y]) => (
           <g key={label}>
             <path data-draw pathLength="1" d={path} />
@@ -156,14 +265,9 @@ function Philosophy() {
             </text>
           </g>
         ))}
-        <path
-          data-draw
-          pathLength="1"
-          className="stage-converge-rise"
-          d="M320 232 C410 240 490 170 540 44"
-        />
-        <circle data-rise className="stage-converge-head" cx="540" cy="44" r="7" />
-        <text data-rise className="stage-converge-goal" x="520" y="30" textAnchor="end">
+        <circle data-rise className="stage-converge-halo" cx="690" cy="70" r="36" />
+        <circle data-rise className="stage-converge-head" cx="690" cy="70" r="20" />
+        <text data-rise className="stage-converge-goal" x="640" y="62" textAnchor="end">
           Speed with scale
         </text>
       </svg>
@@ -178,16 +282,20 @@ function About() {
     ["$1B+", "Follow-on capital"],
     ["70+", "Speed-scaling mentors"],
   ];
+  const still = pageImage("/about", "about-page2");
   return (
     <div className="stage-about">
-      <span className="stage-about-image" data-rise aria-hidden="true">
-        <img src={pageImage("/about", "about-page2")} alt="" />
-      </span>
+      {still && (
+        <span className="stage-about-still" data-rise>
+          <img src={still} alt="" />
+          <img src={still} alt="" aria-hidden="true" />
+        </span>
+      )}
       <dl>
         {facts.map(([value, label]) => (
           <div key={label} data-rise>
-            <dd>{value}</dd>
             <dt>{label}</dt>
+            <dd>{value}</dd>
           </div>
         ))}
       </dl>
@@ -196,25 +304,103 @@ function About() {
 }
 
 function Contact() {
+  const offices = ["India", "Singapore"].map((name) => [name, textAfter("/contact", name)]);
   return (
-    <a className="stage-contact" href="mailto:info@anthillventures.com" data-rise>
-      <span className="stage-rings" aria-hidden="true">
-        <i />
-        <i />
-        <i />
-        <i />
-      </span>
-      <span className="stage-contact-label">Write to us</span>
-      <span className="stage-contact-email">
-        info@anthillventures.com <ArrowUpRight size={26} />
-      </span>
-    </a>
+    <div className="stage-contact">
+      <a className="stage-contact-link" href="mailto:info@anthillventures.com" data-rise>
+        <span className="stage-contact-mark" aria-hidden="true">
+          <span className="stage-rings">
+            <i />
+            <i />
+            <i />
+            <i />
+          </span>
+          <ArrowUpRight size={30} />
+        </span>
+        <span className="stage-contact-label">Write to us</span>
+        <span className="stage-contact-email">
+          <span>info@</span>
+          <span>anthillventures.com</span>
+        </span>
+      </a>
+      <dl className="stage-offices">
+        {offices.map(([name, address]) =>
+          address ? (
+            <div key={name} data-rise>
+              <dt>{name}</dt>
+              <dd>{address}</dd>
+            </div>
+          ) : null,
+        )}
+      </dl>
+    </div>
   );
 }
 
-export function StageTile({ src, alt, variant }) {
+// The role on a person's page sits straight after their name.
+const roleFor = (pathname) => {
+  const blocks = site.pages[pathname]?.blocks || [];
+  const name = blocks.findIndex((block) => block.type === "h2");
+  return name < 0 ? "" : blocks[name + 1]?.text || "";
+};
+
+function PersonTile({ src, alt, pathname }) {
+  const role = roleFor(pathname);
   return (
-    <span className={`stage-tile stage-tile--${variant}`} data-rise>
+    <figure className={`stage-portrait${isPortrait(src) ? "" : " is-texture"}`} data-rise>
+      <img src={src} alt={alt} />
+      {role && (
+        <figcaption data-rise aria-hidden="true">
+          {role}
+        </figcaption>
+      )}
+    </figure>
+  );
+}
+
+function CompanyTile({ src, alt, light }) {
+  return (
+    <div className={`stage-lightbox${light ? " is-light" : ""}`}>
+      <span className="stage-lightbox-print" data-rise>
+        <img src={src} alt={alt} />
+      </span>
+    </div>
+  );
+}
+
+function PlaybookTile({ src, alt, pathname }) {
+  const spread = /-images-\d/i.test(src);
+  const pages = spread
+    ? []
+    : (site.pages[pathname]?.images || [])
+        .filter(isArt)
+        .map(fileOf)
+        .filter((file) => file !== src)
+        .slice(0, 2);
+  return (
+    <div className={`stage-book${spread ? " is-spread" : ""}`}>
+      {pages.map((page, index) => (
+        <span key={page} className="stage-book-page" data-rise style={{ "--step": index }}>
+          <img src={page} alt="" />
+        </span>
+      ))}
+      <span className="stage-book-cover" data-rise>
+        <img src={src} alt={alt} />
+      </span>
+    </div>
+  );
+}
+
+export function StageTile({ src, alt, variant = "" }) {
+  const { pathname } = useLocation();
+  if (!src) return null;
+  const kind = variant.split(" ")[0];
+  if (kind === "person") return <PersonTile src={src} alt={alt} pathname={pathname} />;
+  if (kind === "company")
+    return <CompanyTile src={src} alt={alt} light={variant.includes("--light")} />;
+  if (kind === "playbook") return <PlaybookTile src={src} alt={alt} pathname={pathname} />;
+  return (
+    <span className="stage-window" data-rise>
       <img src={src} alt={alt} />
     </span>
   );
@@ -228,20 +414,7 @@ export default function StageVisual({ pathname }) {
   if (pathname === "/team") return <Team />;
   if (pathname === "/speedscalers") return <Mentors />;
   if (pathname === "/contact") return <Contact />;
-  if (pathname === "/stories")
-    return (
-      <Publications
-        route="/stories"
-        terms={["_33.jpg", "_1.webp", "functional-beverages"]}
-        fanned
-      />
-    );
-  if (pathname === "/insights")
-    return (
-      <Publications
-        route="/insights"
-        terms={["ab537100", "1_page-0001", "urban-lifestyle-thesis"]}
-      />
-    );
+  if (pathname === "/stories") return <Stories />;
+  if (pathname === "/insights") return <Insights />;
   return null;
 }
