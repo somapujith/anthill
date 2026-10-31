@@ -886,6 +886,11 @@ h4 {
 .footer-statement {
   max-width: min(86%, 1240px);
 }
+.footer-statement-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
 .footer-statement .eyebrow {
   font-size: 12px;
   color: var(--night-eyebrow);
@@ -900,6 +905,23 @@ h4 {
 }
 .footer-statement h2 > span {
   display: block;
+}
+/* Every line is stacked invisibly so the footer keeps the tallest line's height. */
+.footer-statement h2 > .footer-rotator {
+  display: grid;
+  width: fit-content;
+  max-width: 100%;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+  overflow: hidden;
+  color: #ff5a63;
+}
+.footer-rotator > * {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+.footer-rotator-sizer {
+  visibility: hidden;
 }
 .footer-word-mask {
   padding-bottom: 0.14em;

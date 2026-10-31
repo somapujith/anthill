@@ -9,13 +9,15 @@ import {
   useReducedMotion,
   useScroll,
 } from "motion/react";
-import { ArrowUpRight, X, Instagram, Linkedin } from "lucide-react";
+import { ArrowUpRight, X, Instagram, Linkedin, Pause, Play } from "lucide-react";
 import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
 import Home from "./pages/Home.jsx";
 import ContentPage from "./pages/ContentPage.jsx";
 import { HeroBackdrop } from "./components/PageBackdrop.jsx";
+import RotatingText from "./components/reactbits/RotatingText.jsx";
+import { footerLines } from "./components/footer-lines.js";
 import { drawSurface, surfaceY } from "./components/growth-curve.js";
 import site from "./data/view-content.json";
 
@@ -513,6 +515,10 @@ function Footer() {
   const zone = useRef(null);
   // The silk only starts its GPU work as the footer comes near the viewport.
   const near = useInView(stage, { once: true, margin: "600px 0px" });
+  const inView = useInView(stage);
+  const reduced = useReducedMotion();
+  const [paused, setPaused] = useState(false);
+  const closing = footerLines(location.pathname);
 
   useGSAP(
     () => {
@@ -548,16 +554,18 @@ function Footer() {
       const media = gsap.matchMedia();
       media.add("(prefers-reduced-motion: no-preference)", () => {
         const q = gsap.utils.selector(box);
-        const split = SplitText.create(q("h2"), {
+        const split = SplitText.create(q(".footer-lead"), {
           type: "words",
           mask: "words",
           wordsClass: "footer-word",
+          aria: "none",
         });
         state.t = -0.12;
         measure();
         const intro = gsap.timeline({ paused: true, defaults: { ease: "expo.out" } });
         intro
           .from(split.words, { yPercent: 112, duration: 1.1, stagger: 0.05 }, 0.05)
+          .from(q(".footer-rotator"), { y: 36, opacity: 0, duration: 0.9, clearProps: "transform,opacity" }, 0.25)
           .from(q(".footer-statement .eyebrow, .footer-statement p, .footer-actions > *"), { y: 18, opacity: 0, duration: 0.8, stagger: 0.07, clearProps: "transform,opacity" }, 0.35)
           .to(state, { t: 1.25, duration: 2.2, ease: "power2.inOut", onUpdate: draw }, 0.1)
           .fromTo(q(".footer-head-dot"), { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.4)
@@ -591,7 +599,7 @@ function Footer() {
     <footer className="site-footer">
       <div ref={stage} className="footer-stage">
         <div className="footer-silk" aria-hidden="true">
-          {near ? <HeroBackdrop variation={23} /> : null}
+          {near ? <HeroBackdrop variation={23} paused={paused} /> : null}
         </div>
         <svg className="footer-sky" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
           <path ref={sky} className="footer-sky-fill" />
@@ -607,9 +615,38 @@ function Footer() {
         </div>
         <div className="container footer-stage-inner">
           <div ref={copy} className="footer-statement">
-            <span className="eyebrow">Speed-scaling venture capital</span>
-            <h2>
-              <span>Fearless founders.</span> <span>For a billion people.</span>
+            <div className="footer-statement-top">
+              <span className="eyebrow">Speed-scaling venture capital</span>
+              {!reduced && (
+                <button
+                  type="button"
+                  className="stage-toggle"
+                  aria-label={paused ? "Resume footer animation" : "Pause footer animation"}
+                  aria-pressed={paused}
+                  onClick={() => setPaused(!paused)}
+                >
+                  {paused ? <Play size={12} /> : <Pause size={12} />}
+                </button>
+              )}
+            </div>
+            {/* Keyed so GSAP's split text never holds stale copy across routes. */}
+            <h2 key={location.pathname}>
+              <span className="footer-lead">{closing.lead}</span>{" "}
+              <span className="footer-rotator">
+                {closing.lines.map((line) => (
+                  <span key={line} className="footer-rotator-sizer" aria-hidden="true">
+                    {line}
+                  </span>
+                ))}
+                <RotatingText
+                  texts={closing.lines}
+                  splitBy="words"
+                  effect="slide"
+                  staggerDuration={0.04}
+                  rotationInterval={2800}
+                  auto={inView && !paused && !reduced}
+                />
+              </span>
             </h2>
             <p>
               We back founders building businesses in health, climate and urban
