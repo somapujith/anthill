@@ -126,15 +126,31 @@ const leadCopy = (route, start) =>
 // Goutham Uppaluri's source image is a plant, so the team grid shows the seven real portraits.
 const founder = person("/team", 0);
 const team = [1, 2, 7, 3, 6, 4].map((i) => person("/team", i));
-// crop: the face centre within the 4:5 source photo (x, y) and how far to enlarge it.
+// crop: the head centre within the 4:5 source photo (x, y) read off a 10% grid, and the zoom
+// that makes the head fill about two thirds of the circle.
 const mentors = [
-  [0, { x: 0.56, y: 0.215, zoom: 2.4 }],
-  [1, { x: 0.5, y: 0.41, zoom: 1.3 }],
-  [2, { x: 0.46, y: 0.3, zoom: 2.6 }],
-  [4, { x: 0.48, y: 0.43, zoom: 1.12 }],
-  [6, { x: 0.47, y: 0.5, zoom: 1.04 }],
-  [7, { x: 0.56, y: 0.17, zoom: 2.8 }],
+  [0, { x: 0.51, y: 0.21, zoom: 1.7 }],
+  [1, { x: 0.52, y: 0.4, zoom: 1.45 }],
+  [2, { x: 0.41, y: 0.265, zoom: 2.8 }],
+  [4, { x: 0.52, y: 0.42, zoom: 1.3 }],
+  [6, { x: 0.53, y: 0.45, zoom: 1.05 }],
+  [7, { x: 0.54, y: 0.16, zoom: 3.2 }],
 ].map(([i, crop]) => person("/speedscalers", i, crop));
+
+// Places a 4:5 photo in a square window, centred on the head but never past the photo's edges.
+const PHOTO_RATIO = 1.25;
+const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+const cropStyle = ({ x, y, zoom }) => {
+  const halfX = 0.5 / zoom;
+  const halfY = 0.5 / (zoom * PHOTO_RATIO);
+  const cx = clamp(x, halfX, 1 - halfX);
+  const cy = clamp(y, halfY, 1 - halfY);
+  return {
+    width: `${zoom * 100}%`,
+    left: `${50 - cx * zoom * 100}%`,
+    top: `${50 - cy * PHOTO_RATIO * zoom * 100}%`,
+  };
+};
 
 const companySummaries = {
   "Super Human":
@@ -582,11 +598,7 @@ function Mentors() {
                     loading="lazy"
                     src={photo}
                     alt={name}
-                    style={{
-                      width: `${crop.zoom * 100}%`,
-                      left: `${50 - crop.x * crop.zoom * 100}%`,
-                      top: `${50 - crop.y * 1.25 * crop.zoom * 100}%`,
-                    }}
+                    style={cropStyle(crop)}
                   />
                 </span>
                 <span className="home-mentor-text">
