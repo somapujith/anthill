@@ -1,19 +1,9 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "motion/react";
-import {
-  ArrowUpRight,
-  ArrowDown,
-  ArrowLeft,
-  ArrowRight,
-  Plus,
-  Minus,
-  Play,
-  Pause,
-  X,
-} from "lucide-react";
+import { ArrowUpRight, ArrowLeft, ArrowRight, Plus, Minus } from "lucide-react";
 import SpotlightCard from "../components/reactbits/SpotlightCard.jsx";
-import { HeroBackdrop } from "../components/PageBackdrop.jsx";
+import HomeHero from "../components/HomeHero.jsx";
 import site from "../data/view-content.json";
 import "./home.css";
 
@@ -42,6 +32,27 @@ const image = (term) =>
 const portrait = (route, term) =>
   site.pages[route].images.find((item) => item.src.toLowerCase().includes(term))
     ?.local;
+const heroLogos = [
+  ["broadway_logo", "Broadway"],
+  ["rooter_logo", "Rooter"],
+  ["erly_sign_logo", "Erly Sign", "hero-logo--square"],
+  ["sunday_everyday_logo", "Sunday Everyday"],
+  ["boldcare_logo", "Bold Care"],
+  ["safearth_logo", "Safearth"],
+  ["salud_logo", "Salud", "hero-logo--tall"],
+  ["ayurythm_logo", "AyuRythm"],
+].map(([term, title, variant = ""]) => ({
+  title,
+  node: (
+    <img
+      className={`hero-logo ${variant}`}
+      src={portrait("/about", term)}
+      alt={title}
+      width="256"
+      height="256"
+    />
+  ),
+}));
 const teamPortraits = [
   ["prasad", "Prasad Vanga"],
   ["sailesh", "Sailesh Sigatapu"],
@@ -115,62 +126,6 @@ function Reveal({ children, className = "" }) {
     >
       {children}
     </motion.div>
-  );
-}
-
-function BrandFilm() {
-  const dialog = useRef(null);
-  const video = useRef(null);
-  return (
-    <>
-      <button className="art-film" onClick={() => dialog.current.showModal()}>
-        <span className="film-play">
-          <Play size={14} />
-        </span>
-        Watch the film
-      </button>
-      <dialog
-        ref={dialog}
-        className="brand-film-dialog"
-        aria-labelledby="film-title"
-        onClick={(event) => {
-          if (event.target === dialog.current) dialog.current.close();
-        }}
-        onClose={() => video.current?.pause()}
-      >
-        <div className="film-header">
-          <h2 id="film-title">Scale with speed</h2>
-          <button
-            className="icon-button"
-            onClick={() => dialog.current.close()}
-            aria-label="Close brand film"
-          >
-            <X size={20} />
-          </button>
-        </div>
-        <video
-          ref={video}
-          controls
-          playsInline
-          preload="none"
-          poster={image("desktop-poster")}
-        >
-          <source
-            src="/media/films/scale-with-speed-mobile.mp4"
-            type="video/mp4"
-            media="(max-width: 600px)"
-          />
-          <source
-            src="/media/films/scale-with-speed-desktop.mp4"
-            type="video/mp4"
-          />
-          Your browser cannot play this film.{" "}
-          <a href="/media/films/scale-with-speed-desktop.mp4">
-            Download the film
-          </a>
-        </video>
-      </dialog>
-    </>
   );
 }
 
@@ -291,37 +246,13 @@ function Portfolio() {
 }
 
 export default function Home() {
-  const reduced = useReducedMotion();
-  const [paused, setPaused] = useState(false);
-  const motionPaused = Boolean(reduced || paused);
-  const headlineMotion = (delay) => ({
-    initial: reduced ? false : { opacity: 0, y: 32 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] },
-  });
   return (
     <>
-      <section className="home-hero home-section" aria-labelledby="hero-title">
-        <div className="container hero-editorial">
-          <div className="hero-editorial-top"><span className="eyebrow">Anthill Ventures / India 2030</span><span className="hero-edition">Venture capital & venture building</span></div>
-          <h1 id="hero-title" aria-label="Big ideas. Built into businesses.">
-            <motion.span className="hero-opening" {...headlineMotion(0.05)}>Big ideas.</motion.span>{" "}
-            <motion.span className="hero-built" {...headlineMotion(0.14)}>Built into businesses.</motion.span>
-          </h1>
-          <div className="hero-editorial-intro"><p>{copy("We help fearless")}</p><div className="hero-editorial-actions"><Link className="button" to="/programs">Scale with us <ArrowUpRight size={19} /></Link><Link className="text-link" to="/about">About Anthill <ArrowRight size={17} /></Link></div></div>
-          <div className="hero-stage">
-            <HeroBackdrop paused={motionPaused} />
-            <div className="hero-stage-content">
-              <div className="hero-stage-proof"><span className="eyebrow">Across the Anthill portfolio</span><div className="hero-scale"><strong>80+</strong><span>companies across<br />10 countries</span></div><BrandFilm /></div>
-              <div className="hero-company-pair">
-                <Link to="/portfolio/broadway" className="hero-company hero-company--broadway"><img src={highlights.find((company) => company.name === "Broadway")?.image} alt="Broadway department store" width="2045" height="1364" /><div><span>Broadway <small>Consumer</small></span><ArrowUpRight size={22} /></div></Link>
-                <Link to="/portfolio/zypp-electric" className="hero-company hero-company--zypp"><img src={highlights.find((company) => company.name === "Zypp Electric")?.image} alt="Zypp Electric delivery fleet" width="2045" height="1364" /><div><span>Zypp Electric <small>Urban tech</small></span><ArrowUpRight size={22} /></div></Link>
-              </div>
-            </div>
-          </div>
-          <div className="hero-editorial-footer"><a href="#where-we-invest" className="scroll-link"><ArrowDown size={16} />Discover Anthill</a><span className="hero-geography">India / United States / Singapore</span><button type="button" className="atmosphere-toggle" aria-label={reduced ? "Background animation disabled for reduced motion" : paused ? "Resume background animation" : "Pause background animation"} aria-pressed={motionPaused} disabled={Boolean(reduced)} onClick={() => setPaused(!paused)}>{motionPaused ? <Play size={13} /> : <Pause size={13} />}<span>{reduced ? "Reduced motion" : paused ? "Resume motion" : "Pause motion"}</span></button></div>
-        </div>
-      </section>
+      <HomeHero
+        lead={copy("We help fearless")}
+        poster={image("desktop-poster")}
+        logos={heroLogos}
+      />
       <section
         id="where-we-invest"
         className="home-thesis home-section"

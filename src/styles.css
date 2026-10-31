@@ -741,3 +741,32 @@ p {
 .footer-socials a { width: 44px; height: 44px; min-height: 44px; display: grid; place-items: center; border: 1px solid #505058; border-radius: 50%; color: #f7f6f2; transition: color 160ms, border-color 160ms, background 160ms; }
 .footer-socials a:hover { color: #fff; background: #c81924; border-color: #c81924; }
 .footer-socials a svg { display: block; flex: none; }
+.site-header--home {
+  position: fixed;
+  right: 0;
+  left: 0;
+  transition:
+    background-color 0.25s,
+    border-color 0.25s,
+    color 0.25s;
+}
+.site-header--over-hero {
+  background: transparent;
+  border-bottom-color: #ffffff24;
+  color: #fff;
+}
+.site-header--over-hero .desktop-nav a:hover,
+.site-header--over-hero .desktop-nav a.active,
+.site-header--over-hero .header-contact:hover {
+  color: #fff;
+}
+.site-header--over-hero .desktop-nav a::after {
+  background: #fff;
+}
+.site-header--over-hero .menu-toggle {
+  border-left-color: #ffffff38;
+  color: #fff;
+}
+.site-header--over-hero :focus-visible {
+  outline-color: #fff;
+}

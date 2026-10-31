@@ -11,7 +11,8 @@ import {
   Mail,
 } from "lucide-react";
 import siteContent from "../data/view-content.json";
-import PageBackdrop from "../components/PageBackdrop.jsx";
+import PageStage from "../components/PageStage.jsx";
+import { StageTile } from "../components/StageVisuals.jsx";
 import SpotlightCard from "../components/reactbits/SpotlightCard.jsx";
 import "./content-pages.css";
 
@@ -243,6 +244,7 @@ function heroData(page, pathname) {
     blocks[end + 1] &&
     !blocks[end + 1].href &&
     words(blocks[end + 1]).length > 110 &&
+    !(detail && words(blocks[end + 1]).length > 240) &&
     !["h1", "h2"].includes(typeOf(blocks[end + 1]))
   ) {
     description = words(blocks[end + 1]);
@@ -256,39 +258,19 @@ function heroData(page, pathname) {
   };
 }
 
-function PageHero({ title, description, label, back, children }) {
+function PageHero({ title, description, label, back, visual }) {
   const { pathname } = useLocation();
-  const family = pathname.split("/")[1] || "about";
   const quiet = pathname === "/privacy-policy" || pathname.startsWith("/info/");
   return (
-    <section className={`content-hero container content-hero--${family} ${quiet ? "content-hero--quiet" : ""}`}>
-      <div className="content-hero-layout">
-        <div className="content-hero-copy">
-          {back && (
-            <Link className="content-back" to={back.href}>
-              <ArrowLeft size={15} /> {back.label}
-            </Link>
-          )}
-          <Reveal>
-            <div className="eyebrow">{label || "ANTHILL VENTURES"}</div>
-            <h1>{title}</h1>
-          </Reveal>
-          <div className="content-hero-bottom">
-            {description && (
-              <Reveal className="content-hero-description">
-                <p>{description}</p>
-              </Reveal>
-            )}
-            {children}
-          </div>
-        </div>
-        {!quiet && (
-          <div className="content-hero-backdrop">
-            <PageBackdrop pathname={pathname} />
-          </div>
-        )}
-      </div>
-    </section>
+    <PageStage
+      pathname={pathname}
+      title={title}
+      description={description}
+      label={label}
+      back={back}
+      quiet={quiet}
+      visual={visual}
+    />
   );
 }
 
@@ -1118,30 +1100,25 @@ function DetailPage({ pathname, page, hero }) {
         {...hero}
         label={labels[parent] || "Anthill Ventures"}
         back={{ href: parent, label: labels[parent] || "Back" }}
+        visual={
+          image && (
+            <StageTile
+              src={imageSrc}
+              alt={image.alt || hero.title}
+              variant={`${people ? "person" : family === "portfolio" ? "company" : family === "stories" ? "story" : "playbook"}${pathname.includes("videoverse") ? " stage-tile--light" : ""}`}
+            />
+          )
+        }
       />
       {people ? (
-        <div className="container content-profile-layout">
-          {image && (
-            <Reveal className="content-profile-photo">
-              <img src={imageSrc} alt={image.alt || hero.title} />
-            </Reveal>
-          )}
-          <BodyContent
-            blocks={blocks}
-            page={page}
-            pathname={pathname}
-            reading
-          />
-        </div>
+        <BodyContent
+          blocks={blocks}
+          page={page}
+          pathname={pathname}
+          reading
+        />
       ) : (
         <>
-          {image && (
-            <Reveal
-              className={`container content-detail-banner ${family === "portfolio" ? "content-portfolio-banner" : ""} ${article ? "content-article-banner" : ""} ${pathname.includes("videoverse") ? "content-white-company" : ""}`}
-            >
-              <img src={imageSrc} alt={image.alt || hero.title} />
-            </Reveal>
-          )}
           {family === "portfolio" && (
             <section className="container content-company-facts">
               <dl>

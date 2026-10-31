@@ -1,43 +1,5 @@
-.content-hero {
-  position: relative;
-  isolation: isolate;
-  padding-top: clamp(60px, 8vw, 124px);
-  padding-bottom: clamp(40px, 5vw, 76px);
-  border-bottom: 1px solid var(--line, #dcdad5);
-}
-.content-hero .eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 32px;
-}
-.content-hero h1 {
-  font-size: clamp(48px, 7.4vw, 116px);
-  line-height: 1.01;
-  letter-spacing: -0.055em;
-  font-weight: 500;
-  max-width: 1150px;
-  margin: 0;
-  text-wrap: balance;
-  color: var(--ink, #191919);
-}
-.content-hero-bottom {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 30px;
-  padding-top: 32px;
-}
-.content-hero-description {
-  max-width: 740px;
-}
-.content-hero-description p {
-  font-size: clamp(18px, 1.6vw, 23px);
-  line-height: 1.55;
-  letter-spacing: -0.025em;
-  margin: 0;
-  color: #565650;
-}
+
+
 .content-back {
   display: inline-flex;
   align-items: center;
@@ -496,10 +458,7 @@
   object-fit: contain;
   padding: 24px;
 }
-.content-white-company .content-company-media,
-.content-portfolio-banner.content-white-company img {
-  background: var(--ink, #191919);
-}
+
 .content-card-arrow {
   width: 44px;
   height: 44px;
@@ -609,27 +568,7 @@
   margin: 30px 0;
   padding-left: 25px;
 }
-.content-detail-banner {
-  margin-top: 45px;
-  margin-bottom: 20px;
-  height: clamp(240px, 38vw, 580px);
-  overflow: hidden;
-}
-.content-detail-banner img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.content-portfolio-banner {
-  max-width: 1000px;
-  height: clamp(220px, 30vw, 420px);
-}
-.content-portfolio-banner img {
-  object-fit: contain;
-  background: #fafaf8;
-  padding: 40px;
-}
+
 .content-company-facts {
   max-width: 1000px;
   display: flex;
@@ -659,38 +598,7 @@
 .content-company-facts > .button {
   white-space: nowrap;
 }
-.content-profile-layout {
-  display: grid;
-  grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.2fr);
-  gap: clamp(35px, 6vw, 100px);
-  padding-top: 55px;
-  padding-bottom: 50px;
-  align-items: start;
-}
-.content-profile-photo {
-  position: sticky;
-  top: 120px;
-  aspect-ratio: 1/1.15;
-  background: #f5f5f3;
-  overflow: hidden;
-}
-.content-profile-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-}
-.content-profile-layout .content-body {
-  padding: 0;
-  max-width: 100%;
-  width: 100%;
-}
-.content-profile-layout .content-section:first-child {
-  padding-top: 0;
-}
-.content-profile-layout .content-section-heading h2 {
-  font-size: 32px;
-}
+
 .content-return {
   padding-top: 10px;
   padding-bottom: 65px;
@@ -871,9 +779,7 @@
   }
 }
 @media (max-width: 1000px) {
-  .content-hero h1 {
-    font-size: clamp(46px, 8.2vw, 85px);
-  }
+  
   .content-card-grid {
     gap: 35px 22px;
   }
@@ -890,33 +796,17 @@
   .content-contact-layout {
     gap: 35px;
   }
-  .content-profile-layout {
-    grid-template-columns: 0.8fr 1.2fr;
-    gap: 35px;
-  }
+  
   .content-reading p {
     font-size: 16px;
   }
 }
 @media (max-width: 700px) {
-  .content-hero {
-    padding-top: 42px;
-    padding-bottom: 38px;
-  }
-  .content-hero .eyebrow {
-    font-size: 10px;
-    margin-bottom: 25px;
-  }
-  .content-hero h1 {
-    font-size: clamp(43px, 9.7vw, 67px);
-    letter-spacing: -0.06em;
-  }
-  .content-hero-bottom {
-    padding-top: 24px;
-  }
-  .content-hero-description p {
-    font-size: 17px;
-  }
+  
+  
+  
+  
+  
   .content-collection-section {
     padding-top: 28px;
     padding-bottom: 45px;
@@ -1004,24 +894,10 @@
     padding-left: 0;
     padding-right: 15px;
   }
-  .content-detail-banner {
-    margin-top: 25px;
-    height: 280px;
-  }
-  .content-profile-layout {
-    grid-template-columns: 1fr;
-    padding-top: 30px;
-    gap: 35px;
-  }
-  .content-profile-photo {
-    position: static;
-    max-width: 450px;
-    width: 100%;
-    aspect-ratio: 1/1.05;
-  }
-  .content-profile-layout .content-section-heading h2 {
-    font-size: 30px;
-  }
+  
+  
+  
+  
   .content-reading {
     padding-top: 15px;
   }
@@ -1045,9 +921,7 @@
   .content-return {
     padding-bottom: 40px;
   }
-  .content-portfolio-banner img {
-    padding: 28px;
-  }
+  
 }
 @media (max-width: 440px) {
   .content-card-grid {
@@ -1074,9 +948,7 @@
   .content-filters button {
     padding: 9px 12px;
   }
-  .content-hero h1 {
-    overflow-wrap: anywhere;
-  }
+  
   .content-card-meta {
     line-height: 1.5;
   }
@@ -1086,9 +958,9 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .content-card-media img,
-  .content-card-arrow,
-  .content-source-link,
-  .content-faq summary svg {
+.content-card-arrow,
+.content-source-link,
+.content-faq summary svg {
     transition: none;
   }
 }
@@ -1176,26 +1048,15 @@
     display: inline-flex;
   }
 }
-.content-article-banner {
-  height: auto;
-  max-width: 1000px;
-}
-.content-article-banner img {
-  height: auto;
-  object-fit: contain;
-}
 
 /* Shared reading rhythm and interaction states across all page families. */
-.content-hero-bottom:empty {
-  display: none;
-}
+
 .content-section-heading h2 {
   grid-column: 2;
 }
 .content-card,
 .content-contact-info,
 .content-contact-form-wrap,
-.content-profile-layout > *,
 .content-company-facts dl > div {
   min-width: 0;
 }
@@ -1249,17 +1110,13 @@
 }
 @media (hover: none) {
   .content-card-link:hover .content-card-media img,
-  .content-card-link:hover .content-card-arrow {
+.content-card-link:hover .content-card-arrow {
     transform: none;
   }
 }
 @media (max-width: 700px) {
-  .content-hero h1 {
-    line-height: 1.05;
-  }
-  .content-hero-bottom {
-    flex-wrap: wrap;
-  }
+  
+  
   .content-company-facts dl {
     flex-wrap: wrap;
   }
@@ -1269,14 +1126,12 @@
   .content-reading {
     max-width: 100%;
   }
-  .content-profile-layout .content-body {
-    padding-inline: 0;
-  }
+  
 }
 @media (max-width: 380px) {
   .content-people-grid,
-  .content-inline-card-grid,
-  .content-form-row {
+.content-inline-card-grid,
+.content-form-row {
     grid-template-columns: minmax(0, 1fr);
   }
   .content-contact-email {
@@ -1310,47 +1165,7 @@
 }
 
 /* Route artwork is composed alongside the text, with its own space at every size. */
-.content-hero {
-  padding-top: clamp(42px, 5.5vw, 88px);
-  padding-bottom: clamp(40px, 5.5vw, 88px);
-}
-.content-hero-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-  gap: clamp(32px, 5vw, 80px);
-  align-items: center;
-}
-.content-hero-copy {
-  min-width: 0;
-}
-.content-hero h1 {
-  font-size: clamp(48px, 6.1vw, 96px);
-  line-height: 1.03;
-  overflow-wrap: anywhere;
-}
-.content-hero-description p {
-  font-size: clamp(17px, 1.5vw, 21px);
-  line-height: 1.6;
-}
-.content-hero-backdrop {
-  position: relative;
-  align-self: stretch;
-  min-height: 360px;
-  overflow: hidden;
-  isolation: isolate;
-}
-.content-hero--quiet .content-hero-layout {
-  display: block;
-}
-.content-hero--quiet h1 {
-  max-width: 1100px;
-}
-.content-hero--quiet .content-hero-description {
-  max-width: 850px;
-}
-.content-hero--programs .content-hero-backdrop {
-  background: #251216;
-}
+
 .content-section-heading {
   display: block;
 }
@@ -1431,31 +1246,14 @@
 .content-program-support-copy .content-process p {
   margin-top: 0 !important;
 }
-@media (max-width: 1000px) {
-  .content-hero-layout {
-    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-    gap: 30px;
-  }
-  .content-hero h1 {
-    font-size: clamp(43px, 7vw, 72px);
-  }
-  .content-hero-backdrop {
-    min-height: 320px;
-  }
-}
+
 @media (max-width: 700px) {
-  .content-hero-layout,
   .content-program-support-layout {
     grid-template-columns: minmax(0, 1fr);
     gap: 30px;
   }
-  .content-hero h1 {
-    font-size: clamp(42px, 10vw, 67px);
-  }
-  .content-hero-backdrop {
-    min-height: 240px;
-    height: 240px;
-  }
+  
+  
   .content-program-art {
     position: static;
   }
@@ -1465,8 +1263,8 @@
     object-position: center 52%;
   }
   .content-section-copy,
-  .content-faq,
-  .content-feature-grid.single-feature {
+.content-faq,
+.content-feature-grid.single-feature {
     max-width: 100%;
   }
   .content-program-support-copy .content-process h3 {

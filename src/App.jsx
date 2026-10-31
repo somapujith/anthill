@@ -4,6 +4,7 @@ import {
   AnimatePresence,
   motion,
   MotionConfig,
+  useMotionValueEvent,
   useReducedMotion,
   useScroll,
 } from "motion/react";
@@ -26,8 +27,14 @@ export const navigation = [
 
 function Header() {
   const [open, setOpen] = useState(false);
-  const { scrollYProgress } = useScroll();
+  const { scrollY, scrollYProgress } = useScroll();
+  const [atTop, setAtTop] = useState(() => window.scrollY <= 24);
+  useMotionValueEvent(scrollY, "change", (y) => setAtTop(y <= 24));
   const location = useLocation();
+  const staged =
+    location.pathname === "/" ||
+    Boolean(site.pages[location.pathname.replace(/\/$/, "")]);
+  const overHero = staged && atTop;
   const toggle = useRef(null);
   const panel = useRef(null);
   useEffect(() => setOpen(false), [location.pathname]);
@@ -74,10 +81,16 @@ function Header() {
   }, [open]);
   return (
     <>
-      <header className="site-header">
+      <header
+        className={`site-header${staged ? " site-header--home" : ""}${overHero ? " site-header--over-hero" : ""}`}
+      >
         <Link to="/" className="brand" aria-label="Anthill Ventures home">
           <img
-            src="/brand/logo-red-black.svg"
+            src={
+              overHero
+                ? "/brand/logo-red-white.svg"
+                : "/brand/logo-red-black.svg"
+            }
             alt="Anthill Ventures"
             width="154"
             height="54"

@@ -1,13 +1,14 @@
 ﻿# Third-party component notices
 
-This Anthill Ventures website includes adapted source components from React Bits by David Haz: Threads, Silk, DotGrid, LightRays and SpotlightCard. Retrieved November 1, 2026 from the official repository.
+This Anthill Ventures website includes adapted source components from React Bits by David Haz: Threads, Silk, SpotlightCard, RotatingText, CountUp and LogoLoop. Retrieved November 1, 2026 from the official repository.
 
 Sources:
 - https://github.com/DavidHDev/react-bits/tree/main/src/content/Backgrounds/Threads
 - https://github.com/DavidHDev/react-bits/tree/main/src/content/Backgrounds/Silk
-- https://github.com/DavidHDev/react-bits/tree/main/src/content/Backgrounds/DotGrid
-- https://github.com/DavidHDev/react-bits/tree/main/src/content/Backgrounds/LightRays
 - https://github.com/DavidHDev/react-bits/tree/main/src/content/Components/SpotlightCard
+- https://github.com/DavidHDev/react-bits/tree/main/src/content/TextAnimations/RotatingText
+- https://github.com/DavidHDev/react-bits/tree/main/src/content/TextAnimations/CountUp
+- https://github.com/DavidHDev/react-bits/tree/main/src/content/Animations/LogoLoop
 
 Local changes cover Anthill colors, composition, responsive behavior, reduced motion, pointer handling, pause controls and rendering lifecycle/fallbacks. The upstream license is reproduced below and included in the build at /licenses/react-bits.txt.
 
@@ -40,3 +41,11 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+# Background Paths
+
+The home hero includes Background Paths by kokonutUI, a component also listed on 21st.dev, ported to JSX with a pause control. Retrieved November 1, 2026 from https://github.com/kokonut-labs/kokonutui. The MIT license is included in the build at /licenses/kokonutui.txt.
+
+# GSAP
+
+The home hero uses GSAP, ScrollTrigger, SplitText and @gsap/react under the GreenSock Standard "no charge" license: https://gsap.com/standard-license
