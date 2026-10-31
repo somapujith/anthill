@@ -1,1 +1,884 @@
-/* Styles owned by this page family. */
+/* Programs page: everything is scoped because all CSS is bundled globally. */
+.programs-page {
+  --pg-night: #0a0507;
+  --pg-ink: #171717;
+  --pg-muted: #60605c;
+  --pg-line: #e3e3df;
+  --pg-red: #e6212b;
+  --pg-red-hover: #ba131c;
+  --pg-on-night: #eaddde;
+  --pg-eyebrow-night: #ffd9dc;
+  --pg-hair: #ffffff24;
+  --pg-gutter: clamp(22px, 5vw, 80px);
+  --pg-edge: max(var(--pg-gutter), calc((100vw - 1536px) / 2 + 80px));
+  --pg-space: clamp(84px, 10vw, 168px);
+  overflow-x: clip;
+  color: var(--pg-ink);
+  background: #fff;
+}
+.programs-page ul,
+.programs-page ol,
+.programs-page dl,
+.programs-page dd {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.programs-page figure {
+  margin: 0;
+}
+.programs-page .pg-eyebrow {
+  margin: 0;
+  font-family: var(--body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--pg-muted);
+}
+.programs-page .pg-title {
+  font-size: clamp(36px, 4.6vw, 76px);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1.04;
+}
+.programs-page .pg-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  font-size: 15px;
+  font-weight: 500;
+  border-bottom: 1px solid var(--pg-red);
+  transition: color 0.2s;
+}
+.programs-page .pg-text-link:hover {
+  color: var(--pg-red);
+}
+
+/* Apply action: three sizes of one idea, a slab of red that fills with night. */
+.programs-page .pg-apply-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  overflow: hidden;
+  background: var(--pg-red);
+  color: #fff;
+  isolation: isolate;
+}
+.programs-page .pg-apply-link:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -8px;
+}
+.programs-page .pg-apply-fill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--pg-night);
+  transform-origin: bottom;
+}
+.programs-page .pg-apply-text {
+  display: block;
+  font-family: var(--display);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.programs-page .pg-apply-arrow {
+  display: block;
+  flex: none;
+}
+.programs-page .pg-apply-arrow svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.programs-page .pg-apply--top .pg-apply-link {
+  padding: clamp(20px, 2.6vw, 44px) var(--pg-edge) clamp(26px, 3.2vw, 54px);
+}
+.programs-page .pg-apply--top .pg-apply-text {
+  font-size: clamp(44px, 15.4vw, 250px);
+  line-height: 1.02;
+}
+.programs-page .pg-apply--top .pg-apply-arrow {
+  width: clamp(30px, 13vw, 200px);
+  height: clamp(30px, 13vw, 200px);
+}
+/* These two lines are their own mask for the letters that rise into them. */
+.programs-page .pg-apply--top .pg-apply-text,
+.programs-page .pg-vision-title {
+  overflow: hidden;
+  margin: -0.04em -0.03em -0.16em;
+  padding: 0.04em 0.03em 0.16em;
+}
+
+/* The program: the terraces hang from the slab and bleed off the left edge. */
+.programs-page .pg-support {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  align-items: stretch;
+  background: #fff;
+}
+.programs-page .pg-support-frame {
+  overflow: hidden;
+  clip-path: inset(0% 0% 0% 0%);
+}
+.programs-page .pg-support-frame img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1086 / 1448;
+  object-fit: cover;
+}
+.programs-page .pg-support-art figcaption {
+  padding: 14px 0 0 var(--pg-edge);
+  font-size: 14px;
+  color: var(--pg-muted);
+}
+.programs-page .pg-support-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(48px, 6vw, 96px);
+  padding: var(--pg-space) var(--pg-edge) clamp(40px, 4vw, 64px) clamp(32px, 6vw, 112px);
+}
+.programs-page .pg-support-copy .pg-title {
+  margin-top: 18px;
+}
+.programs-page .pg-levers {
+  border-top: 1px solid var(--pg-ink);
+}
+.programs-page .pg-lever {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 44px;
+  gap: 8px 24px;
+  align-items: center;
+  padding: clamp(20px, 2.1vw, 32px) 0;
+  border-bottom: 1px solid var(--pg-line);
+}
+.programs-page .pg-lever-title {
+  grid-column: 1;
+  display: block;
+  font-family: var(--display);
+  font-size: clamp(25px, 2.7vw, 42px);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+.programs-page .pg-lever-text {
+  grid-column: 1;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--pg-muted);
+}
+.programs-page .pg-lever-arrow {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--pg-line);
+  border-radius: 50%;
+}
+.programs-page .pg-lever-rule {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--pg-red);
+  transform-origin: left;
+}
+
+/* Vision: one line of type across the page, three images stepping up beneath. */
+.programs-page .pg-vision {
+  padding-top: var(--pg-space);
+  background: #fff;
+}
+.programs-page .pg-vision-title {
+  font-size: clamp(38px, 12.2vw, 194px);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.programs-page .pg-sectors {
+  --pg-step: clamp(84px, 9vw, 150px);
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: clamp(28px, 3vw, 52px);
+}
+.programs-page .pg-vision-text {
+  position: absolute;
+  top: 0;
+  left: var(--pg-edge);
+  width: calc(33.33% - var(--pg-edge) - 8px);
+  font-size: clamp(15px, 1.25vw, 19px);
+  line-height: 1.45;
+}
+.programs-page .pg-sector:nth-of-type(1) {
+  padding-top: calc(var(--pg-step) * 2);
+}
+.programs-page .pg-sector:nth-of-type(2) {
+  padding-top: var(--pg-step);
+}
+.programs-page .pg-sector-frame {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  background: var(--pg-night);
+}
+.programs-page .pg-sector-frame img {
+  position: absolute;
+  top: -7%;
+  left: 0;
+  width: 100%;
+  height: 114%;
+  max-width: none;
+  object-fit: cover;
+}
+.programs-page .pg-sector-copy {
+  padding: 26px clamp(22px, 2.6vw, 44px) 0;
+}
+.programs-page .pg-sector:nth-of-type(1) .pg-sector-copy {
+  padding-left: var(--pg-edge);
+}
+.programs-page .pg-sector:last-of-type .pg-sector-copy {
+  padding-right: var(--pg-edge);
+}
+.programs-page .pg-sector h3 {
+  font-size: clamp(27px, 2.75vw, 46px);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+}
+.programs-page .pg-sector-copy > p {
+  margin-top: 14px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--pg-muted);
+}
+.programs-page .pg-sector-lists {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 26px 28px;
+  margin-top: 26px;
+}
+.programs-page .pg-sector-lists > div {
+  flex: 1 1 170px;
+  min-width: 0;
+}
+.programs-page .pg-sector-lists h4 {
+  padding-bottom: 8px;
+}
+.programs-page .pg-sector-lists li {
+  padding: 10px 0;
+  border-top: 1px solid var(--pg-line);
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+/* The climb: six gates on the growth curve. The arms lift as the line arrives. */
+.programs-page .pg-climb {
+  --pg-rise: clamp(420px, 36vw, 640px);
+  --pg-climb-end: clamp(64px, 6vw, 110px);
+  position: relative;
+  margin-top: var(--pg-space);
+  padding: clamp(150px, 14vw, 240px) 0 var(--pg-climb-end);
+  overflow: hidden;
+  background: var(--pg-night);
+  color: #fff;
+}
+.programs-page .pg-climb-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.programs-page .pg-climb-track {
+  fill: none;
+  stroke: var(--pg-hair);
+  stroke-width: 1;
+}
+.programs-page .pg-climb-line {
+  fill: none;
+  stroke: var(--pg-red);
+  stroke-width: 3;
+}
+.programs-page .pg-climb-mark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  width: clamp(26px, 2.6vw, 40px);
+  height: auto;
+  pointer-events: none;
+}
+.programs-page .pg-climb-stage {
+  position: relative;
+  z-index: 1;
+}
+.programs-page .pg-climb-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 46%;
+  font-size: clamp(36px, 4vw, 66px);
+}
+.programs-page .pg-gates {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+.programs-page .pg-gate {
+  position: relative;
+  padding: calc(var(--pg-rise) * (1 - var(--f))) 16px 0 0;
+}
+/* The post runs from the curve to the floor of the section. */
+.programs-page .pg-gate::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--pg-rise) * (1 - var(--f)));
+  bottom: calc(var(--pg-climb-end) * -1);
+  left: 0;
+  width: 1px;
+  background: linear-gradient(#ffffff40, #ffffff14);
+}
+.programs-page .pg-gate-node {
+  position: relative;
+  display: block;
+  height: 0;
+}
+.programs-page .pg-gate-node::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 11px;
+  height: 11px;
+  background: var(--pg-red);
+  box-shadow: 0 0 0 3px var(--pg-night);
+  transition: background 0.3s;
+}
+.programs-page .pg-gate-arm {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: min(100%, 118px);
+  height: 2px;
+  background: #fff;
+  transform: rotate(-74deg);
+  transform-origin: left center;
+  transition: transform 0.8s cubic-bezier(0.34, 1.5, 0.64, 1);
+}
+.programs-page .pg-gate h3,
+.programs-page .pg-gate > ul {
+  padding-left: 16px;
+}
+.programs-page .pg-gate h3 {
+  padding-top: 22px;
+  font-weight: 500;
+}
+.programs-page .pg-gate h3 span {
+  display: block;
+  font-family: var(--body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--pg-eyebrow-night);
+}
+.programs-page .pg-gate h3 b {
+  display: block;
+  margin-top: 4px;
+  font-size: clamp(48px, 5vw, 84px);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  transition: color 0.4s;
+}
+.programs-page .pg-gate > ul {
+  margin-top: 16px;
+}
+.programs-page .pg-gate > ul li {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 2px;
+  padding: 6px 0;
+  font-size: 15px;
+  line-height: 1.38;
+  color: var(--pg-on-night);
+  transition: opacity 0.4s;
+}
+.programs-page .pg-gate > ul li > span:first-child {
+  color: var(--pg-red);
+}
+/* Waiting state: only applied once the scroll choreography has armed the section. */
+.programs-page .is-armed .pg-gate:not(.is-open) .pg-gate-arm {
+  transform: rotate(0deg);
+}
+.programs-page .is-armed .pg-gate:not(.is-open) .pg-gate-node::after {
+  background: #fff;
+}
+.programs-page .is-armed .pg-gate:not(.is-open) h3 b {
+  color: #ffffff6e;
+}
+.programs-page .is-armed .pg-gate:not(.is-open) > ul li {
+  opacity: 0.72;
+}
+.programs-page .pg-apply--climb {
+  position: absolute;
+  z-index: 2;
+  right: calc(var(--pg-edge) * -1);
+  bottom: calc(var(--pg-climb-end) * -1);
+  width: calc(33.33% + var(--pg-edge));
+}
+.programs-page .pg-apply--climb .pg-apply-link {
+  align-items: flex-end;
+  min-height: clamp(170px, 15vw, 250px);
+  padding: 28px var(--pg-edge) 28px 26px;
+}
+.programs-page .pg-apply--climb .pg-apply-text {
+  font-size: clamp(44px, 4.8vw, 84px);
+}
+.programs-page .pg-apply--climb .pg-apply-arrow {
+  width: clamp(40px, 4vw, 68px);
+  height: clamp(40px, 4vw, 68px);
+}
+
+/* Proof: the argument in words, then the ledger that backs it. */
+.programs-page .pg-proof {
+  padding: var(--pg-space) 0;
+  background: #fff;
+}
+.programs-page .pg-proof-head {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(32px, 6vw, 112px);
+  align-items: start;
+}
+.programs-page .pg-proof-head .pg-title {
+  margin: 18px 0 26px;
+  font-size: clamp(34px, 3.7vw, 60px);
+}
+.programs-page .pg-proof-text {
+  font-family: var(--display);
+  font-size: clamp(21px, 2.35vw, 38px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.26;
+}
+.programs-page .pg-proof-text strong {
+  font-weight: 500;
+  color: var(--pg-red);
+}
+.programs-page .pg-ledger {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  margin-top: clamp(60px, 7vw, 120px);
+  border-top: 1px solid var(--pg-ink);
+}
+.programs-page .pg-metric {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 20px 16px 26px 0;
+  border-bottom: 1px solid var(--pg-line);
+}
+.programs-page .pg-metric--lead {
+  grid-column: span 3;
+  padding-bottom: 32px;
+}
+.programs-page .pg-metric--lead + .pg-metric--lead {
+  padding-left: 20px;
+  border-left: 1px solid var(--pg-line);
+}
+.programs-page .pg-metric dt {
+  font-size: 15px;
+  line-height: 1.35;
+  color: var(--pg-muted);
+}
+.programs-page .pg-metric dd {
+  font-family: var(--display);
+  font-size: clamp(44px, 5vw, 84px);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.programs-page .pg-metric--lead dd {
+  font-size: clamp(84px, 15.5vw, 280px);
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+}
+
+/* Reach: the three audiences, drawn to scale against one another. */
+.programs-page .pg-reach {
+  padding: var(--pg-space) 0;
+  background: var(--pg-ink);
+  color: #fff;
+}
+.programs-page .pg-reach .pg-title {
+  max-width: 17em;
+}
+.programs-page .pg-bars {
+  margin-top: clamp(40px, 5vw, 80px);
+  border-top: 1px solid var(--pg-hair);
+}
+.programs-page .pg-bar-row {
+  display: grid;
+  grid-template-columns: minmax(200px, 3fr) minmax(0, 9fr);
+  gap: clamp(16px, 2vw, 32px);
+  align-items: center;
+  padding: clamp(16px, 1.8vw, 28px) 0;
+  border-bottom: 1px solid var(--pg-hair);
+}
+.programs-page .pg-bar-value {
+  display: block;
+  font-family: var(--display);
+  font-size: clamp(50px, 5.8vw, 96px);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.programs-page .pg-bar-label {
+  display: block;
+  margin-top: 8px;
+  font-size: 15px;
+  color: var(--pg-on-night);
+}
+.programs-page .pg-bar-track {
+  height: clamp(40px, 6vw, 96px);
+}
+.programs-page .pg-bar {
+  display: block;
+  height: 100%;
+  background: var(--pg-red);
+  transform-origin: left;
+}
+.programs-page .pg-bars-note {
+  padding-top: 10px;
+  font-size: 13px;
+  color: var(--pg-on-night);
+  text-align: right;
+}
+.programs-page .pg-credits {
+  display: grid;
+  grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+  gap: clamp(32px, 4vw, 64px);
+  align-items: end;
+  margin-top: clamp(72px, 9vw, 150px);
+}
+.programs-page .pg-credits-title {
+  font-size: clamp(30px, 3.9vw, 64px);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+}
+.programs-page .pg-credits-title strong {
+  font-weight: 500;
+  color: var(--pg-red);
+}
+.programs-page .pg-credits-window {
+  justify-self: end;
+  width: min(100%, 320px);
+  height: auto;
+}
+.programs-page .pg-logos {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--pg-hair);
+}
+.programs-page .pg-logos li {
+  display: grid;
+  place-items: center;
+  min-height: clamp(110px, 12vw, 190px);
+  padding: 18px;
+  border-right: 1px solid var(--pg-hair);
+  border-bottom: 1px solid var(--pg-hair);
+}
+.programs-page .pg-logos li:first-child {
+  border-left: 1px solid var(--pg-hair);
+}
+.programs-page .pg-logos img {
+  width: auto;
+  max-width: 62%;
+  height: clamp(44px, 6vw, 96px);
+  object-fit: contain;
+}
+
+/* Close: what you get on paper, and a full height of red to act on it. */
+.programs-page .pg-close {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  background: #fff;
+}
+.programs-page .pg-close-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(48px, 6vw, 96px);
+  padding: var(--pg-space) clamp(32px, 6vw, 112px) var(--pg-space) var(--pg-edge);
+}
+.programs-page .pg-close-copy .pg-title {
+  font-size: clamp(34px, 3.9vw, 64px);
+}
+.programs-page .pg-close-intro {
+  margin-top: 22px;
+  max-width: 34em;
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.5;
+  color: var(--pg-muted);
+}
+.programs-page .pg-close-features ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 clamp(24px, 3vw, 48px);
+  margin-top: 14px;
+}
+.programs-page .pg-close-features li {
+  padding: 20px 0 24px;
+  border-top: 1px solid var(--pg-ink);
+}
+.programs-page .pg-close-features h3 {
+  font-size: clamp(21px, 1.8vw, 28px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+.programs-page .pg-close-features p:not(.pg-eyebrow) {
+  margin-top: 10px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--pg-muted);
+}
+.programs-page .pg-close-panel {
+  display: flex;
+  flex-direction: column;
+  background: var(--pg-red);
+  color: #fff;
+}
+.programs-page .pg-apply--close {
+  flex: 1;
+  display: flex;
+}
+.programs-page .pg-apply--close .pg-apply-link {
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: clamp(280px, 30vw, 500px);
+  padding: clamp(32px, 4vw, 64px) var(--pg-edge) clamp(32px, 4vw, 64px) clamp(26px, 3.6vw, 64px);
+}
+.programs-page .pg-apply--close .pg-apply-text {
+  order: 2;
+  font-size: clamp(58px, 7.4vw, 128px);
+}
+.programs-page .pg-apply--close .pg-apply-arrow {
+  align-self: flex-end;
+  width: clamp(56px, 7vw, 116px);
+  height: clamp(56px, 7vw, 116px);
+}
+.programs-page .pg-queries {
+  padding: clamp(24px, 2.6vw, 40px) var(--pg-edge) clamp(30px, 3vw, 48px) clamp(26px, 3.6vw, 64px);
+  border-top: 1px solid #ffffff66;
+}
+.programs-page .pg-queries h2 {
+  font-size: clamp(28px, 2.7vw, 44px);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+.programs-page .pg-queries p {
+  margin-top: 10px;
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.programs-page .pg-queries .content-inline-link {
+  color: #fff;
+  text-decoration: underline;
+  text-decoration-color: #fff;
+}
+.programs-page .pg-queries .content-inline-link:hover {
+  color: #fff;
+  text-decoration-thickness: 2px;
+}
+.programs-page .pg-queries .content-inline-link:focus-visible {
+  outline-color: #fff;
+}
+
+/* Below desktop the gates stack and the curve becomes a rail on the left. */
+@media (max-width: 1199px) {
+  .programs-page .pg-climb {
+    padding: var(--pg-space) 0 0;
+  }
+  .programs-page .pg-climb-area {
+    display: none;
+  }
+  .programs-page .pg-climb-mark {
+    width: 24px;
+  }
+  .programs-page .pg-climb-title {
+    position: static;
+    width: auto;
+    padding-bottom: clamp(44px, 7vw, 72px);
+    font-size: clamp(34px, 5.6vw, 60px);
+  }
+  .programs-page .pg-gates {
+    display: block;
+  }
+  .programs-page .pg-gate {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    padding: 0 0 clamp(34px, 5vw, 52px) 76px;
+  }
+  .programs-page .pg-gate::before {
+    display: none;
+  }
+  .programs-page .pg-gate-node {
+    position: absolute;
+    top: 8px;
+    left: calc(6px + var(--f) * 40px);
+  }
+  .programs-page .pg-gate-arm {
+    width: 22px;
+  }
+  .programs-page .pg-gate h3,
+  .programs-page .pg-gate > ul {
+    padding-left: 0;
+  }
+  .programs-page .pg-gate h3 {
+    padding-top: 0;
+  }
+  .programs-page .pg-gate h3 b {
+    font-size: clamp(48px, 7vw, 68px);
+  }
+  .programs-page .pg-apply--climb {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: auto;
+    margin: 12px calc(var(--pg-gutter) * -1) 0;
+  }
+  .programs-page .pg-apply--climb .pg-apply-link {
+    min-height: 0;
+    align-items: center;
+    padding: 28px var(--pg-gutter);
+  }
+  .programs-page .pg-apply--climb .pg-apply-text {
+    font-size: clamp(48px, 9vw, 84px);
+  }
+}
+@media (min-width: 700px) and (max-width: 1199px) {
+  .programs-page .pg-gate {
+    grid-template-columns: minmax(150px, 2fr) minmax(0, 5fr);
+    gap: 24px;
+    align-items: start;
+  }
+  .programs-page .pg-gate > ul {
+    margin-top: 0;
+    padding-top: 2px;
+  }
+}
+
+@media (max-width: 899px) {
+  .programs-page .pg-support {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .programs-page .pg-support-frame img {
+    aspect-ratio: 5 / 4;
+    object-position: 50% 72%;
+  }
+  .programs-page .pg-support-copy {
+    padding: 56px var(--pg-gutter) 0;
+  }
+  .programs-page .pg-sectors {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 56px;
+    margin-top: 22px;
+  }
+  .programs-page .pg-vision-text {
+    position: static;
+    width: auto;
+    padding-inline: var(--pg-gutter);
+    font-size: 17px;
+  }
+  .programs-page .pg-sector:nth-of-type(1),
+  .programs-page .pg-sector:nth-of-type(2) {
+    padding-top: 0;
+  }
+  .programs-page .pg-sector-frame {
+    aspect-ratio: 4 / 3;
+  }
+  .programs-page .pg-sector-copy,
+  .programs-page .pg-sector:nth-of-type(1) .pg-sector-copy,
+  .programs-page .pg-sector:last-of-type .pg-sector-copy {
+    padding: 22px var(--pg-gutter) 0;
+  }
+  .programs-page .pg-proof-head {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .programs-page .pg-ledger {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .programs-page .pg-metric--lead {
+    grid-column: 1 / -1;
+  }
+  .programs-page .pg-metric--lead + .pg-metric--lead {
+    padding-left: 0;
+    border-left: 0;
+  }
+  .programs-page .pg-metric dd {
+    font-size: clamp(44px, 12vw, 84px);
+  }
+  .programs-page .pg-metric--lead dd {
+    font-size: clamp(92px, 27vw, 220px);
+  }
+  .programs-page .pg-bar-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .programs-page .pg-bars-note {
+    text-align: left;
+  }
+  .programs-page .pg-credits {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .programs-page .pg-credits-window {
+    justify-self: start;
+    width: min(70%, 240px);
+  }
+  .programs-page .pg-close {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .programs-page .pg-close-copy {
+    padding: var(--pg-space) var(--pg-gutter) 56px;
+  }
+  .programs-page .pg-apply--close .pg-apply-link {
+    min-height: 240px;
+    padding: 28px var(--pg-gutter);
+  }
+  .programs-page .pg-queries {
+    padding: 26px var(--pg-gutter) 34px;
+  }
+}
+@media (max-width: 520px) {
+  .programs-page .pg-apply--top .pg-apply-link {
+    gap: 12px;
+  }
+  .programs-page .pg-close-features ul {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .programs-page .pg-logos img {
+    max-width: 78%;
+  }
+}
