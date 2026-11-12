@@ -1,2 +1,98 @@
 <!doctype html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="theme-color" content="#f7f6f2"/><meta name="description" content="Anthill Ventures helps fearless founders scale with speed through capital, mentorship and market access across health, climate and urban lifestyles."/><link rel="icon" type="image/svg+xml" href="/brand/mark-red.svg"/><title>Anthill Ventures — Scaling with speed</title></head><body><div id="root"></div><script type="module" src="/src/main.jsx"></script></body></html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!--
+      Static defaults. Every tag carrying the seo-default data attribute is replaced, never
+      duplicated, by scripts/seo-build.mjs (per-route prerender) and src/seo/Seo.jsx (client
+      navigation). The og:url and canonical tags are deliberately absent here: they only make
+      sense per route.
+    -->
+    <title data-seo-default>Anthill Ventures | Scale with speed</title>
+    <meta
+      name="description"
+      content="Anthill Ventures backs fearless founders with capital, mentorship and market access across health, frontier tech and urban lifestyles. Scale with speed."
+      data-seo-default
+    />
+    <meta
+      name="robots"
+      content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"
+      data-seo-default
+    />
+
+    <meta property="og:type" content="website" data-seo-default />
+    <meta property="og:site_name" content="Anthill Ventures" data-seo-default />
+    <meta property="og:locale" content="en_IN" data-seo-default />
+    <meta property="og:title" content="Anthill Ventures | Scale with speed" data-seo-default />
+    <meta
+      property="og:description"
+      content="Anthill Ventures backs fearless founders with capital, mentorship and market access across health, frontier tech and urban lifestyles. Scale with speed."
+      data-seo-default
+    />
+    <meta property="og:image" content="https://www.anthillventures.com/og/anthill-ventures.png" data-seo-default />
+    <meta property="og:image:type" content="image/png" data-seo-default />
+    <meta property="og:image:width" content="1200" data-seo-default />
+    <meta property="og:image:height" content="630" data-seo-default />
+    <meta
+      property="og:image:alt"
+      content="Anthill Ventures. Scale with speed. A red growth curve rising to a glowing point across a night sky."
+      data-seo-default
+    />
+
+    <meta name="twitter:card" content="summary_large_image" data-seo-default />
+    <meta name="twitter:title" content="Anthill Ventures | Scale with speed" data-seo-default />
+    <meta
+      name="twitter:description"
+      content="Anthill Ventures backs fearless founders with capital, mentorship and market access across health, frontier tech and urban lifestyles. Scale with speed."
+      data-seo-default
+    />
+    <meta name="twitter:image" content="https://www.anthillventures.com/og/anthill-ventures.png" data-seo-default />
+    <meta
+      name="twitter:image:alt"
+      content="Anthill Ventures. Scale with speed. A red growth curve rising to a glowing point across a night sky."
+      data-seo-default
+    />
+
+    <!--
+      Both variants are the night-sky ink: the top of every page (header and hero) is dark in
+      light and dark mode alike, so the browser chrome matches it. Kept as two tags so they can
+      diverge if a light header is ever introduced.
+    -->
+    <meta name="theme-color" content="#0a0507" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0a0507" media="(prefers-color-scheme: dark)" />
+    <meta name="application-name" content="Anthill Ventures" />
+    <meta name="apple-mobile-web-app-title" content="Anthill" />
+
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <!-- The font stylesheet is reached through an @import in the main CSS; start it and the
+         headline face (Archivo 500, used by every page title and the home headline) early. -->
+    <link rel="preload" href="/fonts/source-fonts.css" as="style" />
+    <link rel="preload" href="/fonts/1d33b757b42d.ttf" as="font" type="font/ttf" crossorigin />
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <div style="max-width: 640px; margin: 0 auto; padding: 40px 22px; font-family: Helvetica, Arial, sans-serif; line-height: 1.5; color: #171717">
+        <p style="margin: 0 0 12px; font-size: 24px; font-weight: 700">Anthill Ventures</p>
+        <p style="margin: 0 0 12px">
+          We back fearless founders with capital, mentorship and market access across health,
+          frontier tech and urban lifestyles. Scale with speed.
+        </p>
+        <p style="margin: 0 0 8px">This site needs JavaScript to show its pages. Turn it on, or go straight to:</p>
+        <ul style="margin: 0; padding-left: 20px">
+          <li><a href="/about">About</a></li>
+          <li><a href="/programs">Programs</a></li>
+          <li><a href="/portfolio">Portfolio</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
