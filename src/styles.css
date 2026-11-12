@@ -384,27 +384,6 @@ h4 {
   transform-origin: left;
 }
 
-/* A sky of pinpoints shared by the night surfaces. */
-.night-stars {
-  position: absolute;
-  inset: 0;
-  opacity: 0.7;
-  pointer-events: none;
-  background-image:
-    radial-gradient(1px 1px at 8% 16%, #fff, transparent),
-    radial-gradient(1px 1px at 19% 62%, #fff, transparent),
-    radial-gradient(1.5px 1.5px at 31% 12%, #fff, transparent),
-    radial-gradient(1px 1px at 44% 58%, #fff, transparent),
-    radial-gradient(1px 1px at 52% 22%, #ffffffb0, transparent),
-    radial-gradient(1.5px 1.5px at 63% 9%, #fff, transparent),
-    radial-gradient(1px 1px at 68% 39%, #ffffffb0, transparent),
-    radial-gradient(1px 1px at 74% 19%, #fff, transparent),
-    radial-gradient(1px 1px at 81% 7%, #ffffffb0, transparent),
-    radial-gradient(1px 1px at 58% 47%, #fff, transparent),
-    radial-gradient(1px 1px at 37% 66%, #ffffff90, transparent),
-    radial-gradient(1px 1px at 5% 70%, #ffffff90, transparent);
-}
-
 /* Menu overlay: a launch. Night above the growth curve, moving silk below it. */
 .menu-overlay {
   position: fixed;
@@ -433,6 +412,11 @@ h4 {
   fill: none;
   stroke: #ffe9ea;
   stroke-width: 1.5;
+}
+/* Stars sit after the sky in the DOM and before .menu-scroll, so the auto
+   z-order already keeps them over the fill and under the links. */
+.menu-night {
+  z-index: 0;
 }
 .menu-scroll {
   position: relative;
@@ -840,7 +824,8 @@ h4 {
   stroke: #ffe9ea;
   stroke-width: 1.5;
 }
-.footer-stage .night-stars {
+/* Stars and meteors: above the sky fill (-2), under the copy. */
+.footer-night {
   z-index: -1;
 }
 .footer-head {

@@ -17,6 +17,7 @@ import Home from "./pages/Home.jsx";
 import ContentPage from "./pages/ContentPage.jsx";
 import { HeroBackdrop } from "./components/PageBackdrop.jsx";
 import RotatingText from "./components/reactbits/RotatingText.jsx";
+import NightSky from "./components/NightSky.jsx";
 import { footerLines } from "./components/footer-lines.js";
 import { drawSurface, surfaceY } from "./components/growth-curve.js";
 import site from "./data/view-content.json";
@@ -252,7 +253,7 @@ function MenuOverlay({ panel, pathname, onClose }) {
         <path ref={sky} className="menu-sky-fill" />
         <path ref={edge} className="menu-sky-edge" vectorEffect="non-scaling-stroke" />
       </svg>
-      <span className="night-stars" aria-hidden="true" />
+      <NightSky clipRef={sky} className="menu-night" />
 
       <div className="menu-scroll">
         <div className="menu-top">
@@ -622,7 +623,7 @@ function Footer() {
           <path ref={sky} className="footer-sky-fill" />
           <path ref={edge} className="footer-sky-edge" vectorEffect="non-scaling-stroke" />
         </svg>
-        <span className="night-stars" aria-hidden="true" />
+        <NightSky clipRef={sky} className="footer-night" />
         <div ref={head} className="footer-head">
           <span className="footer-head-dot" aria-hidden="true" />
           <p className="footer-goal">
