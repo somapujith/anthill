@@ -264,9 +264,9 @@ function Philosophy() {
     <div className="stage-converge">
       <svg
         viewBox="0 0 720 500"
-        preserveAspectRatio="xMinYMax meet"
+        preserveAspectRatio="xMidYMax meet"
         role="img"
-        aria-label="Capital, mentorship and market access become one rising line: speed with scale."
+        aria-label="Capital, mentorship and market access become one rising line: scale with speed."
       >
         <path
           data-draw
@@ -285,7 +285,7 @@ function Philosophy() {
         <circle data-rise className="stage-converge-halo" cx="690" cy="70" r="36" />
         <circle data-rise className="stage-converge-head" cx="690" cy="70" r="20" />
         <text data-rise className="stage-converge-goal" x="640" y="62" textAnchor="end">
-          Speed with scale
+          Scale with speed
         </text>
       </svg>
     </div>

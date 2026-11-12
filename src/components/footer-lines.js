@@ -11,7 +11,7 @@ const pages = {
     lines: ["60 startups backed.", "$1B+ in follow-on capital.", "Ten countries reached.", "Still scaling."],
   },
   "/philosophy": {
-    lead: "Speed with scale.",
+    lead: "Scale with speed.",
     lines: ["Capital that moves.", "Mentors who've done it.", "Markets that open up.", "Nine areas assessed."],
   },
   "/programs": {

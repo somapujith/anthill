@@ -148,13 +148,12 @@
 .stage-window {
   box-shadow: 0 30px 80px #000000a6;
 }
+/* Copy and picture share one floor (the copy's own bottom margin), so the last line of the
+   picture lands on the same line as the last line of the text. */
 .page-stage:is([data-route="philosophy"], [data-route="contact"]) .stage-visual {
-  --stage-rest: calc(var(--stage-silk) * 0.74 - var(--stage-pad-bottom));
+  --stage-rest: calc(var(--stage-silk) - var(--stage-pad-bottom));
   min-height: 0;
   margin-bottom: var(--stage-rest);
-}
-.page-stage[data-route="contact"] .stage-visual {
-  --stage-rest: calc(var(--stage-silk) - var(--stage-pad-bottom));
 }
 /* Wider picture columns where the content earns it. */
 .page-stage:is([data-route="about"], [data-route="team"], [data-route="portfolio"], [data-route="portfolio-detail"], [data-route="stories"], [data-route="insights"]) .stage-inner {
