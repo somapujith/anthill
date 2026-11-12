@@ -135,14 +135,16 @@ const mentorsLead = leadCopy("/speedscalers", "Backed by 70+")?.replace(
 const founder = person("/team", 0);
 const team = [1, 2, 3, 6, 4].map((i) => person("/team", i));
 // crop: the head centre within the 4:5 source photo (x, y) read off a 10% grid, and the zoom
-// that makes the head fill about two thirds of the circle.
+// that lets the whole head sit in the circle with room around it. Zoom 1 is as wide as a
+// photo can go (its full width fills the circle), so the close-up portraits (Anjali, Rana,
+// Neeraj) stop there; Neeraj's head is taller than the circle, so his hair top gives way.
 const mentors = [
-  [0, { x: 0.51, y: 0.21, zoom: 1.7 }],
-  [1, { x: 0.52, y: 0.4, zoom: 1.45 }],
-  [2, { x: 0.41, y: 0.265, zoom: 2.8 }],
-  [4, { x: 0.52, y: 0.42, zoom: 1.3 }],
-  [6, { x: 0.53, y: 0.45, zoom: 1.05 }],
-  [7, { x: 0.54, y: 0.16, zoom: 3.2 }],
+  [0, { x: 0.515, y: 0.23, zoom: 1.25 }],
+  [1, { x: 0.5, y: 0.415, zoom: 1 }],
+  [2, { x: 0.44, y: 0.285, zoom: 2.3 }],
+  [4, { x: 0.5, y: 0.405, zoom: 1 }],
+  [6, { x: 0.5, y: 0.53, zoom: 1 }],
+  [7, { x: 0.57, y: 0.2, zoom: 1.85 }],
 ].map(([i, crop]) => person("/speedscalers", i, crop));
 
 // Places a 4:5 photo in a square window, centred on the head but never past the photo's edges.
