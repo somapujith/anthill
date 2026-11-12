@@ -9,7 +9,7 @@ import {
   useReducedMotion,
   useScroll,
 } from "motion/react";
-import { ArrowUpRight, X, Instagram, Linkedin, Pause, Play } from "lucide-react";
+import { ArrowUpRight, X, Instagram, Linkedin } from "lucide-react";
 import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
@@ -535,7 +535,6 @@ function Footer() {
   const near = useInView(stage, { once: true, margin: "600px 0px" });
   const inView = useInView(stage);
   const reduced = useReducedMotion();
-  const [paused, setPaused] = useState(false);
   const closing = footerLines(location.pathname);
 
   useGSAP(
@@ -617,7 +616,7 @@ function Footer() {
     <footer className="site-footer">
       <div ref={stage} className="footer-stage">
         <div className="footer-silk" aria-hidden="true">
-          {near ? <HeroBackdrop variation={23} paused={paused} /> : null}
+          {near ? <HeroBackdrop variation={23} /> : null}
         </div>
         <svg className="footer-sky" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
           <path ref={sky} className="footer-sky-fill" />
@@ -635,17 +634,6 @@ function Footer() {
           <div ref={copy} className="footer-statement">
             <div className="footer-statement-top">
               <span className="eyebrow">Speed-scaling venture capital</span>
-              {!reduced && (
-                <button
-                  type="button"
-                  className="stage-toggle"
-                  aria-label={paused ? "Resume footer animation" : "Pause footer animation"}
-                  aria-pressed={paused}
-                  onClick={() => setPaused(!paused)}
-                >
-                  {paused ? <Play size={12} /> : <Pause size={12} />}
-                </button>
-              )}
             </div>
             {/* Keyed so GSAP's split text never holds stale copy across routes. */}
             <h2 key={location.pathname}>
@@ -662,7 +650,7 @@ function Footer() {
                   effect="slide"
                   staggerDuration={0.04}
                   rotationInterval={2800}
-                  auto={inView && !paused && !reduced}
+                  auto={inView && !reduced}
                 />
               </span>
             </h2>

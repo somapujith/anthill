@@ -1,7 +1,7 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { useReducedMotion } from "motion/react";
-import { ArrowLeft, Pause, Play } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
@@ -25,8 +25,7 @@ const routeKey = (pathname) => {
 
 export default function PageStage({ pathname, title, description, label, back, quiet, visual }) {
   const reduced = useReducedMotion();
-  const [paused, setPaused] = useState(false);
-  const motionPaused = Boolean(reduced || paused);
+  const motionPaused = Boolean(reduced);
   const root = useRef(null);
   const sky = useRef(null);
   const edge = useRef(null);
@@ -154,17 +153,6 @@ export default function PageStage({ pathname, title, description, label, back, q
               </Link>
             )}
             <span className="eyebrow">{label || "Anthill Ventures"}</span>
-            {!quiet && !reduced && (
-              <button
-                type="button"
-                className="stage-toggle"
-                aria-label={paused ? "Resume background animation" : "Pause background animation"}
-                aria-pressed={paused}
-                onClick={() => setPaused(!paused)}
-              >
-                {paused ? <Play size={12} /> : <Pause size={12} />}
-              </button>
-            )}
           </div>
           <h1>{title}</h1>
           {description && <p className="stage-description">{description}</p>}

@@ -92,21 +92,6 @@
   text-decoration: underline;
   text-underline-offset: 4px;
 }
-.stage-toggle {
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  border: 1px solid #ffffff38;
-  border-radius: 50%;
-  background: transparent;
-  color: #d7cccd;
-}
-.stage-toggle:hover {
-  border-color: #fff;
-  color: #fff;
-}
 .page-stage h1 {
   margin: 0;
   font-size: clamp(44px, min(6.6vw, 12svh), 124px);

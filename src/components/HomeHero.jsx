@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useInView, useReducedMotion } from "motion/react";
-import { ArrowUpRight, Pause, Play, X } from "lucide-react";
+import { ArrowUpRight, Play, X } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
@@ -119,9 +119,8 @@ function BrandFilm({ poster, motionPaused }) {
 
 export default function HomeHero({ lead, poster, logos }) {
   const reduced = useReducedMotion();
-  const [paused, setPaused] = useState(false);
   const [lit, setLit] = useState(reduced ? milestones.length : 0);
-  const motionPaused = Boolean(reduced || paused);
+  const motionPaused = Boolean(reduced);
   const root = useRef(null);
   const sky = useRef(null);
   const edge = useRef(null);
@@ -286,18 +285,6 @@ export default function HomeHero({ lead, poster, logos }) {
                 <ArrowUpRight size={20} />
               </motion.span>
             </MotionLink>
-            {/* The pause control stays, as an icon, because the background moves continuously. */}
-            {!reduced && (
-              <button
-                type="button"
-                className="atmosphere-toggle"
-                aria-label={paused ? "Resume background animation" : "Pause background animation"}
-                aria-pressed={paused}
-                onClick={() => setPaused(!paused)}
-              >
-                {paused ? <Play size={14} /> : <Pause size={14} />}
-              </button>
-            )}
           </div>
         </div>
 

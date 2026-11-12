@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, MotionConfig, motion } from "motion/react";
-import { ArrowRight, ArrowUpRight, Download, Pause, Play, Search } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Download, Search } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -394,7 +394,6 @@ const MARQUEE_NAMES = ["/mentors/rana-daggubati", "/mentors/kishore-biyani", "/m
 const BUILT = ["HCG", "Future Group", "Big Bazaar", "Pantaloons", "Akasa Air", "IndiGo", "OYO", "WNS", "MakeMyTrip", "Rainshine Global", "GMR Group", "Microsoft", "Veooz Labs", "AMYP Ventures", "LNB Group", "Lane Crawford Joyce Group"];
 
 function Ticker() {
-  const [paused, setPaused] = useState(false);
   const run = (
     <span className="ss-run">
       {BUILT.map((name) => (
@@ -403,20 +402,11 @@ function Ticker() {
     </span>
   );
   return (
-    <div className="ss-ticker" data-paused={paused}>
+    <div className="ss-ticker">
       <div className="ss-track" aria-hidden="true">
         {run}
         {run}
       </div>
-      <button
-        type="button"
-        className="ss-toggle"
-        aria-label={paused ? "Resume moving company names" : "Pause moving company names"}
-        aria-pressed={paused}
-        onClick={() => setPaused(!paused)}
-      >
-        {paused ? <Play size={13} /> : <Pause size={13} />}
-      </button>
     </div>
   );
 }
