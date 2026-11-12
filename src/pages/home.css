@@ -282,6 +282,16 @@
 .ladder :focus-visible {
   outline-color: #fff;
 }
+/* Stars sit above the section's own black and below every map, line and word */
+.home-reach {
+  isolation: isolate;
+}
+.reach-night {
+  z-index: -1;
+}
+.ladder-night {
+  z-index: 0;
+}
 .reach-top {
   position: relative;
   padding-block: clamp(70px, 8vw, 130px) clamp(56px, 6vw, 96px);
@@ -701,6 +711,8 @@
 
 /* Portfolio reel */
 .home-portfolio {
+  position: relative;
+  isolation: isolate;
   --card: clamp(300px, 60vw, 980px);
   padding-block: clamp(70px, 8vw, 130px) clamp(90px, 11vw, 180px);
   background: var(--ink);
@@ -708,6 +720,9 @@
 }
 .home-portfolio :focus-visible {
   outline-color: #fff;
+}
+.portfolio-night {
+  z-index: -1;
 }
 .portfolio-top {
   display: grid;
@@ -958,6 +973,10 @@
 }
 .connect-sky-fill {
   fill: var(--ink);
+}
+/* Same layer as the sky fill but later in the DOM, so stars show inside the dark that lifts off */
+.connect-night {
+  z-index: -1;
 }
 .connect-sky-edge {
   fill: none;

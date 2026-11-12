@@ -8,6 +8,7 @@ import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
 import HomeHero from "../components/HomeHero.jsx";
 import { HeroBackdrop } from "../components/PageBackdrop.jsx";
+import NightSky from "../components/NightSky.jsx";
 import { curveY, drawSurface, surfaceY } from "../components/growth-curve.js";
 import site from "../data/view-content.json";
 import { COUNTRIES, DECK, FRONTIER_TECH } from "../data/deck-facts.js";
@@ -345,6 +346,7 @@ function Borders() {
 
   return (
     <div ref={root} className="home-reach">
+      <NightSky className="reach-night" seed={5} />
       <div className="container reach-top">
         <img
           className="reach-map"
@@ -463,6 +465,7 @@ function Ladder() {
         <path ref={sky} className="ladder-sky" />
         <path ref={edge} className="ladder-edge" vectorEffect="non-scaling-stroke" />
       </svg>
+      <NightSky clipRef={sky} className="ladder-night" seed={3} />
       <span ref={head} className="ladder-head" aria-hidden="true" />
       <div className="ladder-intro">
         <span className="eyebrow">The Anthill network</span>
@@ -682,6 +685,7 @@ function Portfolio() {
       className="home-portfolio home-section"
       aria-labelledby="portfolio-heading"
     >
+      <NightSky className="portfolio-night" seed={8} density={0.8} />
       <div className="container portfolio-top">
         <div className="portfolio-title">
           <span className="eyebrow">Portfolio</span>
@@ -869,6 +873,7 @@ function Pitch() {
         <path ref={sky} className="connect-sky-fill" />
         <path ref={edge} className="connect-sky-edge" vectorEffect="non-scaling-stroke" />
       </svg>
+      <NightSky clipRef={sky} className="connect-night" seed={11} density={0.8} />
       <div className="container connect-inner">
         <div className="connect-top">
           <span className="eyebrow">For founders</span>
