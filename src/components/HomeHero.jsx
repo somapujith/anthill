@@ -10,6 +10,7 @@ import { HeroBackdrop } from "./PageBackdrop.jsx";
 import { DECK } from "../data/deck-facts.js";
 import { curveY, drawSurface, surfaceY } from "./growth-curve.js";
 import BackgroundPaths from "./kokonutui/BackgroundPaths.jsx";
+import NightSky from "./NightSky.jsx";
 import CountUp from "./reactbits/CountUp.jsx";
 import LogoLoop from "./reactbits/LogoLoop.jsx";
 import RotatingText from "./reactbits/RotatingText.jsx";
@@ -192,7 +193,7 @@ export default function HomeHero({ lead, poster, logos }) {
           .timeline({
             scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true },
           })
-          .to(q(".hero-sky"), { yPercent: -100, ease: "power1.in", duration: 1 }, 0)
+          .to(q(".hero-sky, .hero-night"), { yPercent: -100, ease: "power1.in", duration: 1 }, 0)
           .to(q(".hero-copy"),{ y: -90, autoAlpha: 0, ease: "none", duration: 0.45 }, 0)
           .to(q(".hero-proof, .hero-film, .hero-rail, .hero-head, .hero-trail"), { autoAlpha: 0, ease: "none", duration: 0.16 }, 0);
 
@@ -229,7 +230,7 @@ export default function HomeHero({ lead, poster, logos }) {
         <path ref={sky} className="hero-sky-fill" />
         <path ref={edge} className="hero-sky-edge" vectorEffect="non-scaling-stroke" />
       </svg>
-      <span className="hero-stars" aria-hidden="true" />
+      <NightSky clipRef={sky} className="hero-night" />
       <div className="hero-paths" aria-hidden="true">
         <BackgroundPaths
           color="#ffc9ce"
