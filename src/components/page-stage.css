@@ -42,6 +42,11 @@
   height: 100%;
   will-change: transform;
 }
+/* Same layer as the night, painted right after it: the stars never reach the silk. */
+.stage-night {
+  z-index: -1;
+  will-change: transform;
+}
 .stage-sky-fill {
   fill: var(--stage-night);
 }

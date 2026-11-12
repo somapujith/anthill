@@ -9,6 +9,7 @@ import { useGSAP } from "@gsap/react";
 import { HeroBackdrop } from "./PageBackdrop.jsx";
 import { drawSurface } from "./growth-curve.js";
 import StageVisual from "./StageVisuals.jsx";
+import NightSky from "./NightSky.jsx";
 import "./page-stage.css";
 
 gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
@@ -103,7 +104,7 @@ export default function PageStage({ pathname, title, description, label, back, q
         leave.to(q(onNight ? ".stage-copy, .stage-visual" : ".stage-copy"), { y: -60, autoAlpha: 0, ease: "none", duration: 0.42 }, 0);
         if (!onNight) leave.to(q(".stage-visual"), { y: -60, ease: "none", duration: 0.42 }, 0);
         // The flood moves the night as one layer, so scrolling never redraws the curve.
-        if (sky.current) leave.to(q(".stage-sky"), { yPercent: -100, ease: "power1.in", duration: 1 }, 0);
+        if (sky.current) leave.to(q(".stage-sky, .stage-night"), { yPercent: -100, ease: "power1.in", duration: 1 }, 0);
 
         return () => {
           state.t = 1.25;
@@ -142,6 +143,8 @@ export default function PageStage({ pathname, title, description, label, back, q
             <path ref={sky} className="stage-sky-fill" />
             <path ref={edge} className="stage-sky-edge" vectorEffect="non-scaling-stroke" />
           </svg>
+          {/* Stars only where the night is: clipped to the sky fill, behind the copy and visuals. */}
+          <NightSky clipRef={sky} className="stage-night" seed={variation} density={1} shooting />
         </>
       )}
       <div className="stage-inner">
