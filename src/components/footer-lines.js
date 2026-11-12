@@ -1,14 +1,14 @@
 // The footer's closing statement for each page: a fixed lead and rotating follow-ups.
 const home = {
   lead: "Fearless founders.",
-  lines: ["For a billion people.", "In health and climate.", "In urban life.", "Across ten countries."],
+  lines: ["For a billion people.", "In health and frontier tech.", "In urban life.", "Across ten countries."],
 };
 
 const pages = {
   "/": home,
   "/about": {
     lead: "A decade in.",
-    lines: ["80+ startups backed.", "$1B+ in follow-on capital.", "Ten countries reached.", "Still scaling."],
+    lines: ["60 startups backed.", "$1B+ in follow-on capital.", "Ten countries reached.", "Still scaling."],
   },
   "/philosophy": {
     lead: "Speed with scale.",
@@ -20,14 +20,14 @@ const pages = {
   },
   "/portfolio": {
     lead: "Could you be next?",
-    lines: ["80+ startups before you.", "$1B+ in follow-on capital.", "From health to media.", "Across ten countries."],
+    lines: ["60 startups before you.", "$1B+ in follow-on capital.", "From health to media.", "Across ten countries."],
   },
   "/team": {
     lead: "Work with this team.",
     lines: ["On funding.", "On mentorship.", "On market access."],
   },
   "/speedscalers": {
-    lead: "70+ speed scalers.",
+    lead: "30 speed scalers.",
     lines: ["Founders who've built.", "Operators who've scaled.", "Specialists by industry."],
   },
   "/stories": {

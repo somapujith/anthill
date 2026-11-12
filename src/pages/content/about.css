@@ -139,7 +139,7 @@
   color: var(--ink);
 }
 
-/* Scale: the 5.4x multiple, measured on a ruler drawn in true proportion. */
+/* Scale: the 3x gross MOIC, measured on a ruler drawn in true proportion. */
 
 .about-page .about-scale {
   margin-top: calc(clamp(0px, 6vw, 92px) * -1);
@@ -228,6 +228,12 @@
 .about-page .about-ruler-end {
   right: 0;
   color: #fff;
+}
+
+/* The halves between the numbered steps are bare marks, shorter than the rest. */
+.about-page .about-ruler-tick--minor::after {
+  top: 42px;
+  height: 20px;
 }
 
 /* Support: four kinds of help meeting at the founder. */
@@ -331,7 +337,7 @@
   color: var(--red);
 }
 
-/* Home: the three hubs at their real positions on the map. */
+/* Home: the hubs at their real positions on the map. */
 
 .about-page .about-home {
   padding-block: var(--band) clamp(48px, 5vw, 80px);
@@ -410,6 +416,12 @@
   right: 8px;
 }
 
+/* A code that drops below its pin, left of it, to stay clear of a neighbour's code above. */
+.about-page .about-pin--below-left b {
+  top: 8px;
+  right: 8px;
+}
+
 .about-page .about-pin.is-active i {
   transform: scale(1.5);
 }
@@ -419,26 +431,35 @@
   color: #fff;
 }
 
+/* Six names run in two rows of three: a rule above each row, and one beside each later column. */
 .about-page .about-hub-names {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   margin-top: clamp(32px, 4vw, 60px);
   border-top: 1px solid var(--night-line);
 }
 
 .about-page .about-hub {
-  flex: 1 1 auto;
   padding-block: clamp(20px, 2.4vw, 36px) 0;
   overflow: hidden;
 }
 
-.about-page .about-hub + .about-hub {
+.about-page .about-hub:nth-child(-n + 3) {
+  padding-bottom: clamp(20px, 2.4vw, 36px);
+}
+
+.about-page .about-hub:nth-child(n + 4) {
+  border-top: 1px solid var(--night-line);
+}
+
+.about-page .about-hub:nth-child(3n + 2),
+.about-page .about-hub:nth-child(3n) {
   padding-left: clamp(16px, 3vw, 48px);
   border-left: 1px solid var(--night-line);
 }
 
 .about-page .about-hub h3 {
-  font-size: clamp(38px, 7.6vw, 128px);
+  font-size: clamp(34px, 5.4vw, 80px);
   letter-spacing: -0.045em;
   line-height: 1.04;
   transition: color 0.25s ease;
@@ -856,32 +877,38 @@
     align-items: flex-start;
   }
 
+  /* The names stack, one to a row. */
   .about-page .about-hub-names {
     display: block;
   }
 
-  .about-page .about-hub {
-    padding-block: 14px;
-    border-bottom: 1px solid var(--night-line);
-  }
-
-  .about-page .about-hub + .about-hub {
-    padding-left: 0;
+  .about-page .about-hub:nth-child(n) {
+    padding: 14px 0;
+    border-top: 0;
     border-left: 0;
+    border-bottom: 1px solid var(--night-line);
   }
 
   .about-page .about-hub h3 {
     font-size: clamp(44px, 15vw, 72px);
   }
 
-  /* The 5x mark sits too close to the 5.4x end label to carry its own number here. */
-  .about-page .about-ruler-tick:nth-of-type(6) {
-    color: transparent;
-  }
-
   .about-page .about-pin b {
     top: -26px;
     padding: 2px 5px;
+  }
+
+  .about-page .about-pin--below-left b,
+  .about-page .about-pin--ind b {
+    top: 6px;
+  }
+
+  /* Israel's pin sits under the spot India's code takes up here, so India's drops below its
+     pin and Israel's lifts to the right of its own. */
+  .about-page .about-pin--isr b {
+    top: -26px;
+    right: auto;
+    left: 8px;
   }
 
   .about-page .about-pin i {

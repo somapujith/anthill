@@ -23,6 +23,10 @@ const settlePassed = () =>
       st.animation.play();
   });
 
+// The archive calls the 100 plus access points "channels"; the 2026 LP deck calls them partners.
+const deckStepText = (text) =>
+  text.replace("100 plus market access channels", "100 plus market access partners");
+
 // One line through four panels, each 320 x 340. Panels meet edge to edge at y = 155.
 // Every label is taken from that step's copy, which sits in full just below the drawing.
 const FLOW = [
@@ -55,7 +59,7 @@ const FLOW = [
       ["thin", "M0 155C120 155 140 255 320 255"],
     ],
     labels: [
-      ["100 plus market access channels", 312, 30, "end"],
+      ["100 plus market access partners", 312, 30, "end"],
       ["Domain mentors", 312, 127, "end"],
       ["Strategic networks", 312, 262, "end"],
     ],
@@ -332,7 +336,7 @@ export default function PhilosophyBody({ blocks, page }) {
     .map((b) => {
       const [heading, ...body] = words(b).split(" Overview ");
       const [, number, name] = heading.match(/^(\d+\.)\s*(.*)$/) || [null, "", heading];
-      return { number, name, body: body.join(" Overview "), href: b.href };
+      return { number, name, body: deckStepText(body.join(" Overview ")), href: b.href };
     });
 
   const { features, leading } = sectionFeatures(framework?.blocks || []);

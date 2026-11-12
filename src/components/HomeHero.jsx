@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
 import { HeroBackdrop } from "./PageBackdrop.jsx";
+import { DECK } from "../data/deck-facts.js";
 import { curveY, drawSurface, surfaceY } from "./growth-curve.js";
 import BackgroundPaths from "./kokonutui/BackgroundPaths.jsx";
 import CountUp from "./reactbits/CountUp.jsx";
@@ -18,13 +19,15 @@ gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
 
 const MotionLink = motion.create(Link);
 
-const outcomes = ["Healthier lives", "Cleaner energy", "Better city life"];
+// One outcome per sector: health, frontier tech, urban life.
+const outcomes = ["Healthier lives", "Sovereign tech", "Better city life"];
 
 // Milestones climb the growth curve in order, ending at the mission itself.
+// Venture partners and startups backed are the deck's figures (src/data/deck-facts.js).
 const milestones = [
   { x: 0.07, to: 10, label: "Countries" },
-  { x: 0.3, to: 70, suffix: "+", label: "Speed-scaling mentors" },
-  { x: 0.53, to: 80, suffix: "+", label: "Startups backed", end: true },
+  { x: 0.3, to: DECK.venturePartners, label: "Venture partners" },
+  { x: 0.53, to: DECK.portfolioCompanies, label: "Startups backed", end: true },
   { x: 0.755, to: 1, prefix: "$", suffix: "B+", label: "Follow-on capital", end: true },
   { x: 0.955, to: 1, suffix: "B", label: "People to reach", end: true, goal: true },
 ];
@@ -247,7 +250,7 @@ export default function HomeHero({ lead, poster, logos }) {
         <div className="hero-copy">
           <h1
             id="hero-title"
-            aria-label="Fearless founders. Healthier lives, cleaner energy and better city life for a billion people."
+            aria-label="Fearless founders. Healthier lives, sovereign tech and better city life for a billion people."
           >
             <span className="hero-line" data-split>
               Fearless founders.

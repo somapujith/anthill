@@ -15,6 +15,7 @@ import {
   enrichBlocks,
   sectionFeatures,
 } from "./core.jsx";
+import { DECK, FRONTIER_TECH } from "../../data/deck-facts.js";
 import "./programs.css";
 
 gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
@@ -25,8 +26,7 @@ const EASE = [0.22, 1, 0.36, 1];
 
 const SECTOR_ALT = {
   "Live Healthy": "A woman on a park path checking the fitness watch on her wrist",
-  "Mitigate Climate Change":
-    "An open hand beneath an infinity loop that joins a grey Earth to a green one",
+  [FRONTIER_TECH.title]: FRONTIER_TECH.imageAlt,
   "Enhance Urban Lifestyle":
     "A shopper facing a full-length digital fitting display in a clothing store",
 };
@@ -37,15 +37,65 @@ const LOGO_ALT = [
   [/zoom/i, "Zoom"],
 ];
 
-// The numbers that carry the argument of the metrics paragraph.
-const FIGURES =
-  /(5\.4X increase|9 Exits|33% IRR|81 Portfolio Companies|50\+ Speed Scaling Mentors|100\+ Distribution Channels|\$1B)/;
+// Track-record figures as the 2026 LP deck states them. The archive still carries
+// the older numbers, so each metric is matched on its archived label and restated
+// here. Labels the deck does not speak to ("45% Women Founders", "$1B") pass through.
+const MOIC = `${DECK.grossMoic}x`;
+const DECK_METRICS = [
+  [/^Increase in Invested Value/, MOIC, "Gross MOIC"],
+  [/^Portfolio Companies/, String(DECK.portfolioCompanies), "Portfolio Companies"],
+  [/^Distribution Channels/, DECK.marketAccessPartners, "Market Access Partners"],
+  [/^Speed Scaling Mentors/, String(DECK.venturePartners), "Venture Partners"],
+  [/^Exits, Avg IRR/, String(DECK.exits), `Exits, Avg IRR ${DECK.averageIrr}`],
+  [/^Follow-On Fundraise/, `${DECK.followOnRaisedPct}%`, "Follow-On Fundraise"],
+  [/^Urban Customers/, DECK.affluentCustomers, "Affluent Customers"],
+];
+
+const deckMetric = (value, label) => {
+  const [, figure, name] = DECK_METRICS.find(([pattern]) => pattern.test(label || "")) || [];
+  return { value: figure ?? value, label: name ?? label };
+};
+
+// The numbers that carry the argument of the metrics paragraph, as phrased in it.
+const PROOF_FIGURES = {
+  moic: `${DECK.grossMoic}X Gross MOIC`,
+  exits: `${DECK.exits} Exits`,
+  irr: `${DECK.averageIrr} IRR`,
+  companies: `${DECK.portfolioCompanies} Portfolio Companies`,
+  partners: `${DECK.venturePartners} Venture Partners`,
+  access: `${DECK.marketAccessPartners} Market Access Partners`,
+  raised: "$1B",
+};
+const literal = (text) => text.replace(/[.*+?^$()|[\]\\{}]/g, "\\$&");
+const FIGURES = new RegExp(`(${Object.values(PROOF_FIGURES).map(literal).join("|")})`);
+
+// The archived paragraph quotes the older figures; the same argument, restated from the deck.
+const PROOF_TEXT = `We operate a powerful investment model built for scale and superior returns. Financially, our results speak for themselves: a ${PROOF_FIGURES.moic} and ${PROOF_FIGURES.exits} with an average ${PROOF_FIGURES.irr}. Beyond capital, our ecosystem provides immense value—our ${PROOF_FIGURES.companies} are backed by ${PROOF_FIGURES.partners} and ${PROOF_FIGURES.access}, helping them collectively raise over ${PROOF_FIGURES.raised} in follow-on capital.`;
+
+const deckProofText = (text) =>
+  text.startsWith("We operate a powerful investment model") ? PROOF_TEXT : text;
+
+// The third sector theme is Frontier Tech (deck slides 5-6). Keyed on the archived
+// title; everything else about the sector, and the two other themes, is untouched.
+const deckSector = (sector) => {
+  if (!/^Mitigate Climate Change/.test(sector.title)) return sector;
+  return {
+    title: FRONTIER_TECH.title,
+    text: FRONTIER_TECH.blurb,
+    image: { ...sector.image, src: FRONTIER_TECH.image, local: FRONTIER_TECH.image },
+    groups: [{ label: "", items: FRONTIER_TECH.areas }],
+  };
+};
+
+// The artwork may be missing or late: keep the dark frame rather than a broken-image glyph.
+const hideBrokenImage = (event) => event.currentTarget.classList.add("is-missing");
 
 const parseMetric = (block) => {
-  const match = /^(\$?)(\d+(?:\.\d+)?)(.*)$/.exec(words(block));
+  const { value, label } = deckMetric(words(block), block.label);
+  const match = /^(\$?)(\d+(?:\.\d+)?)(.*)$/.exec(value);
   return {
-    value: words(block),
-    label: block.label,
+    value,
+    label,
     prefix: match?.[1] || "",
     number: Number(match?.[2] || 0),
     suffix: match?.[3] || "",
@@ -89,13 +139,19 @@ function readProgram(blocks, page) {
     proof: {
       title: proof.title,
       label: proof.label,
-      text: words(proof.blocks.find((b) => !b.href && typeOf(b) !== "metric") || {}),
+      text: deckProofText(
+        words(proof.blocks.find((b) => !b.href && typeOf(b) !== "metric") || {}),
+      ),
       link: proof.blocks.find((b) => b.href),
       metrics: metricsOf(proof),
     },
     vision: {
       title: find(/^Vision India/).title,
-      text: words(vision.leading.find((b) => !b.src) || {}),
+      // The intro lists the themes; "climate" is now part of "frontier tech".
+      text: words(vision.leading.find((b) => !b.src) || {}).replace(
+        "tech, climate, health and lifestyle",
+        "frontier tech, health and lifestyle",
+      ),
       sectors: vision.features.map((feature) => {
         const groups = [{ label: "", items: [] }];
         let text = "";
@@ -106,12 +162,12 @@ function readProgram(blocks, page) {
           else if (!text) text = words(block);
           else groups.push({ label: words(block), items: [] });
         }
-        return {
+        return deckSector({
           title: feature.title,
           text,
           image,
           groups: groups.filter((g) => g.label || g.items.length),
-        };
+        });
       }),
     },
     reach: { title: reach.title, metrics: metricsOf(reach) },
@@ -270,6 +326,7 @@ function Vision({ vision, page }) {
                   data-drift
                   src={imageSource(sector.image, page)}
                   alt={SECTOR_ALT[sector.title] || sector.title}
+                  onError={hideBrokenImage}
                   loading="lazy"
                   width="800"
                   height="600"
@@ -495,7 +552,7 @@ function Climb({ process, apply }) {
 }
 
 function Proof({ proof }) {
-  const lead = proof.metrics.filter((m) => /^(5\.4x|\$1B)$/.test(m.value));
+  const lead = proof.metrics.filter((m) => m.value === MOIC || m.value === "$1B");
   const rest = proof.metrics.filter((m) => !lead.includes(m));
   return (
     <section className="pg-proof" aria-labelledby="pg-proof-title">

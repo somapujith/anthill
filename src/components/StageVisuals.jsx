@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import site from "../data/view-content.json";
+import { DECK, FRONTIER_TECH } from "../data/deck-facts.js";
 
 // Source URLs escape spaces (%20) and local files hyphenate them, so both are compared in one form.
 const normal = (value = "") => value.toLowerCase().replace(/%20|\s+/g, "-");
@@ -59,7 +61,7 @@ function Team() {
         </Link>
       ))}
       <p className="stage-masthead-fact" data-rise>
-        <strong>5.4×</strong> <span>scale over the past decade</span>
+        <strong>{DECK.grossMoic}×</strong> <span>gross MOIC across our funds</span>
       </p>
     </div>
   );
@@ -164,29 +166,44 @@ function Portfolio() {
         );
       })}
       <p className="stage-logos-fact" data-rise>
-        <strong>80+</strong> <span>Startups backed</span>
+        <strong>{DECK.portfolioCompanies}</strong> <span>Startups backed</span>
       </p>
     </div>
   );
 }
 
+// A thesis area with its own artwork. If the file is missing the picture drops away and the
+// caption stays on the panel, so the stage never shows a broken image.
+function SectorFigure({ src, name, focus, step }) {
+  const [failed, setFailed] = useState(false);
+  return (
+    <figure data-rise style={{ "--step": step }}>
+      {!failed && (
+        <img
+          src={src}
+          alt=""
+          style={{ objectPosition: focus }}
+          onError={() => setFailed(true)}
+        />
+      )}
+      <figcaption>{name}</figcaption>
+    </figure>
+  );
+}
+
 function Programs() {
+  // Frontier Tech carries its own 4:3 artwork; the other two areas keep their archive photographs.
   const sectors = [
     ["live-healthy", "Live Healthy", "58% 12%"],
-    ["mitigate-climate", "Mitigate Climate Change", "74% 28%"],
+    ["frontier-tech", FRONTIER_TECH.title, "50% 50%", FRONTIER_TECH.image],
     ["enhance-urban", "Enhance Urban Lifestyle", "54% 42%"],
   ];
   return (
     <div className="stage-sectors" aria-hidden="true">
-      {sectors.map(([term, name, focus], index) => {
-        const src = pageImage("/programs", term);
+      {sectors.map(([term, name, focus, own], index) => {
+        const src = own || pageImage("/programs", term);
         if (!src) return null;
-        return (
-          <figure key={term} data-rise style={{ "--step": index }}>
-            <img src={src} alt="" style={{ objectPosition: focus }} />
-            <figcaption>{name}</figcaption>
-          </figure>
-        );
+        return <SectorFigure key={term} src={src} name={name} focus={focus} step={index} />;
       })}
     </div>
   );
@@ -277,10 +294,10 @@ function Philosophy() {
 
 function About() {
   const facts = [
-    ["80+", "Startups backed"],
+    [String(DECK.portfolioCompanies), "Startups backed"],
     ["10", "Countries"],
     ["$1B+", "Follow-on capital"],
-    ["70+", "Speed-scaling mentors"],
+    [String(DECK.venturePartners), "Venture partners"],
   ];
   const still = pageImage("/about", "about-page2");
   return (

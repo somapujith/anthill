@@ -89,7 +89,7 @@
     {
       "route": "/philosophy",
       "source": "Anthill’s philosophy is rooted in speed with scale. We empower founders with capital, mentorship and market access to accelerate growth. Focused on living healthy, mitigating climate change and enhancing urban lifestyle, we back ventures driving meaningful, sustainable impact for India 2030.",
-      "replacement": "Capital, mentorship and market access for companies working in health, climate and urban lifestyles."
+      "replacement": "Capital, mentorship and market access for companies working in health, frontier tech and urban lifestyles."
     },
     {
       "route": "/stories",
@@ -104,7 +104,7 @@
     {
       "route": "/",
       "source": "We help fearless founders with a strong purpose to impact a billion people by building powerful companies for the consumer of the new and next, now.",
-      "replacement": "We back founders building businesses in health, climate and urban life, with capital, mentorship and market access."
+      "replacement": "We back founders building businesses in health, frontier tech and urban life, with capital, mentorship and market access."
     },
     {
       "route": "/",
@@ -114,7 +114,7 @@
     {
       "route": "/",
       "source": "We invest in breakthrough solutions to mitigate climate change, decarbonizing energy and industry to build a sustainable future.",
-      "replacement": "Solutions to decarbonize energy and industry and reduce the impact of climate change."
+      "replacement": "Companies building India's sovereign tech layer, from AI and computing to defence, space, clean tech and robotics."
     },
     {
       "route": "/",
@@ -124,12 +124,12 @@
     {
       "route": "/",
       "source": "By investing globally, we connect breakthrough founders, frontier technologies and high‑growth markets. This lens powers our speed scaling model, delivering returns and lasting impact across our India 2030 portfolio.",
-      "replacement": "We connect founders with technology, markets and experienced operators across India, the US and Singapore."
+      "replacement": "We connect founders with technology, markets and experienced operators across India, the US, Singapore, Sweden, Israel and Finland."
     },
     {
       "route": "/",
       "source": "At Anthill, we accelerate innovation through speed-scaling investments. Our portfolio comprises over 80 breakthrough startups in health tech, climate solutions, urban innovation, and media across ten countries. Collectively, our portfolio companies have gone on to raise over $1 billion in follow-on capital, underscoring our drive for growth, success, and sector transformation.",
-      "replacement": "Anthill's portfolio includes more than 80 startups across ten countries. Together, these companies have raised over $1 billion in follow-on capital."
+      "replacement": "Anthill's portfolio includes 60 startups across ten countries. Together, these companies have raised over $1 billion in follow-on capital."
     },
     {
       "route": "/",
@@ -159,12 +159,12 @@
     {
       "route": "/",
       "source": "Urban Costumers",
-      "replacement": "Urban consumers"
+      "replacement": "Affluent Customers"
     },
     {
       "route": "/",
       "source": "Increase in values",
-      "replacement": "Increase in value"
+      "replacement": "Gross MOIC"
     },
     {
       "route": "/",
@@ -184,7 +184,7 @@
     {
       "route": "/",
       "source": "Meet Our 70 + Speed Scalers Worldwide",
-      "replacement": "70+ speed scalers worldwide"
+      "replacement": "30 speed scalers worldwide"
     },
     {
       "route": "/",
@@ -302,6 +302,186 @@
       "source": "Beyond transactions, we foster lasting relationships built on trust, transparency and shared success. Our collaborative approach ensures alignment, trust and exceptional results..",
       "replacement": "",
       "reason": "Removed repeated generic company boilerplate; company-specific summaries checked separately"
+    },
+    {
+      "route": "/programs",
+      "source": "5.4x",
+      "replacement": "3x"
+    },
+    {
+      "route": "/programs",
+      "source": "Increase in Invested Value",
+      "replacement": "Gross MOIC"
+    },
+    {
+      "route": "/programs",
+      "source": "81+",
+      "replacement": "60"
+    },
+    {
+      "route": "/programs",
+      "source": "Distribution Channels",
+      "replacement": "Market Access Partners"
+    },
+    {
+      "route": "/programs",
+      "source": "50+",
+      "replacement": "30"
+    },
+    {
+      "route": "/programs",
+      "source": "Speed Scaling Mentors",
+      "replacement": "Venture Partners"
+    },
+    {
+      "route": "/programs",
+      "source": "9",
+      "replacement": "15"
+    },
+    {
+      "route": "/programs",
+      "source": "Exits, Avg IRR 33%",
+      "replacement": "Exits, Avg IRR ~18%"
+    },
+    {
+      "route": "/programs",
+      "source": "51%",
+      "replacement": "44%"
+    },
+    {
+      "route": "/programs",
+      "source": "1B+",
+      "replacement": "150M+"
+    },
+    {
+      "route": "/programs",
+      "source": "Urban Customers",
+      "replacement": "Affluent Customers"
+    },
+    {
+      "route": "/programs",
+      "source": "a 5.4X increase in invested value and 9 Exits with an average 33% IRR",
+      "replacement": "a 3X Gross MOIC and 15 Exits with an average ~18% IRR"
+    },
+    {
+      "route": "/programs",
+      "source": "our 81 Portfolio Companies are backed by 50+ Speed Scaling Mentors and 100+ Distribution Channels",
+      "replacement": "our 60 Portfolio Companies are backed by 30 Venture Partners and 100+ Market Access Partners"
+    },
+    {
+      "route": "/programs",
+      "source": "in tech, climate, health and lifestyle",
+      "replacement": "in frontier tech, health and lifestyle"
+    },
+    {
+      "route": "/programs",
+      "source": "Mitigate Climate Change",
+      "replacement": "Frontier Tech"
+    },
+    {
+      "route": "/programs",
+      "source": "Mitigate the effects of climate change through science and technology.",
+      "replacement": "Companies building India's sovereign tech layer, backed by a national push into AI, space, defence, semiconductors, quantum and biotech."
+    },
+    {
+      "route": "/programs",
+      "source": "Energy Storage Infrastructure",
+      "replacement": "AI & Computing"
+    },
+    {
+      "route": "/programs",
+      "source": "Circular Economy",
+      "replacement": "Defence Tech"
+    },
+    {
+      "route": "/programs",
+      "source": "Waste Management",
+      "replacement": "Space Tech"
+    },
+    {
+      "route": "/programs",
+      "source": "Water, Sanitation, and Hygiene",
+      "replacement": "Climate & Clean Tech"
+    },
+    {
+      "route": "/about",
+      "source": "led Anthill to a 5.4× scale, guiding a portfolio of over 80 successful startup investments",
+      "replacement": "led Anthill to a 3× gross MOIC, guiding a portfolio of 60 successful startup investments"
+    },
+    {
+      "route": "/team",
+      "source": "led Anthill to a 5.4× scale, guiding a portfolio of over 80 successful startup investments",
+      "replacement": "led Anthill to a 3× gross MOIC, guiding a portfolio of 60 successful startup investments"
+    },
+    {
+      "route": "/about",
+      "source": "health, climate and urban lifestyles",
+      "replacement": "health, frontier tech and urban lifestyles"
+    },
+    {
+      "route": "/team/prasad-vanga",
+      "source": "Anthill has scaled at a 5.4x multiple in just 10 years",
+      "replacement": "Anthill has delivered a 3x gross MOIC in just 10 years"
+    },
+    {
+      "route": "/philosophy",
+      "source": "activating 100 plus market access channels",
+      "replacement": "activating 100 plus market access partners"
+    },
+    {
+      "route": "/",
+      "source": "1B+",
+      "replacement": "150M+"
+    },
+    {
+      "route": "/",
+      "source": "300+",
+      "replacement": "600M+"
+    },
+    {
+      "route": "/",
+      "source": "10M+",
+      "replacement": "260M+"
+    },
+    {
+      "route": "/",
+      "source": "5.4X",
+      "replacement": "3X"
+    },
+    {
+      "route": "/",
+      "source": "50+",
+      "replacement": "100+"
+    },
+    {
+      "route": "/",
+      "source": "70+",
+      "replacement": "30"
+    },
+    {
+      "route": "/",
+      "source": "Media Subscribers",
+      "replacement": "Media Viewers"
+    },
+    {
+      "route": "/",
+      "source": "Health-Care Patients",
+      "replacement": "Healthcare Users"
+    },
+    {
+      "route": "/",
+      "source": "Corporate Partners",
+      "replacement": "Market Access Partners"
+    },
+    {
+      "route": "/",
+      "source": "Speed Scaling Mentors",
+      "replacement": "Venture Partners"
+    },
+    {
+      "route": "/",
+      "source": "Mitigate Climate Change",
+      "replacement": "Frontier Tech"
     }
   ],
   "requiredText": {
@@ -313,6 +493,22 @@
       "Electric vehicle fleets and fleet-management software for last-mile deliveries.",
       "Men's wellness products with discreet delivery in India.",
       "Saliva-based testing technology for non-invasive early oral cancer detection."
+    ],
+    "/programs": [
+      "Robotics & Autonomous Systems"
+    ]
+  },
+  "removed": {
+    "description": "People taken off the public site by request; scripts/prepare-content.mjs drops them from the runtime data. The captured archive still holds them.",
+    "routes": [
+      "/team/lasya-nadimpally"
+    ],
+    "names": [
+      "Lasya Nadimpally",
+      "Lead, Urban Tech"
+    ],
+    "images": [
+      "lasya.jpg"
     ]
   }
 }

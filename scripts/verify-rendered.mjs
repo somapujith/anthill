@@ -8,6 +8,12 @@ const content = JSON.parse(
 const editorial = JSON.parse(
   await fs.readFile("scripts/editorial-expectations.json", "utf8"),
 );
+// People removed from the public site (see scripts/prepare-content.mjs). The archive still holds
+// them, so the audit must expect their routes, text, links and portraits to be absent.
+const removed = editorial.removed || { routes: [], names: [], images: [] };
+const isRemovedText = (text) => removed.names.some((name) => text?.includes(name));
+const isRemovedImage = (img) =>
+  removed.images.some((term) => `${img.src} ${img.local}`.includes(term));
 const origin = process.env.ANTHILL_VERIFY_ORIGIN || "http://localhost:5180";
 const output = path.resolve("tmp/rendered-audit");
 await fs.mkdir(output, { recursive: true });
@@ -57,7 +63,9 @@ const results = [];
 const routeFilter = process.argv.slice(2);
 const layoutOnly = process.env.ANTHILL_VERIFY_LAYOUT_ONLY === "1";
 for (const [route, source] of Object.entries(content.pages).filter(
-  ([route]) => !routeFilter.length || routeFilter.includes(route),
+  ([route]) =>
+    !removed.routes.includes(route) &&
+    (!routeFilter.length || routeFilter.includes(route)),
 )) {
   try {
     await page.goto(origin + route, {
@@ -186,7 +194,9 @@ for (const [route, source] of Object.entries(content.pages).filter(
     );
     const dom = normalize(rendered.domText);
     const significant = source.blocks
-      .filter((b) => b.text?.trim() && !ignored.has(b.text))
+      .filter(
+        (b) => b.text?.trim() && !ignored.has(b.text) && !isRemovedText(b.text),
+      )
       .flatMap((b) => {
         const embedded = source.links.filter(
           (l) => l.text.length > 30 && b.text.includes(l.text),
@@ -235,7 +245,7 @@ for (const [route, source] of Object.entries(content.pages).filter(
           (current, change) =>
             current === change.source
               ? change.replacement
-              : /^\d{2}$/.test(change.source)
+              : /^\d{1,2}$/.test(change.source)
                 ? current
                 : current.replaceAll(change.source, change.replacement),
           text,
@@ -256,6 +266,7 @@ for (const [route, source] of Object.entries(content.pages).filter(
       (l) =>
         l.href &&
         l.href !== "#" &&
+        !removed.routes.includes(l.href) &&
         (l.href.startsWith("http") ||
           l.href.startsWith("mailto:") ||
           /^\/(?:portfolio|team|mentors|stories|playbooks)\//.test(l.href)),
@@ -281,7 +292,9 @@ for (const [route, source] of Object.entries(content.pages).filter(
       ["/speedscalers", "/insights"].includes(route);
     const importantImages = imageContentRoute
       ? source.images.filter(
-          (img) => !/(?:arrow|icon|decor)[-_%\s.]|poster-00001/i.test(img.src),
+          (img) =>
+            !/(?:arrow|icon|decor)[-_%\s.]|poster-00001/i.test(img.src) &&
+            !isRemovedImage(img),
         )
       : [];
     const missingImages = importantImages.filter(

@@ -5,7 +5,7 @@ import { ArrowRight, ArrowUpRight, Download, Pause, Play, Search } from "lucide-
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { pages, labels, typeOf, words, cleanPath, pageBlocks, isHeading, firstImage, usefulImages, imageSource, routeTitle, PageHero, BodyContent } from "./core.jsx";
+import { pages, labels, typeOf, words, cleanPath, pageBlocks, displayText, isHeading, firstImage, usefulImages, imageSource, routeTitle, PageHero, BodyContent } from "./core.jsx";
 import "./collection.css";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -70,7 +70,7 @@ function collectionFor(pathname, page) {
           )?.text || "";
     const excerpt = cardText
       .slice(people ? 2 : 1)
-      .map(words)
+      .map((b) => displayText(words(b)))
       .filter((text) => pathname !== "/portfolio" && text !== role)
       .join(" ");
     const linkText = sourceLink?.text || "";
@@ -651,10 +651,11 @@ export default function Collection({ pathname, page, hero }) {
     ScrollTrigger.refresh();
   }, [filtering, matches.length]);
   const targetPaths = new Set(items.map((i) => i.path));
+  // The page's own blocks already carry display edits, so both spellings count.
   const cardBlockKeys = new Set(
     items
       .flatMap((item) => item.card?.blocks || [])
-      .map((b) => b.src || words(b)),
+      .flatMap((b) => (b.src ? [b.src] : [words(b), displayText(words(b))])),
   );
   const remaining = hero.blocks.filter(
     (b) =>

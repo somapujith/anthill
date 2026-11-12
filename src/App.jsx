@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import {
   AnimatePresence,
@@ -20,6 +20,7 @@ import RotatingText from "./components/reactbits/RotatingText.jsx";
 import { footerLines } from "./components/footer-lines.js";
 import { drawSurface, surfaceY } from "./components/growth-curve.js";
 import site from "./data/view-content.json";
+import { COUNTRIES, REGION_LABEL, SECTORS_PHRASE } from "./data/deck-facts.js";
 
 gsap.registerPlugin(SplitText, useGSAP);
 
@@ -51,7 +52,7 @@ const routePreviews = {
   "/": {
     image: "/media/732903b48-688607114822f4cb467009bd_SacleWithSpeed_Desktop-poster-00001.jpg",
     label: "Scale with speed",
-    text: "We back founders building businesses in health, climate and urban life, with capital, mentorship and market access.",
+    text: "We back founders building businesses in health, frontier tech and urban life, with capital, mentorship and market access.",
   },
   "/about": {
     image: "/media/8ba94c061-6877b8b9d23b5775854a8dc9_About-Page2.jpg",
@@ -61,7 +62,7 @@ const routePreviews = {
   "/philosophy": {
     image: "/media/63e5310a9-68934ed67a10c02ee111c4f1_6374e2e7d4aaaa538dc8c1d44d373629_team-hands-red.jpg",
     label: "How we invest",
-    text: "Capital, mentorship and market access for companies working in health, climate and urban lifestyles.",
+    text: `Capital, mentorship and market access for companies working in ${SECTORS_PHRASE}.`,
   },
   "/programs": {
     image: "/media/ba8dd5359-68fd9b299887c2486c8b5a4d_4273a5398a082f8049a8b4cd28e9d281_sphere.jpg",
@@ -78,13 +79,13 @@ const routePreviews = {
       "/media/13bf3b79b-6899a2ae5c03e1dc4e6e971e_boldcare.jpg",
       "/media/3d937f380-6899a2bb39288fa31fdd77d3_Ikonz.jpg",
     ],
-    label: "80+ startups backed",
+    label: "60 startups backed",
     text: "Explore the companies in our portfolio across health, consumer, urban tech and media.",
   },
   "/speedscalers": {
     image: "/media/472c76f31-6883770033892550496c09f0_Rana-Daggubati.jpg",
     position: "50% 18%",
-    label: "70+ speed-scaling mentors",
+    label: "30 venture partners",
     text: "Meet the founders, operators and industry specialists in Anthill's mentorship network.",
   },
   "/stories": {
@@ -107,7 +108,7 @@ const routePreviews = {
   "/contact": {
     image: "/brand/mark-red.svg",
     mark: true,
-    label: "IND / USA / SG",
+    label: REGION_LABEL,
     text: "Have a question? Want to work with us?",
   },
 };
@@ -165,6 +166,21 @@ function Offices({ className }) {
         </address>
       ))}
     </div>
+  );
+}
+
+// The six country codes read as one line, but in a narrow column they break before a slash,
+// never after one, so the label wraps into two clean rows instead of leaving a dangling "/".
+function RegionLabel() {
+  return (
+    <span>
+      {COUNTRIES.map(({ code }, index) => (
+        <Fragment key={code}>
+          {index > 0 && " "}
+          <span style={{ whiteSpace: "nowrap" }}>{index > 0 ? `/ ${code}` : code}</span>
+        </Fragment>
+      ))}
+    </span>
   );
 }
 
@@ -284,7 +300,9 @@ function MenuOverlay({ panel, pathname, onClose }) {
                 <a className="menu-email" href={`mailto:${EMAIL}`}>
                   {EMAIL} <ArrowUpRight size={16} aria-hidden="true" />
                 </a>
-                <span className="menu-regions">IND / USA / SG</span>
+                <span className="menu-regions">
+                  <RegionLabel />
+                </span>
                 <Socials className="menu-socials" />
               </div>
             </div>
@@ -649,8 +667,8 @@ function Footer() {
               </span>
             </h2>
             <p>
-              We back founders building businesses in health, climate and urban
-              life, with capital, mentorship and market access.
+              We back founders building businesses in health, frontier tech and
+              urban life, with capital, mentorship and market access.
             </p>
             <div className="footer-actions">
               <MotionLink className="footer-cta" to="/contact" whileHover="hover" whileTap={{ scale: 0.98 }}>
@@ -682,7 +700,9 @@ function Footer() {
             />
           </Link>
           <Offices className="footer-offices" />
-          <span className="eyebrow">IND / USA / SG</span>
+          <span className="eyebrow">
+            <RegionLabel />
+          </span>
         </div>
         <nav className="footer-links" aria-label="Footer">
           <span className="eyebrow">Explore</span>

@@ -10,6 +10,7 @@ import HomeHero from "../components/HomeHero.jsx";
 import { HeroBackdrop } from "../components/PageBackdrop.jsx";
 import { curveY, drawSurface, surfaceY } from "../components/growth-curve.js";
 import site from "../data/view-content.json";
+import { COUNTRIES, DECK, FRONTIER_TECH } from "../data/deck-facts.js";
 import "./home.css";
 
 gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
@@ -22,17 +23,16 @@ const page = site.pages["/"];
 const blocks = page.blocks;
 const homeCopy = {
   "We help fearless":
-    "We back founders building businesses in health, climate and urban life, with capital, mentorship and market access.",
+    "We back founders building businesses in health, frontier tech and urban life, with capital, mentorship and market access.",
   "We fuel Living Healthy":
     "Digital therapeutics, genomics and technology that improve health outcomes and quality of life.",
   "We invest in breakthrough":
-    "Solutions to decarbonize energy and industry and reduce the impact of climate change.",
+    "Companies building India's sovereign tech layer, from AI and computing to defence, space, clean tech and robotics.",
   "We elevate urban lifestyles":
     "Consumer brands and platforms serving young India's urban lifestyles, with convenience, culture and sustainability in mind.",
   "By investing globally":
-    "We connect founders with technology, markets and experienced operators across India, the US and Singapore.",
-  "At Anthill,":
-    "Anthill's portfolio includes more than 80 startups across ten countries. Together, these companies have raised over $1 billion in follow-on capital.",
+    "We connect founders with technology, markets and experienced operators across India, the US, Singapore, Sweden, Israel and Finland.",
+  "At Anthill,": `Anthill's portfolio includes ${DECK.portfolioCompanies} startups across ten countries. Together, these companies have raised over $1 billion in follow-on capital.`,
   "To pitch your idea":
     "Share your pitch deck, traction, market opportunity and the team behind it. Tell us how you plan to grow and where Anthill can help.",
 };
@@ -79,13 +79,13 @@ const sectors = [
     focus: "50% 15%",
   },
   {
-    title: "Mitigate Climate Change",
+    title: FRONTIER_TECH.title,
     start: "We invest in breakthrough",
-    category: "Climate & energy",
-    photo: programPhoto("mitigate-climate-change-4"),
-    shift: "18%",
-    alt: "An open hand beneath an infinity loop joining a grey Earth to a green one",
-    focus: "50% 30%",
+    category: "Sovereign tech layer",
+    photo: FRONTIER_TECH.image,
+    shift: "26%",
+    alt: FRONTIER_TECH.imageAlt,
+    focus: "50% 50%",
   },
   {
     title: "Enhance Urban Lifestyle",
@@ -98,14 +98,16 @@ const sectors = [
   },
 ];
 
-// Ordered by size, so the ladder climbs to the same billion the hero curve ends on.
+// Ordered by size, so the ladder climbs from the 3X return up to 600M media viewers.
+// x and size are tuned so each five-character figure still clears the step below it (checked from
+// 901 to 2560 wide); the last step overlaps the one before it in x only, sitting above it.
 const metrics = [
-  { value: "5.4X", label: "Increase in value", x: 0.135, size: 3.8 },
-  { value: "50+", label: "Corporate Partners", x: 0.275, size: 4.6 },
-  { value: "70+", label: "Speed Scaling Mentors", x: 0.425, size: 5.2 },
-  { value: "300+", label: "Media Subscribers", x: 0.585, size: 5.8 },
-  { value: "10M+", label: "Health-Care Patients", x: 0.75, size: 6.6 },
-  { value: "1B+", label: "Urban consumers", x: 0.955, size: 13 },
+  { value: `${DECK.grossMoic}X`, label: "Gross MOIC", x: 0.1, size: 4 },
+  { value: String(DECK.venturePartners), label: "Venture Partners", x: 0.225, size: 4.7 },
+  { value: DECK.marketAccessPartners, label: "Market Access Partners", x: 0.39, size: 5.3 },
+  { value: DECK.affluentCustomers, label: "Affluent Customers", x: 0.585, size: 5.8 },
+  { value: DECK.healthcareUsers, label: "Healthcare Users", x: 0.78, size: 6.3 },
+  { value: DECK.mediaViewers, label: "Media Viewers", x: 0.955, size: 11 },
 ];
 const LADDER_CURVE = { ground: 0.95, rise: 0.66, power: 2.5 };
 const PITCH_CURVE = { ground: 0.86, rise: 0.8, power: 3.4 };
@@ -123,9 +125,15 @@ const person = (route, index, crop) => {
 };
 const leadCopy = (route, start) =>
   site.pages[route].blocks.find((b) => b.text?.startsWith(start))?.text;
-// Goutham Uppaluri's source image is a plant, so the team grid shows the seven real portraits.
+// The archive's mentor paragraph says "Backed by 70+"; the deck counts 30 venture partners.
+const mentorsLead = leadCopy("/speedscalers", "Backed by 70+")?.replace(
+  "70+",
+  String(DECK.venturePartners),
+);
+// Goutham Uppaluri's source image is a plant, so the team grid shows the five real portraits
+// that follow the founder.
 const founder = person("/team", 0);
-const team = [1, 2, 7, 3, 6, 4].map((i) => person("/team", i));
+const team = [1, 2, 3, 6, 4].map((i) => person("/team", i));
 // crop: the head centre within the 4:5 source photo (x, y) read off a 10% grid, and the zoom
 // that makes the head fill about two thirds of the circle.
 const mentors = [
@@ -240,7 +248,7 @@ function Sectors() {
       <div className="container home-vision">
         <span className="eyebrow">Our Vision</span>
         <p className="home-vision-line">
-          Healthier lives, cleaner energy and better city life for{" "}
+          Healthier lives, frontier tech and better city life for{" "}
           <em>a billion people.</em>
         </p>
       </div>
@@ -319,7 +327,7 @@ function Borders() {
           .from(split.lines, { yPercent: 108, duration: 1.2, stagger: 0.12 }, 0)
           .from(q(".reach-map"), { autoAlpha: 0, duration: 1.4, ease: "power1.out" }, 0.1)
           .from(q(".reach-line"), { scaleX: 0, duration: 1.6, ease: "power3.inOut" }, 0.5)
-          .from(q(".reach-route li"), { autoAlpha: 0, y: 14, duration: 0.8, stagger: 0.18 }, 0.7)
+          .from(q(".reach-route li"), { autoAlpha: 0, y: 14, duration: 0.8, stagger: 0.14 }, 0.7)
           .from(q(".reach-copy"), { autoAlpha: 0, y: 14, duration: 0.8 }, 0.6);
         gsap.to(q(".reach-map"), {
           yPercent: -7,
@@ -349,10 +357,12 @@ function Borders() {
         <p className="reach-copy">{copy("By investing globally")}</p>
         <div className="reach-route">
           <span className="reach-line" aria-hidden="true" />
+          {/* Narrow screens wrap the six stops onto two rows, each with its own line. */}
+          <span className="reach-line reach-line--second" aria-hidden="true" />
           <ul>
-            <li>India</li>
-            <li>USA</li>
-            <li>Singapore</li>
+            {COUNTRIES.map(({ name }) => (
+              <li key={name}>{name}</li>
+            ))}
           </ul>
         </div>
       </div>
@@ -467,6 +477,7 @@ function Ladder() {
               "--x": `${x * 100}%`,
               "--y": `${curveY(x, LADDER_CURVE) * 100}%`,
               "--size": size,
+              "--chars": value.length,
             }}
           >
             <dt>{label}</dt>
@@ -579,8 +590,8 @@ function Mentors() {
       <div className="container home-mentors-layout">
         <div className="home-mentors-intro">
           <span className="eyebrow">Our mentors</span>
-          <h2 id="mentors-heading">70+ speed scalers worldwide</h2>
-          <p>{leadCopy("/speedscalers", "Backed by 70+")}</p>
+          <h2 id="mentors-heading">{DECK.venturePartners} speed scalers worldwide</h2>
+          <p>{mentorsLead}</p>
           <Link
             to="/speedscalers"
             className="text-link"

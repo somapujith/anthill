@@ -330,6 +330,10 @@
   background: #ffffff66;
   transform-origin: left;
 }
+/* Only drawn once the stops wrap onto a second row (see the 600px block). */
+.reach-line--second {
+  display: none;
+}
 .reach-route ul {
   display: flex;
   justify-content: space-between;
@@ -506,19 +510,29 @@
   font-size: 14px;
   white-space: nowrap;
 }
+/* Founder plus five colleagues. Each colleague spans two of six half-columns, so the second row of
+   two sits a half step in, like bricks, instead of leaving a hole beside the third. */
 .home-team-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.75fr) repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 3.5fr) repeat(6, minmax(0, 1fr));
   gap: clamp(22px, 2.2vw, 36px) clamp(10px, 1.1vw, 18px);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 .home-team-grid > li {
+  grid-column: span 2;
   min-width: 0;
 }
-.home-team-lead {
+.home-team-grid > .home-team-lead {
+  grid-column: 1;
   grid-row: span 2;
+}
+.home-team-grid > li:nth-child(5) {
+  grid-column: 3 / span 2;
+}
+.home-team-grid > li:nth-child(6) {
+  grid-column: 5 / span 2;
 }
 .home-team-grid a {
   display: flex;
@@ -1095,7 +1109,7 @@
     padding-bottom: 36px;
   }
   .ladder-step {
-    --step: calc(var(--i) * 7.5vw + var(--gutter));
+    --step: calc(var(--i) * var(--stair, 7.5vw) + var(--gutter));
     position: relative;
     top: auto;
     left: auto;
@@ -1121,18 +1135,28 @@
     font-size: 13px;
     white-space: normal;
   }
+  /* The figures run to five characters, so the climb is capped to the room left of the step. */
   .ladder-step dd {
-    font-size: calc(34px + var(--i) * var(--i) * 0.3vw + var(--i) * 0.8vw);
+    font-size: min(
+      calc(34px + var(--i) * var(--i) * 0.25vw + var(--i) * 0.55vw),
+      calc((100vw - var(--step) - var(--gutter) - 14px) / (var(--chars) * 0.6))
+    );
   }
   .home-team-head {
     grid-template-columns: minmax(0, 1fr);
   }
   .home-team-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
-  .home-team-lead {
+  .home-team-grid > .home-team-lead {
     grid-column: 1 / -1;
     grid-row: auto;
+  }
+  .home-team-grid > li:nth-child(5) {
+    grid-column: 2 / span 2;
+  }
+  .home-team-grid > li:nth-child(6) {
+    grid-column: 4 / span 2;
   }
   .home-team-lead .home-team-photo {
     flex: none;
@@ -1155,8 +1179,15 @@
   }
 }
 @media (max-width: 600px) {
+  /* Two across: the odd colleague out is centred under the pair above. */
   .home-team-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .home-team-grid > li:nth-child(5) {
+    grid-column: span 2;
+  }
+  .home-team-grid > li:nth-child(6) {
+    grid-column: 2 / span 2;
   }
   .home-team-lead .home-team-photo {
     aspect-ratio: 1;
@@ -1173,8 +1204,30 @@
   .home-roster {
     display: none;
   }
+  /* Six stops no longer fit on one line: two rows of three, each row with its own route line. */
+  .reach-route {
+    --stop: clamp(18px, 5.2vw, 22px);
+    --stop-pad: 22px;
+    --row-gap: 30px;
+  }
+  .reach-route ul {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--row-gap) 12px;
+  }
   .reach-route li {
-    padding-top: 22px;
+    padding-top: var(--stop-pad);
+    font-size: var(--stop);
+  }
+  .reach-line--second {
+    display: block;
+    top: calc(var(--stop-pad) + var(--stop) * 1.05 + var(--row-gap) + 5px);
+  }
+}
+@media (max-width: 480px) {
+  /* Five-character figures need a gentler staircase on phones. */
+  .ladder-step {
+    --stair: 5.5vw;
   }
 }
 @media (prefers-reduced-motion: reduce) {

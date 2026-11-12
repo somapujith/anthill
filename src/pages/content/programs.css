@@ -243,6 +243,10 @@
   max-width: none;
   object-fit: cover;
 }
+/* A sector picture that fails to load leaves the dark frame, not a broken-image glyph. */
+.programs-page .pg-sector-frame img.is-missing {
+  visibility: hidden;
+}
 .programs-page .pg-sector-copy {
   padding: 26px clamp(22px, 2.6vw, 44px) 0;
 }

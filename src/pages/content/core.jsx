@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight, ArrowRight, ArrowLeft, Plus } from "lucide-react";
 import siteContent from "../../data/view-content.json";
+import { DECK, SECTORS_PHRASE } from "../../data/deck-facts.js";
 import PageStage from "../../components/PageStage.jsx";
 import SpotlightCard from "../../components/reactbits/SpotlightCard.jsx";
 import "../content-pages.css";
@@ -31,7 +32,7 @@ export const heroCopy = {
   },
   "/philosophy": {
     description:
-      "Capital, mentorship and market access for companies working in health, climate and urban lifestyles.",
+      `Capital, mentorship and market access for companies working in ${SECTORS_PHRASE}.`,
   },
   "/portfolio": {
     description:
@@ -64,7 +65,16 @@ export const editorialCopy = [
   ["Our Leadship", "Our leadership"],
   [
     "For the past decade Anthill",
-    "Anthill Ventures invests in early-stage companies across health, climate and urban lifestyles. Founders work with our operators, domain experts and network on funding, product development and market access. Our Scalability Quotient helps assess a company's readiness to grow.",
+    // About.jsx splits this lead on SECTORS_PHRASE to set the phrase apart.
+    `Anthill Ventures invests in early-stage companies across ${SECTORS_PHRASE}. Founders work with our operators, domain experts and network on funding, product development and market access. Our Scalability Quotient helps assess a company's readiness to grow.`,
+  ],
+  [
+    "Anthill’s philosophy is rooted in speed with scale.",
+    "Anthill’s philosophy is rooted in speed with scale. We empower founders with capital, mentorship and market access to accelerate growth. Focused on living healthy, advancing frontier tech and enhancing urban lifestyle, we back ventures driving meaningful, sustainable impact for India 2030.",
+  ],
+  [
+    "Backed by 70+ seasoned speed scalers",
+    `Backed by ${DECK.venturePartners} seasoned speed scalers with deep operational expertise, Anthill delivers global guidance to help ventures scale with speed, precision, and purpose.`,
   ],
   [
     "Empowering Visionaries Through Strategic Support",
@@ -88,8 +98,25 @@ export const editorialCopy = [
   ],
 ];
 
+// Track-record figures restated from the 2026 LP deck. They sit inside longer archive
+// paragraphs (a team bio and its card), so they are swapped in place and the rest of
+// each sentence stays as captured.
+export const figureCopy = [
+  [
+    "a 5.4× scale, guiding a portfolio of over 80 successful startup investments",
+    `a ${DECK.grossMoic}× gross MOIC, guiding a portfolio of ${DECK.portfolioCompanies} successful startup investments`,
+  ],
+  [
+    "Anthill has scaled at a 5.4x multiple in just 10 years",
+    `Anthill has delivered a ${DECK.grossMoic}x gross MOIC in just 10 years`,
+  ],
+];
+
 export const displayText = (text) =>
-  editorialCopy.find(([source]) => text.startsWith(source))?.[1] || text;
+  figureCopy.reduce(
+    (shown, [source, replacement]) => shown.replace(source, replacement),
+    editorialCopy.find(([source]) => text.startsWith(source))?.[1] || text,
+  );
 
 export const typeOf = (b) => String(b.type || b.tag || "p").toLowerCase();
 
@@ -632,13 +659,18 @@ export function enrichBlocks(blocks, page) {
         page: pages[cleanPath(link.href)],
         title: words(textBlocks[0]),
         role: words(textBlocks[1] || {}),
-        excerpt: words(textBlocks[2] || {}),
+        excerpt: displayText(words(textBlocks[2] || {})),
         image: firstImage(card),
       };
       const previous = result[result.length - 1];
       if (previous?.type === "cards") previous.items.push(item);
       else result.push({ type: "cards", items: [item] });
-      const cardKeys = new Set(card.blocks.map((b) => b.src || words(b)));
+      // The page's own blocks already carry display edits, so both spellings count.
+      const cardKeys = new Set(
+        card.blocks.flatMap((b) =>
+          b.src ? [b.src] : [words(b), displayText(words(b))],
+        ),
+      );
       while (
         blocks[i + 1] &&
         cardKeys.has(blocks[i + 1].src || words(blocks[i + 1]))

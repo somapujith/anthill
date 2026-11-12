@@ -15,6 +15,13 @@ import {
   typeOf,
   words,
 } from "./core.jsx";
+import {
+  ADDED_COUNTRIES,
+  COUNTRIES,
+  COUNTRY_COORDS,
+  DECK,
+  SECTORS_PHRASE,
+} from "../../data/deck-facts.js";
 import "./about.css";
 
 gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
@@ -26,10 +33,26 @@ const settlePassed = () =>
       st.animation.play();
   });
 
-// From the site's own record: "a 5.4X increase in invested value" (/programs)
-// reached "over the past decade" (Prasad Vanga's bio on this page).
-const SCALE = 5.4;
-const SCALE_TICKS = [1, 2, 3, 4, 5];
+// From the fund deck: a 3x gross MOIC, reached "over the past decade"
+// (Prasad Vanga's bio on this page).
+const SCALE = DECK.grossMoic;
+// Whole steps below the end label are numbered; the halves between them are bare marks.
+const SCALE_TICKS = Array.from({ length: Math.ceil(SCALE) - 1 }, (_, i) => i + 1);
+const SCALE_HALVES = SCALE_TICKS.map((tick) => tick + 0.5).filter((tick) => tick < SCALE);
+
+// The captured text still names "climate" as a sector, and Prasad Vanga's bio still quotes the
+// old 5.4x scale and "over 80" investments. The page shows the deck's wording instead.
+const OLD_SECTORS = "health, climate and urban lifestyles";
+const retheme = (block) => {
+  const text = words(block);
+  return text.includes(OLD_SECTORS)
+    ? { ...block, text: text.replace(OLD_SECTORS, SECTORS_PHRASE) }
+    : block;
+};
+const bioText = (text) =>
+  text
+    .replace(/5\.4\s?[×xX]/, `${SCALE}×`)
+    .replace(/\bover 80\b/, `${DECK.portfolioCompanies}`);
 
 const LOGO_NAMES = [
   [/salud/i, "Salud"],
@@ -101,18 +124,38 @@ const LAND_PATH = LAND.flatMap((row, y) =>
 // True positions. India is pinned at Hyderabad, the firm's listed address;
 // the USA at the country's centre, since the site names no city there.
 const toMap = (lat, lon) => ({ x: (lon + 177) / 3 + 0.5, y: (81 - lat) / 3 + 0.5 });
+// Sweden and Finland sit about three cells apart, so their codes point away from each other.
+// Israel's code drops below-left, clear of the India code that sits up and to the left of its pin.
+const ADDED_SIDES = { Sweden: "left", Israel: "below-left", Finland: "right" };
+const COUNTRY_CODES = Object.fromEntries(COUNTRIES.map(({ name, code }) => [name, code]));
 const HUBS = {
   USA: { code: "USA", side: "right", ...toMap(39, -98) },
   India: { code: "IND", side: "left", ...toMap(17.4, 78.5) },
   Singapore: { code: "SG", side: "right", ...toMap(1.35, 103.8) },
+  ...Object.fromEntries(
+    ADDED_COUNTRIES.map((name) => [
+      name,
+      { code: COUNTRY_CODES[name], side: ADDED_SIDES[name], ...toMap(...COUNTRY_COORDS[name]) },
+    ]),
+  ),
 };
 const arc = (a, b, lift) =>
   `M${a.x} ${a.y}Q${(a.x + b.x) / 2} ${Math.min(a.y, b.y) - lift} ${b.x} ${b.y}`;
 
 function HubMap({ hubs }) {
   const [active, setActive] = useState(null);
+  // The archive lists India, the USA and Singapore; the added countries follow them.
+  const names = [...hubs, ...ADDED_COUNTRIES.filter((name) => !hubs.includes(name))];
+  const spoken = names.map((name) => (name === "USA" ? "the USA" : name));
+  // The route runs out from India through Israel to Sweden and Finland, each leg drawn in turn.
   const path = useMemo(
-    () => [arc(HUBS.USA, HUBS.India, 15), arc(HUBS.India, HUBS.Singapore, 5)],
+    () => [
+      arc(HUBS.USA, HUBS.India, 15),
+      arc(HUBS.India, HUBS.Singapore, 5),
+      arc(HUBS.India, HUBS.Israel, 4),
+      arc(HUBS.Israel, HUBS.Sweden, 4),
+      arc(HUBS.Sweden, HUBS.Finland, 2),
+    ],
     [],
   );
   return (
@@ -120,7 +163,7 @@ function HubMap({ hubs }) {
       <div
         className="about-map"
         role="img"
-        aria-label="World map marking Anthill's hubs in India, the USA and Singapore"
+        aria-label={`World map marking Anthill's hubs in ${spoken.slice(0, -1).join(", ")} and ${spoken.at(-1)}`}
       >
         <svg viewBox={`0 0 ${MAP_W} ${MAP_H}`} aria-hidden="true">
           <path className="about-map-land" d={LAND_PATH} />
@@ -128,12 +171,12 @@ function HubMap({ hubs }) {
             <path className="about-map-arc" d={d} pathLength="1" key={d} />
           ))}
         </svg>
-        {hubs.map((name) => {
+        {names.map((name) => {
           const hub = HUBS[name];
           if (!hub) return null;
           return (
             <span
-              className={`about-pin about-pin--${hub.side}${active === name ? " is-active" : ""}`}
+              className={`about-pin about-pin--${hub.side} about-pin--${hub.code.toLowerCase()}${active === name ? " is-active" : ""}`}
               style={{
                 left: `${(hub.x / MAP_W) * 100}%`,
                 top: `${(hub.y / MAP_H) * 100}%`,
@@ -147,7 +190,7 @@ function HubMap({ hubs }) {
         })}
       </div>
       <div className="about-hub-names">
-        {hubs.map((name) => (
+        {names.map((name) => (
           <div
             className="about-hub"
             onPointerEnter={() => setActive(name)}
@@ -197,8 +240,10 @@ export default function AboutBody({ blocks, page }) {
   const leadership = find(/leadership/i);
   const faq = find(/frequently asked/i);
 
-  const [lead, ...rest] = words(story?.blocks[0] || {}).split(/(?<=\.)\s+/);
-  const sectors = "health, climate and urban lifestyles";
+  // The lead is split on the sectors phrase so it can be set in red, so it comes from the same constant
+  // that core.jsx's editorial copy uses.
+  const [lead, ...rest] = words(retheme(story?.blocks[0] || {})).split(/(?<=\.)\s+/);
+  const sectors = SECTORS_PHRASE;
   const [leadStart, leadEnd] = lead.split(sectors);
 
   const { features, leading } = sectionFeatures(support?.blocks || []);
@@ -214,7 +259,7 @@ export default function AboutBody({ blocks, page }) {
   const logos = leaderBlocks[galleryIndex]?.images || [];
   const wallLink = leaderBlocks[galleryIndex + 1];
 
-  const faqBlocks = faq?.blocks || [];
+  const faqBlocks = (faq?.blocks || []).map(retheme);
   const pitchIndex = faqBlocks.findIndex((b) => b.href);
   const pitchLabel = faqBlocks[pitchIndex - 1];
   const pitchLink = faqBlocks[pitchIndex];
@@ -271,9 +316,11 @@ export default function AboutBody({ blocks, page }) {
 
         // Scale: the number and the bar climb together, in true proportion.
         const count = { value: 1 };
+        // One decimal on the way up; the landing figure is written as the whole number it is.
         const write = () => {
+          const shown = count.value.toFixed(1);
           if (numeral.current)
-            numeral.current.textContent = `${count.value.toFixed(1)}×`;
+            numeral.current.textContent = `${shown === SCALE.toFixed(1) ? SCALE : shown}×`;
         };
         const climb = gsap.timeline({
           scrollTrigger: { trigger: q(".about-scale"), start: "top 62%", once: true },
@@ -301,14 +348,14 @@ export default function AboutBody({ blocks, page }) {
           scrollTrigger: { trigger: q(".about-map"), start: "top 74%", once: true },
         });
         route
-          .from(q(".about-pin"), { autoAlpha: 0, duration: 0.5, stagger: 0.25 }, 0)
+          .from(q(".about-pin"), { autoAlpha: 0, duration: 0.5, stagger: 0.2 }, 0)
           .fromTo(
             q(".about-map-arc"),
             { strokeDasharray: 1, strokeDashoffset: 1 },
             {
               strokeDashoffset: 0,
               duration: 1.1,
-              stagger: 0.7,
+              stagger: 0.45,
               ease: "power2.inOut",
               clearProps: "strokeDasharray,strokeDashoffset",
             },
@@ -390,7 +437,7 @@ export default function AboutBody({ blocks, page }) {
           </section>
         )}
 
-        <section className="about-scale" aria-label={`${SCALE}× increase in invested value`}>
+        <section className="about-scale" aria-label={`${SCALE}× gross MOIC`}>
           <div className="container">
             <div className="about-scale-head">
               <p className="about-numeral" ref={numeral}>
@@ -398,7 +445,7 @@ export default function AboutBody({ blocks, page }) {
               </p>
               <div className="about-scale-caption">
                 <p className="about-eyebrow">Over the past decade</p>
-                <p className="about-scale-label">Increase in invested value</p>
+                <p className="about-scale-label">Gross MOIC</p>
               </div>
             </div>
             <div className="about-ruler" aria-hidden="true">
@@ -411,6 +458,13 @@ export default function AboutBody({ blocks, page }) {
                 >
                   {tick}×
                 </span>
+              ))}
+              {SCALE_HALVES.map((tick) => (
+                <span
+                  className="about-ruler-tick about-ruler-tick--minor"
+                  style={{ left: `${(tick / SCALE) * 100}%` }}
+                  key={tick}
+                />
               ))}
               <span className="about-ruler-end">{SCALE}×</span>
             </div>
@@ -497,7 +551,7 @@ export default function AboutBody({ blocks, page }) {
                           {person.title}
                           <ArrowCue />
                         </h3>
-                        <p className="about-bio">{person.excerpt}</p>
+                        <p className="about-bio">{bioText(person.excerpt)}</p>
                       </div>
                     </SmartLink>
                   </motion.article>
