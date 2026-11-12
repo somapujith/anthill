@@ -296,6 +296,7 @@
   margin-top: var(--pg-space);
   padding: clamp(150px, 14vw, 240px) 0 var(--pg-climb-end);
   overflow: hidden;
+  isolation: isolate;
   background: var(--pg-night);
   color: #fff;
 }
@@ -525,7 +526,12 @@
 }
 
 /* Reach: the three audiences, drawn to scale against one another. */
+.programs-page .pg-sky {
+  z-index: -1;
+}
 .programs-page .pg-reach {
+  position: relative;
+  isolation: isolate;
   padding: var(--pg-space) 0;
   background: var(--pg-ink);
   color: #fff;

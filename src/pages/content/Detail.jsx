@@ -21,6 +21,7 @@ import {
   Block,
   PageHero,
 } from "./core.jsx";
+import NightSky from "../../components/NightSky.jsx";
 import "./detail.css";
 
 gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
@@ -461,6 +462,7 @@ function YearMap({ companies, pathname, name }) {
   for (let y = Math.min(...years); y <= Math.max(...years); y++) axis.push(y);
   return (
     <section className="dc-map detail-night">
+      <NightSky className="detail-sky" seed={53} density={0.7} />
       <div className="container">
         <div className="dc-map-head">
           <h2 data-lines>Where {name} sits in the portfolio</h2>
@@ -865,6 +867,7 @@ function StoryBody({ page, blocks, pathname, parent, name }) {
 
       {finale && (
         <section className="ds-finale detail-night">
+          <NightSky className="detail-sky" seed={51} density={0.8} />
           <div className="container">
             {finale.map((line, i) => (
               <p key={i} data-lines>
@@ -933,6 +936,7 @@ function PlaybookDownload({ page }) {
   if (!link) return null;
   return (
     <section className="pb-download detail-night" id="download">
+      <NightSky className="detail-sky" seed={52} density={0.8} />
       <div className="container pb-download-grid">
         <div className="pb-download-copy">
           <span className="eyebrow">THE COMPLETE PLAYBOOK</span>

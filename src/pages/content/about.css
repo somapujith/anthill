@@ -142,6 +142,8 @@
 /* Scale: the 3x gross MOIC, measured on a ruler drawn in true proportion. */
 
 .about-page .about-scale {
+  position: relative;
+  isolation: isolate;
   margin-top: calc(clamp(0px, 6vw, 92px) * -1);
   padding-block: clamp(64px, 8vw, 130px) clamp(56px, 6vw, 96px);
   background: var(--night);
@@ -337,9 +339,16 @@
   color: var(--red);
 }
 
+/* Stars sit behind everything in the night sections: under the map, its land and its pins. */
+.about-page .about-sky {
+  z-index: -1;
+}
+
 /* Home: the hubs at their real positions on the map. */
 
 .about-page .about-home {
+  position: relative;
+  isolation: isolate;
   padding-block: var(--band) clamp(48px, 5vw, 80px);
   background: var(--ink);
   color: #fff;

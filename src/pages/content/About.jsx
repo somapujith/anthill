@@ -22,6 +22,7 @@ import {
   DECK,
   SECTORS_PHRASE,
 } from "../../data/deck-facts.js";
+import NightSky from "../../components/NightSky.jsx";
 import "./about.css";
 
 gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
@@ -438,6 +439,7 @@ export default function AboutBody({ blocks, page }) {
         )}
 
         <section className="about-scale" aria-label={`${SCALE}× gross MOIC`}>
+          <NightSky className="about-sky" seed={12} density={0.8} />
           <div className="container">
             <div className="about-scale-head">
               <p className="about-numeral" ref={numeral}>
@@ -506,6 +508,7 @@ export default function AboutBody({ blocks, page }) {
 
         {home && (
           <section className="about-home">
+            <NightSky className="about-sky" seed={11} density={0.8} />
             <div className="container">
               <header className="about-head">
                 <div>

@@ -97,12 +97,20 @@
 /* ------------------------------------------------------------------ Portfolio */
 
 .pf-night {
+  position: relative;
+  isolation: isolate;
   background: var(--c-night);
   color: var(--c-on-night);
   padding: clamp(40px, 5vw, 76px) 0 clamp(56px, 7vw, 110px);
 }
 .pf-night .listing-label b {
   color: var(--c-red);
+}
+/* The ledger is dense text, so the stars keep to the open night on the viewer's side. */
+.pf-sky {
+  z-index: -1;
+  -webkit-mask-image: linear-gradient(to right, transparent 54%, #000 62%);
+  mask-image: linear-gradient(to right, transparent 54%, #000 62%);
 }
 .collection--portfolio .pf-filters {
   gap: 4px clamp(18px, 2.6vw, 40px);
@@ -409,6 +417,9 @@
 }
 
 @media (max-width: 960px) {
+  .pf-sky {
+    display: none;
+  }
   .pf-body {
     display: block;
   }
@@ -726,12 +737,17 @@
 /* ------------------------------------------------------------------ Speed Scalers */
 
 .ss-night {
+  position: relative;
+  isolation: isolate;
   background: var(--c-night);
   color: var(--c-on-night);
   padding: clamp(36px, 4.4vw, 68px) 0 clamp(50px, 6vw, 92px);
 }
 .ss-night .listing-label b {
   color: var(--c-red);
+}
+.ss-sky {
+  z-index: -1;
 }
 .ss-stars {
   display: grid;
@@ -1205,12 +1221,23 @@
   --sh-height: clamp(360px, 40vw, 600px);
   --sh-top: clamp(64px, 6vw, 96px);
   position: relative;
+  isolation: isolate;
   padding-bottom: clamp(60px, 7vw, 110px);
   background: linear-gradient(
     to bottom,
     var(--c-ink) calc(var(--sh-top) + var(--sh-height)),
     var(--c-paper) calc(var(--sh-top) + var(--sh-height))
   );
+}
+/* The night is the ink wall above the ledge, not the paper below it. */
+.sh-room > .sh-sky {
+  z-index: -1;
+  bottom: auto;
+  height: calc(var(--sh-top) + var(--sh-height));
+}
+.sh-zone-sky {
+  display: none;
+  z-index: -1;
 }
 .sh-ledge {
   position: absolute;
@@ -1395,6 +1422,12 @@
   color: var(--c-red-deep);
 }
 @media (max-width: 960px) {
+  .sh-sky {
+    display: none;
+  }
+  .sh-zone-sky {
+    display: block;
+  }
   .sh-room {
     background: var(--c-paper);
     padding-bottom: clamp(40px, 7vw, 70px);
@@ -1414,6 +1447,7 @@
     margin-top: clamp(36px, 6vw, 56px);
   }
   .sh-zone {
+    position: relative;
     height: clamp(350px, 92vw, 560px);
     margin-inline: calc(-1 * var(--c-gutter));
     padding-inline: var(--c-gutter);

@@ -16,6 +16,7 @@ import {
   sectionFeatures,
 } from "./core.jsx";
 import { DECK, FRONTIER_TECH } from "../../data/deck-facts.js";
+import NightSky from "../../components/NightSky.jsx";
 import "./programs.css";
 
 gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
@@ -496,6 +497,7 @@ function Climb({ process, apply }) {
   const count = process.gates.length;
   return (
     <section className="pg-climb" ref={root} aria-labelledby="pg-climb-title">
+      <NightSky className="pg-sky" seed={41} density={0.8} />
       <svg className="pg-climb-art" aria-hidden="true" focusable="false">
         <defs>
           <linearGradient id="pg-climb-fill" x1="0" y1="0" x2="0" y2="1">
@@ -609,6 +611,7 @@ function Reach({ reach, credits, page }) {
   const logos = credits.images.filter((image) => image !== frame);
   return (
     <section className="pg-reach">
+      <NightSky className="pg-sky" seed={42} density={0.6} />
       <div className="container">
         <h2 className="pg-title" data-rise>
           {reach.title}

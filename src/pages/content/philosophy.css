@@ -37,9 +37,15 @@
 /* How we invest: one line, followed through the four steps. */
 
 .philosophy-page .phil-invest {
+  position: relative;
+  isolation: isolate;
   padding-block: var(--band);
   background: var(--night);
   color: #fff;
+}
+
+.philosophy-page .phil-sky {
+  z-index: -1;
 }
 
 .philosophy-page .phil-invest .phil-eyebrow {

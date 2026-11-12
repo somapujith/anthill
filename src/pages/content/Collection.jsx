@@ -6,6 +6,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { pages, labels, typeOf, words, cleanPath, pageBlocks, displayText, isHeading, firstImage, usefulImages, imageSource, routeTitle, PageHero, BodyContent } from "./core.jsx";
+import NightSky from "../../components/NightSky.jsx";
 import "./collection.css";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -205,6 +206,7 @@ function Portfolio({ items, query, setQuery, category, setCategory, matches, res
   return (
     <>
       <div className="pf-night">
+        <NightSky className="pf-sky" seed={21} density={0.8} />
         <div className="container">
           <Toolbar
             query={query}
@@ -417,6 +419,7 @@ function Speedscalers({ items, query, setQuery, matches, reset }) {
   return (
     <>
       <div className="ss-night">
+        <NightSky className="ss-sky" seed={22} density={0.7} />
         <div className="container">
           <Toolbar
             label="Meet the people"
@@ -552,6 +555,7 @@ const PLAYBOOK_FIGURES = {
 function Insights({ items }) {
   return (
     <div className="sh-room">
+      <NightSky className="sh-sky" seed={23} density={0.8} />
       <div className="sh-ledge" data-draw />
       <div className="container">
         <div className="sh-top">
@@ -564,6 +568,7 @@ function Insights({ items }) {
             return (
               <article className={`content-card sh-item sh-item--${i}`} key={item.path}>
                 <div className="sh-zone">
+                  <NightSky className="sh-zone-sky" seed={24 + i} density={1} />
                   <div className="sh-lift" data-lift>
                     <Link to={item.path} className="sh-book" aria-label={`Open ${item.title}`}>
                       {item.innerPages.map((p, n) => (

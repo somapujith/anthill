@@ -12,6 +12,7 @@ import {
   sectionFeatures,
   words,
 } from "./core.jsx";
+import NightSky from "../../components/NightSky.jsx";
 import "./philosophy.css";
 
 gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP);
@@ -448,6 +449,7 @@ export default function PhilosophyBody({ blocks, page }) {
       <div className="philosophy-page" ref={root}>
         {invest && (
           <section className="phil-invest">
+            <NightSky className="phil-sky" seed={31} density={0.7} />
             <div className="container">
               <header className="phil-head">
                 {invest.label && <p className="phil-eyebrow">{invest.label}</p>}

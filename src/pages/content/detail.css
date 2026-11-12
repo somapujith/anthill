@@ -34,6 +34,16 @@
 .detail-ink .eyebrow {
   color: #ffd9dc;
 }
+/* Stars sit behind a night section's content; the section is its own stacking context so they stay inside it. */
+.detail .ds-finale,
+.detail .pb-download,
+.detail .dc-map {
+  position: relative;
+  isolation: isolate;
+}
+.detail-sky {
+  z-index: -1;
+}
 .detail-night :focus-visible,
 .detail-ink :focus-visible {
   outline-color: #fff;
