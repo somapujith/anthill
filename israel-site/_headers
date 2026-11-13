@@ -1,0 +1,11 @@
+# Netlify / Cloudflare Pages response headers.
+# X-Robots-Tag keeps this page out of search results. Delete that line AND the
+# <meta name="robots" content="noindex"> tag in index.html to allow indexing.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  X-Robots-Tag: noindex
+
+/
+  Cache-Control: public, max-age=0, must-revalidate
