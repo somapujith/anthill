@@ -1,0 +1,160 @@
+@@CSS
+/* ground: two equal-height columns (support list | two hubs), then the approach statement */
+#ground{padding-bottom:clamp(56px,7vw,96px)}
+.gr-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(32px,5.5vw,84px);align-items:stretch}
+.gr-col{display:flex;flex-direction:column;min-width:0}
+.gr-col>.mini{margin-bottom:16px}
+.gr-hubs{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border-top:1px solid var(--rule-d)}
+.gr-hub{position:relative;display:flex;flex-direction:column;padding:26px clamp(18px,2.6vw,36px) 30px 0}
+.gr-hub+.gr-hub{padding-right:0;padding-left:clamp(18px,2.6vw,36px);border-left:1px solid var(--rule-d)}
+.gr-hub h4{margin:0 0 16px;font:500 clamp(42px,4.6vw,66px)/1 var(--serif);letter-spacing:-.025em;color:#fff}
+.gr-w{display:block;clip-path:inset(0 -3em);padding:.1em 0 .16em;margin:-.1em 0 -.16em}
+.gr-w>span{display:block}
+.gr-d{margin:0;max-width:26ch;text-wrap:pretty;font-size:16px;line-height:1.6;color:#d3e5db}
+.gr-note{position:relative;padding:18px 0 20px;border-top:1px solid var(--rule-d);border-bottom:1px solid var(--rule-d)}
+.gr-note p{margin:0;font-size:15.5px;line-height:1.6;color:#c9ddd2}
+.gr-take{position:relative;margin:clamp(44px,6vw,72px) 0 0;padding:30px 0 0;border-top:1px solid var(--rule-d);display:grid;grid-template-columns:minmax(120px,200px) 1fr;gap:20px 24px}
+.gr-take::before{content:"";position:absolute;top:-1px;left:0;width:48px;height:2px;background:var(--saffron);z-index:1}
+.gr-take .mini{margin:6px 0 0}
+.gr-take p{margin:0;font:500 clamp(24px,2.6vw,36px)/1.22 var(--serif);letter-spacing:-.012em;max-width:30em;color:#fff}
+@media (max-width:900px){
+  .gr-grid{grid-template-columns:minmax(0,1fr)}
+  .gr-note{border-bottom:0;padding-bottom:0}
+  .gr-take{grid-template-columns:1fr;gap:12px}
+}
+@media (max-width:560px){
+  .gr-hubs{grid-template-columns:minmax(0,1fr)}
+  .gr-hub,.gr-hub+.gr-hub{display:grid;grid-template-columns:max-content minmax(0,1fr);column-gap:18px;align-items:start;padding:20px 0 22px;border-left:0}
+  .gr-hub+.gr-hub{border-top:1px solid var(--rule-d)}
+  .gr-hub h4{grid-column:1;grid-row:1;margin:0;font-size:38px}
+  .gr-d{grid-column:2;grid-row:1;align-self:center;max-width:none;font-size:15.5px}
+}
+@media (max-width:380px){
+  .gr-hub h4{font-size:34px}
+  .gr-hub,.gr-hub+.gr-hub{column-gap:14px}
+}
+@media print{
+  #ground .gr-hub h4,#ground .gr-take p{color:#000!important}
+  #ground .gr-d,#ground .gr-note p{color:#222!important}
+}
+
+/* ground motion: one choreography per column, keyed on the shared .in class.
+   Armed states carry no transition (so arming never animates); the .in rules carry the timing.
+   Screen + motion only: reduced-motion, print and no-JS get the end state above. */
+@media screen and (prefers-reduced-motion:no-preference){
+  /* containers only carry the trigger; their children do the moving */
+  .js #ground .gr-col.reveal,.js #ground .gr-list li.reveal,.js #ground .gr-take.reveal{opacity:1;transform:none}
+  /* section label follows its rule */
+  .js #ground .sh>*{opacity:0;transform:translateX(-10px)}
+  .js #ground .sh.in>*{opacity:1;transform:none;transition:opacity .8s var(--ease) .25s,transform .8s var(--ease) .25s}
+  .js #ground .sh.in>span{transition-delay:.33s}
+  /* column labels */
+  .js #ground .gr-col>.mini,.js #ground .gr-take .mini{opacity:0;transform:translateY(10px)}
+  .js #ground .gr-col.in>.mini{opacity:1;transform:none;transition:opacity .8s var(--ease),transform .8s var(--ease)}
+  .js #ground .gr-take.in .mini{opacity:1;transform:none;transition:opacity .8s var(--ease) .3s,transform .8s var(--ease) .3s}
+  /* support list: each rule draws, then the numeral, then the line of text */
+  .js #ground .gr-list{position:relative;border-bottom-color:transparent}
+  .js #ground .gr-list li{position:relative;border-top-color:transparent}
+  .js #ground .gr-list li::before{content:"";position:absolute;left:0;right:0;top:-1px;height:1px;background:var(--rule-d);transform:scaleX(0);transform-origin:0 50%}
+  .js #ground .gr-list::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--rule-d);transform:scaleX(0);transform-origin:0 50%}
+  .js #ground .gr-list li.in::before{transform:none;transition:transform 1.1s var(--ease) calc(var(--d,0s) + .1s)}
+  .js #ground .gr-col.in .gr-list::after{transform:none;transition:transform 1.1s var(--ease) .55s}
+  .js #ground .gr-list .n,.js #ground .gr-t{opacity:0;transform:translateY(14px)}
+  .js #ground .gr-list li.in .n,.js #ground .gr-list li.in .gr-t{opacity:1;transform:none;transition:opacity .9s var(--ease) calc(var(--d,0s) + .22s),transform .9s var(--ease) calc(var(--d,0s) + .22s),translate .35s var(--ease),color .3s}
+  .js #ground .gr-list li.in .gr-t{transition-delay:calc(var(--d,0s) + .3s),calc(var(--d,0s) + .3s),0s,0s}
+  /* hubs: top rule, then the divider drops, names unmask, descriptions follow, shared note last */
+  .js #ground .gr-hubs{border-top-color:transparent;position:relative}
+  .js #ground .gr-hubs::before{content:"";position:absolute;left:0;right:0;top:-1px;height:1px;background:var(--rule-d);transform:scaleX(0);transform-origin:0 50%}
+  .js #ground .gr-hub+.gr-hub{border-left-color:transparent}
+  .js #ground .gr-hub+.gr-hub::before{content:"";position:absolute;left:-1px;top:0;bottom:0;width:1px;background:var(--rule-d);transform:scaleY(0);transform-origin:50% 0}
+  .js #ground .gr-col.in .gr-hubs::before{transform:none;transition:transform 1.2s var(--ease) .1s}
+  .js #ground .gr-col.in .gr-hub+.gr-hub::before{transform:none;transition:transform 1.2s var(--ease) .35s}
+  .js #ground .gr-w>span{transform:translateY(112%)}
+  .js #ground .gr-col.in .gr-w>span{transform:none;transition:transform 1.1s var(--ease) .4s}
+  .js #ground .gr-col.in .gr-hub+.gr-hub .gr-w>span{transition-delay:.52s}
+  .js #ground .gr-d{opacity:0;transform:translateY(14px)}
+  .js #ground .gr-col.in .gr-d{opacity:1;transform:none;transition:opacity .9s var(--ease) .7s,transform .9s var(--ease) .7s}
+  .js #ground .gr-col.in .gr-hub+.gr-hub .gr-d{transition-delay:.82s}
+  .js #ground .gr-note{border-top-color:transparent;border-bottom-color:transparent}
+  .js #ground .gr-note::before,.js #ground .gr-note::after{content:"";position:absolute;left:0;right:0;height:1px;background:var(--rule-d);transform:scaleX(0);transform-origin:0 50%}
+  .js #ground .gr-note::before{top:-1px}
+  .js #ground .gr-note::after{bottom:-1px}
+  .js #ground .gr-note p{opacity:0;transform:translateY(12px)}
+  .js #ground .gr-col.in .gr-note::before{transform:none;transition:transform 1.1s var(--ease) .95s}
+  .js #ground .gr-col.in .gr-note::after{transform:none;transition:transform 1.1s var(--ease) 1.15s}
+  .js #ground .gr-col.in .gr-note p{opacity:1;transform:none;transition:opacity .9s var(--ease) 1.05s,transform .9s var(--ease) 1.05s}
+  /* approach: the saffron tick leads the rule, the statement is the last thing to arrive */
+  .js #ground .gr-take{border-top-color:transparent}
+  .js #ground .gr-take::after{content:"";position:absolute;left:0;right:0;top:-1px;height:1px;background:var(--rule-d);transform:scaleX(0);transform-origin:0 50%}
+  .js #ground .gr-take::before{transform:scaleX(0);transform-origin:0 50%}
+  .js #ground .gr-take p{opacity:0;transform:translateY(22px);clip-path:inset(0 0 100% 0)}
+  .js #ground .gr-take.in::before{transform:none;transition:transform .7s var(--ease)}
+  .js #ground .gr-take.in::after{transform:none;transition:transform 1.4s var(--ease)}
+  .js #ground .gr-take.in p{opacity:1;transform:none;clip-path:inset(-6% -2% -14% -2%);transition:clip-path 1.3s var(--ease) .45s,transform 1.3s var(--ease) .45s,opacity .5s linear .45s}
+}
+@media screen and (prefers-reduced-motion:no-preference) and (max-width:900px){
+  .js #ground .gr-note::after{display:none}
+}
+@media screen and (prefers-reduced-motion:no-preference) and (max-width:560px){
+  .js #ground .gr-hub+.gr-hub{border-top-color:transparent}
+  .js #ground .gr-hub+.gr-hub::before{left:0;right:0;top:-1px;bottom:auto;width:auto;height:1px;transform:scaleX(0);transform-origin:0 50%}
+  .js #ground .gr-col.in .gr-hub+.gr-hub::before{transform:none;transition-delay:.45s}
+  .js #ground .gr-col.in .gr-hub+.gr-hub .gr-w>span{transition-delay:.65s}
+  .js #ground .gr-col.in .gr-hub+.gr-hub .gr-d{transition-delay:.95s}
+}
+/* hover: rows nudge and brighten (pointer devices only); the transition itself is declared in the .in rule above */
+@media screen and (prefers-reduced-motion:no-preference) and (hover:hover) and (pointer:fine){
+  #ground .gr-list .n,#ground .gr-t{transition:translate .35s var(--ease),color .3s}
+  #ground .gr-list li:hover .gr-t,#ground .gr-list li:focus-within .gr-t{translate:8px 0}
+  #ground .gr-list li:hover .n,#ground .gr-list li:focus-within .n{color:#f4b33a}
+}
+@media (forced-colors:active){
+  .gr-take::before{forced-color-adjust:none;background:Highlight}
+  .js #ground .gr-list li::before,.js #ground .gr-list::after,.js #ground .gr-hubs::before,.js #ground .gr-hub+.gr-hub::before,.js #ground .gr-note::before,.js #ground .gr-note::after,.js #ground .gr-take::after{forced-color-adjust:none;background:GrayText}
+}
+@@HTML
+<section class="sec dark" id="ground">
+  <div class="wrap">
+    <div class="sh"><b>05</b><span>Field validation · Market entry · Scaling</span></div>
+    <div class="head2">
+      <h2>Turning AgriTech investment into commercial growth</h2>
+      <p class="lead reveal" style="--d:.3s">Investment plus hands-on support to help AgriTech companies succeed in India.</p>
+    </div>
+    <div class="gr-grid">
+      <div class="gr-col reveal">
+        <h3 class="mini">How we support portfolio companies</h3>
+        <ol class="ruled gr-list" data-stagger=".09">
+          <li><span class="n">01</span><span class="gr-t">Adapt technology to local crops and farming conditions</span></li>
+          <li><span class="n">02</span><span class="gr-t">Validate performance through pilots</span></li>
+          <li><span class="n">03</span><span class="gr-t">Assess farmer economics</span></li>
+          <li><span class="n">04</span><span class="gr-t">Build commercial partnerships and distribution channels</span></li>
+        </ol>
+      </div>
+      <div class="gr-col reveal">
+        <h3 class="mini">Local hubs and teams on the ground</h3>
+        <div class="gr-hubs">
+          <div class="gr-hub"><h4><span class="gr-w"><span>Israel</span></span></h4><p class="gr-d">Technology scouting and project execution on the ground</p></div>
+          <div class="gr-hub"><h4><span class="gr-w"><span>India</span></span></h4><p class="gr-d">Pilots, farmer engagement and distribution, backed by our local team</p></div>
+        </div>
+        <div class="gr-note"><p>Our teams in both countries provide hands-on support to portfolio companies, from field validation and technology adaptation to market entry and commercial growth.</p></div>
+      </div>
+    </div>
+    <div class="gr-take reveal">
+      <h3 class="mini">Our approach</h3>
+      <p>By testing technical performance and customer demand early, we aim to focus growth capital on companies that demonstrate practical value and a credible path to adoption across the Indian market.</p>
+    </div>
+  </div>
+</section>
+@@JS
+  /* Failsafe for the motion in #ground, #record and #value: if IntersectionObserver exists but never reports,
+     nothing may stay hidden. Any report at all proves it works and leaves the choreography alone. */
+  (function(){
+    if(reduce||!('IntersectionObserver' in window))return;
+    var reported=false,probe=new IntersectionObserver(function(){reported=true;probe.disconnect();});
+    probe.observe(document.getElementById('ground'));
+    setTimeout(function(){
+      if(reported)return;
+      $('#ground .reveal,#ground .sh,#record .reveal,#record .sh,#value .reveal,#value .sh').forEach(function(el){el.classList.add('in');});
+    },4000);
+  })();
+

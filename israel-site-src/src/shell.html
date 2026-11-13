@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{{META}}
+<meta name="theme-color" content="#06241a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"></noscript>
+<style>
+{{CSS}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15a1 1 0 0 0 1.5.9l12-7.5a1 1 0 0 0 0-1.8l-12-7.5A1 1 0 0 0 7 4.5Z"/></symbol>
+</defs></svg>
+
+<header class="site-header" id="top">
+  <div class="header-in">
+    <div class="brands">
+      <img src="{{LOGO0S}}" alt="Anthill Ventures">
+      <span aria-hidden="true"></span>
+      <img src="{{LOGO1S}}" alt="Green Road Innovation">
+      <span aria-hidden="true"></span>
+      <img src="{{LOGO2S}}" alt="II2W Indo-Israel Agro World">
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mainNav"><span></span></button>
+    <nav class="nav" id="mainNav" aria-label="Main navigation">
+      <a href="#why">Opportunity</a>
+      <a href="#partnership">Partnership</a>
+      <a href="#model">Model</a>
+      <a href="#record">Track record</a>
+      <a href="#team">Team</a>
+      <a href="#contact" class="cta">Contact</a>
+    </nav>
+  </div>
+  <div class="progress" aria-hidden="true"></div>
+</header>
+
+<main id="main" tabindex="-1">
+{{SECTIONS}}
+</main>
+
+<footer class="legal">
+  <div class="legal-in">
+  <details open>
+    <summary>Investor information and disclosures</summary>
+{{LEGAL}}
+  </details>
+  <p class="copy">Anthill Ventures &amp; II2W c/o Green Road Innovation · October 2026</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  root.classList.remove('no-js');root.classList.add('js');
+  /* Smooth anchor scrolling only after load: a deep link (#team, #record) must land at once, not sweep through the whole page firing every reveal */
+  window.addEventListener('load',function(){requestAnimationFrame(function(){root.classList.add('smooth');});});
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s));};
+
+  /* Mobile navigation */
+  var btn=document.getElementById('menuBtn'),nav=document.getElementById('mainNav');
+  function setMenu(open){btn.setAttribute('aria-expanded',open?'true':'false');nav.classList.toggle('open',open);}
+  btn.addEventListener('click',function(){setMenu(btn.getAttribute('aria-expanded')!=='true');});
+  nav.addEventListener('click',function(e){if(e.target.closest('a'))setMenu(false);});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&btn.getAttribute('aria-expanded')==='true'){var inside=nav.contains(document.activeElement);setMenu(false);if(inside)btn.focus();}
+  });
+  document.addEventListener('focusin',function(e){if(!e.target.closest('.site-header'))setMenu(false);});
+  document.addEventListener('click',function(e){if(!e.target.closest('.site-header'))setMenu(false);});
+  window.addEventListener('resize',function(){if(window.innerWidth>1020)setMenu(false);});
+
+  /* Scroll progress, header state, section spy */
+  var header=document.querySelector('.site-header'),bar=document.querySelector('.progress');
+  var links=$('.nav a').map(function(a){return {a:a,t:document.querySelector(a.getAttribute('href'))};}).filter(function(o){return o.t;});
+  var mainSecs=$('main>section');
+  var ticking=false;
+  function onScroll(){
+    ticking=false;
+    var y=window.scrollY,max=document.documentElement.scrollHeight-window.innerHeight;
+    bar.style.setProperty('--sp',max>0?Math.min(1,y/max).toFixed(4):0);
+    header.classList.toggle('scrolled',y>8);
+    /* light a nav link only while its own section is the current one (sections without a nav item light nothing) */
+    var cur=null,line=window.innerHeight*.4;
+    mainSecs.forEach(function(s){if(s.getBoundingClientRect().top<=line)cur=s;});
+    links.forEach(function(o){o.a.classList.toggle('active',o.t===cur);});
+  }
+  window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(onScroll);}},{passive:true});
+  window.addEventListener('resize',onScroll);onScroll();
+
+  /* Motion layer: stagger, headline unmask, hairline draw, scroll-linked helpers.
+     Content never depends on it: no-JS, reduced-motion and no-IntersectionObserver all show everything. */
+  function esc(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  $('[data-stagger]').forEach(function(c){
+    var step=parseFloat(c.getAttribute('data-stagger'))||.08;
+    Array.prototype.forEach.call(c.children,function(ch,i){ch.classList.add('reveal');ch.style.setProperty('--d',(i*step).toFixed(2)+'s');});
+  });
+  var splits=[];
+  if(!reduce){
+    $('h2:not(.sh)').forEach(function(h){
+      if(h.children.length||h.closest('.hero'))return;
+      var t=h.textContent.replace(/\s+/g,' ').trim();if(!t)return;
+      h.innerHTML=t.split(' ').map(function(w,i){return '<span class="w"><span style="--i:'+i+'">'+esc(w)+'</span></span>';}).join(' ');
+      h.classList.add('split');splits.push(h);
+    });
+  }
+
+  /* Reveal on scroll */
+  var items=$('.reveal').concat(splits,$('.sh'));
+  if('IntersectionObserver' in window){
+    var ioFired=false;
+    var io=new IntersectionObserver(function(entries){
+      ioFired=true;
+      entries.forEach(function(en){
+        if(!en.isIntersecting)return;
+        en.target.classList.add('in');io.unobserve(en.target);
+      });
+    },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+    items.forEach(function(el){io.observe(el);});
+    /* failsafe: if the observer never reports, show everything rather than leave content hidden */
+    setTimeout(function(){if(!ioFired)items.forEach(function(el){el.classList.add('in');});},4000);
+  }else{items.forEach(function(el){el.classList.add('in');});}
+
+  /* Scroll-linked helpers (rAF-throttled, only for elements near the viewport):
+     --sec-p on the sections whose CSS reads it (the build lists them: 0 as the section enters from below, 1 as it leaves above)
+     --py on [data-parallax="rate"] and on .photo-bg: vertical offset in px, clamped to +-64
+     All layout reads are batched before any write, and unchanged values are skipped, so a scroll frame causes
+     at most a handful of style recalculations instead of one per section subtree. */
+  var secs=({{SECP_IDS}}).map(function(id){return document.getElementById(id);}).filter(Boolean).map(function(el){return {el:el,v:''};});
+  var pars=$('[data-parallax],.photo-bg');
+  function linkScroll(){
+    var vh=window.innerHeight,i,r,o,el,rs=[],ps=[];
+    for(i=0;i<secs.length;i++)rs.push(secs[i].el.getBoundingClientRect());
+    for(i=0;i<pars.length;i++)ps.push(pars[i].getBoundingClientRect());
+    for(i=0;i<secs.length;i++){
+      o=secs[i];r=rs[i];if(r.bottom<-120||r.top>vh+120)continue;
+      var v=Math.max(0,Math.min(1,(vh-r.top)/(vh+r.height))).toFixed(3);
+      if(o.v!==v){o.v=v;o.el.style.setProperty('--sec-p',v);}
+    }
+    for(i=0;i<pars.length;i++){
+      el=pars[i];r=ps[i];if(r.bottom<-240||r.top>vh+240)continue;
+      var rate=parseFloat(el.getAttribute('data-parallax'))||.05;
+      /* r already includes the translate we applied last frame (unless it's .photo-bg, which moves a pseudo-element): remove it so the offset can't feed back into itself */
+      var own=el.hasAttribute('data-parallax')?(el._py||0):0;
+      var py=Math.max(-64,Math.min(64,-((r.top-own+r.height/2)-vh/2)*rate));
+      if(el._py!==py){el._py=py;el.style.setProperty('--py',py.toFixed(1)+'px');}
+    }
+  }
+  var linking=false;
+  if(!reduce){
+    window.addEventListener('scroll',function(){if(!linking){linking=true;requestAnimationFrame(function(){linking=false;linkScroll();});}},{passive:true});
+    window.addEventListener('resize',linkScroll);linkScroll();
+  }
+
+{{PART_JS}}
+})();
+</script>
+</body>
+</html>

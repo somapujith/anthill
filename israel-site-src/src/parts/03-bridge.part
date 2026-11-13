@@ -1,0 +1,233 @@
+@@CSS
+/* bridge: plain deep section (the .dark contours show through); the photograph lives inside the video poster */
+.bridge{padding-bottom:clamp(72px,8vw,112px)}
+.bridge-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:clamp(36px,6vw,96px);align-items:start}
+
+/* the sum: terms stacked flush left, operators sit on their own hairline rows */
+.eq-t{font:500 clamp(28px,2.7vw,40px)/1.08 var(--serif);letter-spacing:-.02em;margin:0 0 8px;text-wrap:balance}
+.eq-term p{margin:0;font-size:15.5px;line-height:1.5;color:#cfe2d8;max-width:34em}
+.eq-op{display:flex;align-items:center;gap:18px;height:64px;font:400 40px/1 var(--serif);color:var(--saffron)}
+.eq-op b{display:block;font-weight:400}
+.eq-op::after{content:"";flex:1;height:1px;background:var(--rule-d);transform-origin:0 50%}
+.eq-op.res::after{height:2px;background:var(--saffron)}
+.eq-term.res .eq-t{font-size:clamp(34px,3.6vw,52px);margin-bottom:10px}
+
+/* video: glass over the photograph, on-brand poster inside */
+.video{padding:8px;border-radius:14px;background:linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,.04)),rgba(6,36,26,.45)}
+.video-frame{position:relative;aspect-ratio:16/9;border-radius:7px;overflow:hidden;background:var(--deep)}
+.video-frame iframe{position:absolute;inset:0;z-index:1;width:100%;height:100%;border:0}
+.poster{position:absolute;inset:0;z-index:2;width:100%;height:100%;padding:clamp(18px,2.4vw,28px);border:0;border-radius:inherit;cursor:pointer;background:none;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;color:#fff;text-align:left;font:inherit;transition:opacity .45s ease}
+.poster.leaving{opacity:0;pointer-events:none}
+/* poster: the hero photograph (real photography, embedded) under a legibility gradient; the photo layer
+   shifts a few px with the pointer so the glass frame reads as a window onto it */
+.poster-bg{position:absolute;inset:0;background:var(--deep);transition:transform 1.1s var(--ease)}
+.poster-bg::before{content:"";position:absolute;inset:-7%;background:var(--photo) 0% 40%/145% auto no-repeat;translate:calc(var(--cx,0)*-10px) calc(var(--cy,0)*-8px);transition:translate .7s var(--ease)}
+.poster-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,36,26,.92) 0%,rgba(6,36,26,.7) 40%,rgba(6,36,26,.12) 78%),linear-gradient(0deg,rgba(6,36,26,.82),rgba(6,36,26,0) 55%),linear-gradient(180deg,rgba(6,36,26,.8),rgba(6,36,26,0) 34%)}
+.poster:hover .poster-bg,.poster:focus-visible .poster-bg{transform:scale(1.04)}
+.poster-kicker,.poster-main{position:relative;z-index:1}
+.poster-kicker{display:flex;align-items:center;gap:12px;font:700 11.5px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--saffron)}
+.poster-kicker::after{content:"";width:64px;height:1px;background:currentColor;opacity:.6;transform:scaleX(.625);transform-origin:0 50%;transition:transform .4s var(--ease)}
+.poster:hover .poster-kicker::after,.poster:focus-visible .poster-kicker::after{transform:none}
+.poster-title{display:block;max-width:6.6em;margin:0 0 20px;font:500 clamp(28px,3.1vw,42px)/1.04 var(--serif);letter-spacing:-.02em}
+a.poster{text-decoration:none}
+.no-js button.poster{display:none}
+.play{display:inline-flex;align-items:center;gap:12px;padding:13px 20px 13px 16px;border-radius:9px;background:var(--saffron);color:var(--deep);font:700 14.5px/1 var(--sans);transition:background .3s,transform .3s var(--ease)}
+.play svg{width:18px;height:18px;fill:currentColor;stroke:none;transition:transform .3s var(--ease)}
+.poster:hover .play,.poster:focus-visible .play{background:#f4b33a}
+.poster:hover .play svg,.poster:focus-visible .play svg{transform:translateX(3px)}
+.poster:active .play{transform:scale(.97)}
+.poster:focus-visible{outline:none}
+.poster::after{content:"";position:absolute;inset:6px;z-index:2;border:3px solid var(--saffron);border-radius:4px;opacity:0;pointer-events:none;transition:opacity .2s}
+.poster:focus-visible::after{opacity:1}
+.video-meta{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px 16px;padding:14px 8px 6px;font-size:14px;color:#e2efe8}
+.video-meta .link{gap:8px;font-size:13.5px;color:#fff;transition:color .25s}
+.video-meta .link svg{width:14px;height:14px;transition:transform .3s var(--ease)}
+.video-meta .link:hover,.video-meta .link:focus-visible{color:var(--saffron)}
+.video-meta .link:hover svg,.video-meta .link:focus-visible svg{transform:translateX(3px)}
+
+/* specular highlight on the glass: pointer-linked, fine pointers only (set by JS) */
+.video-sheen{position:absolute;inset:0;z-index:3;border-radius:inherit;overflow:hidden;pointer-events:none;opacity:0;transition:opacity .4s ease}
+.video-sheen::before{content:"";position:absolute;left:0;top:0;width:440px;height:440px;margin:-220px 0 0 -220px;background:radial-gradient(circle closest-side,rgba(255,255,255,.1),rgba(255,255,255,0));translate:var(--mx,50%) var(--my,50%)}
+.video-sheen::after{content:"";position:absolute;inset:0;border:1px solid rgba(255,255,255,.9);border-radius:inherit;-webkit-mask-image:radial-gradient(circle 190px at var(--mx,50%) var(--my,50%),#000,transparent);mask-image:radial-gradient(circle 190px at var(--mx,50%) var(--my,50%),#000,transparent)}
+.video.lit .video-sheen{opacity:1}
+
+/* the pull statement: hairline with a short saffron mark, no label */
+.pull{position:relative;margin:clamp(52px,6.5vw,88px) 0 0;padding:clamp(26px,3vw,38px) 0 0}
+.pull::before{content:"";position:absolute;left:0;top:0;z-index:1;width:56px;height:2px;background:var(--saffron);transform-origin:0 50%}
+.pull::after{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:var(--rule-d);transform-origin:0 50%}
+.pull p{margin:0;max-width:27em;font:500 clamp(26px,3vw,42px)/1.2 var(--serif);letter-spacing:-.015em;color:#fff;text-wrap:pretty}
+
+/* Signature motion: the sum composes itself. Each operator lands (and draws its rule) before the
+   term it introduces; titles unmask word by word like the headlines. Hidden states exist only when
+   motion is allowed and JS has run (base adds .in on .eq / .video / .pull). */
+@media (prefers-reduced-motion:no-preference){
+  /* hidden states carry no transition (so they apply instantly when JS starts); the .in states carry the timed transitions */
+  .js .eq.reveal{opacity:1;transform:none;transition:none}
+  .js .eq-term p{opacity:0;transform:translateY(14px)}
+  .js .eq-t .ew{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.16em;margin-bottom:-.16em}
+  .js .eq-t .ew>span{display:inline-block;transform:translateY(115%)}
+  .js .eq-op b{opacity:0;transform:translateY(10px)}
+  .js .eq-op::after{transform:scaleX(0)}
+  .js .eq.in .eq-term p{opacity:1;transform:none;transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:calc(var(--i,0)*.32s + .4s)}
+  .js .eq.in .eq-t .ew>span{transform:none;transition:transform 1s var(--ease);transition-delay:calc(var(--i,0)*.32s + var(--k,0)*60ms)}
+  .js .eq.in .eq-op b{opacity:1;transform:none;transition:opacity .6s var(--ease),transform .6s var(--ease);transition-delay:calc(var(--i,0)*.32s)}
+  .js .eq.in .eq-op::after{transform:none;transition:transform 1.1s var(--ease);transition-delay:calc(var(--i,0)*.32s + .12s)}
+
+  /* video frame: poster is wiped in, then its contents follow */
+  .js .video-frame{clip-path:inset(0 0 100% 0 round 7px)}
+  .js .video.in .video-frame{clip-path:inset(0 0 0 0 round 7px);transition:clip-path 1.1s var(--ease) .5s}
+  .js .poster-kicker,.js .poster-title,.js .play,.js .video-meta{opacity:0;translate:0 14px}
+  .js .video.in .poster-kicker{opacity:1;translate:none;transition:opacity .8s var(--ease) .85s,translate .8s var(--ease) .85s}
+  .js .video.in .poster-title{opacity:1;translate:none;transition:opacity .8s var(--ease) .95s,translate .8s var(--ease) .95s}
+  .js .video.in .play{opacity:1;translate:none;transition:opacity .8s var(--ease) 1.05s,translate .8s var(--ease) 1.05s,background .3s,transform .3s var(--ease)}
+  .js .video.in .video-meta{opacity:1;translate:none;transition:opacity .8s var(--ease) 1.15s,translate .8s var(--ease) 1.15s}
+
+  /* pull: rule draws, saffron mark follows, text rises after it */
+  .js .pull::after,.js .pull::before{transform:scaleX(0)}
+  .js .pull.in::after{transform:none;transition:transform 1.4s var(--ease)}
+  .js .pull.in::before{transform:none;transition:transform .7s var(--ease) .5s}
+  .js .pull p{opacity:0;transform:translateY(18px)}
+  .js .pull.in p{opacity:1;transform:none;transition:opacity .9s var(--ease) .3s,transform .9s var(--ease) .3s}
+}
+@media (hover:hover) and (pointer:fine){
+  .poster-bg::before{will-change:translate}
+}
+@media (hover:none),(pointer:coarse){
+  .video-sheen{display:none}
+}
+
+@media (max-width:900px){
+  .bridge-grid{grid-template-columns:1fr;gap:44px}
+  .eq-op{height:56px}
+  #bridge #watch{translate:none}
+}
+@media (max-width:640px){
+  .eq-op{font-size:30px;gap:14px}
+  .poster{padding:16px}
+  .poster-title{font-size:27px;margin-bottom:14px}
+  .play{padding:11px 16px 11px 13px;font-size:14px}
+  .video-meta{padding:12px 6px 4px}
+}
+@media (prefers-reduced-motion:reduce){
+  .poster,.poster-bg,.poster-bg::before,.poster-kicker::after,.play,.play svg,.video-meta .link,.video-meta .link svg{transition:none}
+  .poster:hover .poster-bg,.poster:focus-visible .poster-bg,.poster:hover .play svg,.poster:focus-visible .play svg,.video-meta .link:hover svg,.video-meta .link:focus-visible svg{transform:none}
+  .poster-bg::before{translate:none}
+  .video-sheen{display:none}
+}
+@media print{
+  .js .eq-term p,.js .eq-op b,.js .poster-kicker,.js .poster-title,.js .play,.js .video-meta,.js .pull p{opacity:1!important;transform:none!important;translate:none!important}
+  .js .eq-t .ew>span{transform:none!important}
+  .js .eq-op::after,.js .pull::after,.js .pull::before{transform:none!important}
+  .js .video-frame{clip-path:none!important}
+  .video-sheen,.play{display:none!important}
+}
+@@HTML
+<section class="sec dark bridge" id="bridge">
+  <div class="wrap">
+    <div class="sh reveal"><b>02</b><span>Israel × India</span></div>
+    <div class="head2 reveal">
+      <h2>Israeli innovation with Indian scale</h2>
+      <p class="lead">A pathway from technology validation to commercial growth, with potential to serve markets beyond India.</p>
+    </div>
+    <div class="bridge-grid">
+      <div class="eq reveal" role="group" aria-label="Israeli agricultural innovation combined with India’s farming scale creates a pathway from technology validation to commercial growth">
+        <div class="eq-term" style="--i:0"><div class="eq-t">Israeli agricultural innovation</div><p>Agricultural technology and project execution</p></div>
+        <div class="eq-op" aria-hidden="true" style="--i:1"><b>×</b></div>
+        <div class="eq-term" style="--i:2"><div class="eq-t">India’s farming scale</div><p>Manufacturing capabilities and local partnerships</p></div>
+        <div class="eq-op res" aria-hidden="true" style="--i:3"><b>=</b></div>
+        <div class="eq-term res" style="--i:4"><div class="eq-t">A pathway</div><p>From technology validation to commercial growth</p></div>
+      </div>
+      <div class="video glass reveal" id="watch" data-parallax=".04" style="--d:.1s">
+        <div class="video-frame" id="vframe">
+          <button class="poster" id="vposter" type="button" data-id="JhWDfMMaue0" aria-label="Play video: Anthill introduction">
+            <span class="poster-bg" aria-hidden="true"></span>
+            <span class="poster-kicker">Video</span>
+            <span class="poster-main">
+              <span class="poster-title">Anthill introduction</span>
+              <span class="play"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-play"/></svg>Play video</span>
+            </span>
+          </button>
+          <noscript><a class="poster" href="https://www.youtube.com/watch?v=JhWDfMMaue0&amp;hl=en" target="_blank" rel="noopener" aria-label="Watch video: Anthill introduction on YouTube (opens in a new tab)">
+            <span class="poster-bg" aria-hidden="true"></span>
+            <span class="poster-kicker">Video</span>
+            <span class="poster-main">
+              <span class="poster-title">Anthill introduction</span>
+              <span class="play"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-play"/></svg>Watch on YouTube</span>
+            </span>
+          </a></noscript>
+        </div>
+        <div class="video-meta">
+          <span>Introduction video on YouTube</span>
+          <a class="link" href="https://www.youtube.com/watch?v=JhWDfMMaue0&amp;hl=en" target="_blank" rel="noopener">Watch on YouTube<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow"/></svg><span class="sr-only"> (opens in a new tab)</span></a>
+        </div>
+        <span class="video-sheen" aria-hidden="true"></span>
+      </div>
+    </div>
+    <div class="pull reveal">
+      <p>For investors, the opportunity lies in identifying AgriTech companies that can translate these needs into proven solutions, customer adoption and scalable revenue.</p>
+    </div>
+  </div>
+</section>
+@@JS
+  /* Bridge: sum title words, pointer-linked glass, video facade */
+  (function(){
+    var eq=document.querySelector('#bridge .eq'),vid=document.getElementById('watch'),pull=document.querySelector('#bridge .pull');
+
+    /* sum titles: words unmask like the headlines */
+    if(eq&&!reduce){
+      $('.eq-t',eq).forEach(function(t){
+        var ws=t.textContent.replace(/\s+/g,' ').trim().split(' ');
+        t.innerHTML=ws.map(function(w,i){return '<span class="ew"><span style="--k:'+i+'">'+w.replace(/&/g,'&amp;')+'</span></span>';}).join(' ');
+      });
+    }
+
+    /* specular highlight and poster depth follow the pointer (fine pointers only, rAF-throttled) */
+    if(vid&&!reduce&&window.matchMedia&&window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+      var raf=0,px=0,py=0;
+      var paint=function(){
+        raf=0;var r=vid.getBoundingClientRect();if(!r.width)return;
+        var x=px-r.left,y=py-r.top;
+        vid.style.setProperty('--mx',x.toFixed(0)+'px');vid.style.setProperty('--my',y.toFixed(0)+'px');
+        vid.style.setProperty('--cx',Math.max(-1,Math.min(1,x/r.width*2-1)).toFixed(3));
+        vid.style.setProperty('--cy',Math.max(-1,Math.min(1,y/r.height*2-1)).toFixed(3));
+      };
+      vid.addEventListener('pointermove',function(e){
+        if(e.pointerType&&e.pointerType!=='mouse'&&e.pointerType!=='pen')return;
+        px=e.clientX;py=e.clientY;vid.classList.add('lit');
+        if(!raf)raf=requestAnimationFrame(paint);
+      });
+      vid.addEventListener('pointerleave',function(){
+        vid.classList.remove('lit');vid.style.setProperty('--cx',0);vid.style.setProperty('--cy',0);
+      });
+    }
+
+    /* safety: if the observer never fires for something already in view, show it after 5s */
+    setTimeout(function(){[eq,vid,pull].forEach(function(el){
+      if(!el||el.classList.contains('in'))return;
+      var r=el.getBoundingClientRect();if(r.top<window.innerHeight&&r.bottom>0)el.classList.add('in');
+    });},5000);
+
+    /* Video: load the player on demand (opens YouTube in a new tab when viewed from file://) */
+    var vp=document.getElementById('vposter');
+    if(vp){
+      var isFile=location.protocol==='file:';
+      if(isFile)vp.setAttribute('aria-label','Play video: Anthill introduction (opens YouTube in a new tab)');
+      vp.addEventListener('click',function(){
+        var id=vp.getAttribute('data-id');
+        if(isFile){window.open('https://www.youtube.com/watch?v='+id,'_blank','noopener');return;}
+        var f=document.createElement('iframe');
+        f.src='https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0';
+        f.title='Anthill introduction';
+        f.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        f.referrerPolicy='strict-origin-when-cross-origin';f.allowFullscreen=true;
+        var frame=vp.parentNode;
+        frame.insertBefore(f,vp);
+        f.focus();
+        if(reduce){frame.removeChild(vp);return;}
+        /* the poster fades off the player, then leaves the DOM */
+        vp.setAttribute('aria-hidden','true');vp.tabIndex=-1;vp.classList.add('leaving');
+        setTimeout(function(){if(vp.parentNode)vp.parentNode.removeChild(vp);},520);
+      });
+    }
+  })();
+

@@ -1,0 +1,181 @@
+@@CSS
+/* opportunity: pressures -> technologies -> result.
+   One connector vocabulary (1px ink line + open chevron): a rail leaving the first header,
+   a drop landing on the result rule, a short vertical link between the lists on phones. */
+.flow{--gap:clamp(48px,6vw,88px);--drop:56px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);grid-template-rows:auto auto;column-gap:var(--gap);align-items:start;padding-bottom:var(--drop)}
+.flow-col{position:relative;display:grid;grid-template-rows:subgrid;grid-row:1/span 2;align-content:start;min-width:0}
+.flow-col.a{grid-column:1}
+.flow-col.b{grid-column:2;--b:.5s}
+.flow-h{display:flex;align-items:center;gap:14px;margin:0 0 14px;color:var(--muted)}
+.flow-col.a .flow-h{margin-right:calc(14px - var(--gap))}
+.flow-rail{position:relative;flex:1 1 auto;height:11px;min-width:24px}
+.flow-rail::before{content:"";position:absolute;left:0;right:1px;top:5px;height:1px;background:var(--ink);transform-origin:0 50%}
+.flow-rail::after{content:"";position:absolute;right:1.7px;top:1.5px;width:8px;height:8px;border-top:1px solid var(--ink);border-right:1px solid var(--ink);transform:rotate(45deg)}
+
+/* lists: each row owns its hairline so the rules can draw in row by row */
+.flow-list{align-self:start}
+.flow-list::after{content:"";display:block;height:1px;background:var(--rule)}
+.flow-list li{position:relative;padding:19px 0 19px 34px;font:500 clamp(21px,2vw,26px)/1.22 var(--serif);letter-spacing:-.008em}
+.flow-list li::after{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:var(--rule)}
+.flow-list li::before{content:"";position:absolute;left:0;top:calc(19px + .62em);width:14px;height:2px;background:var(--muted);opacity:.55;transform-origin:0 50%}
+.flow-list.techs li::before{background:var(--saffron);opacity:1}
+.flow-list.pressures li{color:#33433b}
+.flow-list .t,.outcome .t{display:block}
+
+.flow-v{position:relative;width:11px;height:var(--drop);margin-left:-5px}
+.flow-v::before{content:"";position:absolute;left:5px;top:0;bottom:1px;width:1px;background:var(--ink);transform-origin:50% 0}
+.flow-v::after{content:"";position:absolute;left:1.5px;bottom:1.7px;width:8px;height:8px;border-right:1px solid var(--ink);border-bottom:1px solid var(--ink);transform:rotate(45deg)}
+.flow-drop{position:absolute;left:0;top:100%}
+.flow-mid{display:none}
+
+.outcome{position:relative;padding-top:26px;--b:var(--o,0s)}
+.outcome::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--ink);transform-origin:0 50%}
+.outcome .mini{margin:0 0 18px}
+.outcome .res{margin:0;font:500 clamp(32px,4.1vw,58px)/1.16 var(--serif);letter-spacing:-.022em;max-width:19em;text-wrap:balance}
+.outcome em{font-style:normal;color:var(--saffron-t);padding-bottom:.04em;background:linear-gradient(var(--saffron),var(--saffron)) 0 100%/100% .035em no-repeat;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+
+/* Signature motion: one sequence, read in order -- pressures, rail, technologies, drop, result.
+   Timing comes from --b (column start), --k (row index) and --o (result start, set by JS so it
+   always follows the drop). Hidden states exist only when motion is allowed and JS has run. */
+@media (prefers-reduced-motion:no-preference){
+  /* hidden states carry no transition (so they apply instantly when JS starts); the .go states carry the timed transitions */
+  .js .flow-seq .t{opacity:0;transform:translateY(18px)}
+  .js .flow-seq.go .t{opacity:1;transform:none;transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:calc(var(--b,0s) + var(--k,0)*.07s + .1s)}
+  .js .flow-list li::after,.js .flow-list::after,.js .flow-list li::before{transform:scaleX(0)}
+  .js .flow-seq.go .flow-list li::after{transform:none;transition:transform .9s var(--ease);transition-delay:calc(var(--b,0s) + var(--k,0)*.07s)}
+  .js .flow-seq.go .flow-list::after{transform:none;transition:transform .9s var(--ease);transition-delay:calc(var(--b,0s) + var(--kz,4)*.07s)}
+  .js .flow-seq.go .flow-list li::before{transform:none;transition:transform .45s var(--ease);transition-delay:calc(var(--b,0s) + var(--k,0)*.07s + .25s)}
+  .js .flow-rail::before{transform:scaleX(0)}
+  .js .flow-rail::after{opacity:0}
+  .js .flow-seq.go .flow-rail::before{transform:none;transition:transform .7s var(--ease) .2s}
+  .js .flow-seq.go .flow-rail::after{opacity:1;transition:opacity .25s ease .8s}
+  .js .flow-v::before{transform:scaleY(0)}
+  .js .flow-v::after{opacity:0}
+  .js .flow-seq.go .flow-v::before{transform:none;transition:transform .45s var(--ease);transition-delay:calc(var(--b,0s) + .45s)}
+  .js .flow-seq.go .flow-v::after{opacity:1;transition:opacity .2s ease;transition-delay:calc(var(--b,0s) + .85s)}
+  .js .flow-seq.go .flow-mid::before{transition-delay:calc(var(--b,0s) + .35s)}
+  .js .flow-seq.go .flow-mid::after{transition-delay:calc(var(--b,0s) + .75s)}
+  .js .outcome::before{transform:scaleX(0)}
+  .js .outcome.go::before{transform:none;transition:transform .9s var(--ease);transition-delay:var(--o,0s)}
+  /* result sentence: words rise out of a mask; the two phrases are saffron from the start and
+     get a short underline sweep alongside the headline */
+  .js .res .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.16em;margin-bottom:-.16em}
+  .js .res .w>span{display:inline-block;transform:translateY(115%)}
+  .js .outcome.go .res .w>span{transform:none;transition:transform .8s var(--ease);transition-delay:calc(var(--o,0s) + .1s + var(--i,0)*40ms)}
+  .js .res .pd{opacity:0}
+  .js .outcome.go .res .pd{opacity:1;transition:opacity .4s ease;transition-delay:calc(var(--o,0s) + .75s)}
+  .js .outcome em{background-size:0 .035em}
+  .js .outcome.go em{background-size:100% .035em;transition:background-size .6s var(--ease);transition-delay:calc(var(--o,0s) + .45s)}
+}
+
+@media (max-width:900px){
+  .flow{--drop:44px;display:block}
+  .flow-col{display:block}
+  .flow-col.b{--b:0s}
+  .flow-col.a .flow-h{margin-right:0}
+  .flow-rail{display:none}
+  .flow-mid{display:block;margin-top:18px;margin-bottom:18px}
+  .flow-list li{padding-top:17px;padding-bottom:17px}
+  .flow-list li::before{top:calc(17px + .62em)}
+  .outcome{padding-top:24px}
+}
+@media (prefers-reduced-motion:reduce){
+  .flow-seq .t,.flow-list li::before,.flow-list li::after,.flow-list::after,.flow-rail::before,.flow-rail::after,.flow-v::before,.flow-v::after,.outcome::before,.res .w>span,.res .pd,.outcome em{transition:none}
+}
+@media print{
+  .flow-seq .t,.res .pd{opacity:1!important;transform:none!important}
+  .flow-list li::before,.flow-list li::after,.flow-list::after,.flow-rail::before,.flow-v::before,.outcome::before{transform:none!important}
+  .flow-rail::after,.flow-v::after{opacity:1!important}
+  .res .w>span{transform:none!important}
+  .outcome em{background-size:100% .035em!important}
+}
+@@HTML
+<section class="sec paper" id="why">
+  <div class="wrap">
+    <div class="sh reveal"><b>01</b><span>Opportunity</span></div>
+    <div class="head2 reveal">
+      <h2>India’s agricultural future is being shaped today</h2>
+      <p class="lead">These pressures create a significant opportunity for technologies that deliver measurable value.</p>
+    </div>
+    <div class="flow">
+      <div class="flow-col a flow-seq">
+        <h3 class="mini flow-h"><span class="t">The pressures</span><i class="flow-rail" aria-hidden="true"></i></h3>
+        <ul class="flow-list pressures" style="--kz:4">
+          <li style="--k:1"><span class="t">Growing food demand</span></li>
+          <li style="--k:2"><span class="t">Pressure on water and land</span></li>
+          <li style="--k:3"><span class="t">The need to improve farm productivity</span></li>
+        </ul>
+        <div class="flow-v flow-mid" aria-hidden="true"></div>
+      </div>
+      <div class="flow-col b flow-seq">
+        <h3 class="mini flow-h"><span class="t">Technologies that deliver measurable value</span></h3>
+        <ul class="flow-list techs" style="--kz:5">
+          <li style="--k:1"><span class="t">Precision agriculture</span></li>
+          <li style="--k:2"><span class="t">Smart irrigation</span></li>
+          <li style="--k:3"><span class="t">Automation</span></li>
+          <li style="--k:4"><span class="t">Solutions that reduce crop losses</span></li>
+        </ul>
+        <div class="flow-v flow-drop" aria-hidden="true"></div>
+      </div>
+    </div>
+    <div class="outcome flow-seq">
+      <h3 class="mini"><span class="t">The potential</span></h3>
+      <p class="res">These technologies can help farmers <em>produce more efficiently</em> and build <em>more resilient businesses</em>.</p>
+    </div>
+  </div>
+</section>
+@@JS
+  /* Opportunity: one choreographed sequence (pressures, rail, technologies, drop, potential), about 2.7s in total.
+     Content is never hidden without JS, with reduced motion, or without IntersectionObserver. */
+  (function(){
+    var seq=$('#why .flow-seq');if(!seq.length)return;
+    var go=function(el){el.classList.add('go');};
+    if(reduce||!('IntersectionObserver' in window)){seq.forEach(go);return;}
+
+    /* split the result sentence into masked words (em phrases keep their wrapper) */
+    var res=document.querySelector('#why .res'),st={n:0};
+    function words(node){
+      Array.prototype.slice.call(node.childNodes).forEach(function(c){
+        if(c.nodeType===3){
+          var f=document.createDocumentFragment();
+          c.nodeValue.split(/(\s+)/).forEach(function(p){
+            if(!p)return;
+            if(/^\s+$/.test(p)){f.appendChild(document.createTextNode(p));return;}
+            var w=document.createElement('span');
+            if(/^[.,;:!?]+$/.test(p)){w.className='pd';w.textContent=p;f.appendChild(w);return;}
+            var i=document.createElement('span');
+            w.className='w';i.style.setProperty('--i',st.n++);i.textContent=p;w.appendChild(i);f.appendChild(w);
+          });
+          node.replaceChild(f,c);
+        }else if(c.nodeType===1&&c.tagName==='EM'){words(c);}
+      });
+    }
+    if(res)words(res);
+
+    var tB=0,fired=false;
+    var io2=new IntersectionObserver(function(es){
+      fired=true;
+      es.forEach(function(en){
+        if(!en.isIntersecting)return;
+        var el=en.target;io2.unobserve(el);
+        if(el.classList.contains('b'))tB=Date.now();
+        if(el.classList.contains('outcome')){
+          /* the result starts only after the drop has landed */
+          var stacked=window.matchMedia('(max-width:900px)').matches,end=stacked?900:1300;
+          var wait=tB?Math.max(0,tB+end-Date.now()):0;
+          el.style.setProperty('--o',(wait/1000).toFixed(2)+'s');
+        }
+        go(el);
+      });
+    },{threshold:.15,rootMargin:'0px 0px -48px 0px'});
+    seq.forEach(function(el){io2.observe(el);});
+    /* failsafes: an observer that never calls back (a real browser always does, at least once on observe)
+       shows the end state after 4s; anything in view that it missed is shown after 5s; print shows everything */
+    setTimeout(function(){if(!fired)seq.forEach(go);},4000);
+    setTimeout(function(){seq.forEach(function(el){
+      if(el.classList.contains('go'))return;
+      var r=el.getBoundingClientRect();if(r.top<window.innerHeight&&r.bottom>0)go(el);
+    });},5000);
+    window.addEventListener('beforeprint',function(){seq.forEach(go);});
+  })();
+

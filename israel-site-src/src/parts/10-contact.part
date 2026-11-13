@@ -1,0 +1,135 @@
+@@CSS
+/* contact: dark section over the hero photo, one glass card.
+   Motion: the card rises over a drifting, slowly zooming photograph (base drifts the photo; --sec-p adds the zoom),
+   its contents arrive in reading order, the Email and Phone hairlines draw in sequence, and on a fine pointer
+   a specular highlight follows the cursor across the glass. Hidden start states exist only under .js and
+   prefers-reduced-motion:no-preference. */
+.contact{padding:clamp(72px,9vw,128px) 0}
+/* photo tuning: far less blur and haze than the base default, so the bokeh and the tomatoes stay legible
+   outside the card while the card's own backdrop blur visibly smears them inside it.
+   Overscan is 84px top and bottom so the +-64px drift and the zoom never expose an edge. */
+.contact .photo-bg::before{inset:-84px -3%;filter:blur(7px) saturate(1.3) brightness(.78)}
+.contact .photo-bg::after{background:linear-gradient(180deg,rgba(6,36,26,.42),rgba(6,36,26,.62))}
+.contact-card{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);column-gap:clamp(32px,5.5vw,80px);align-items:start;padding:clamp(28px,4.6vw,64px);background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.03) 62%),rgba(5,32,23,.62);border-color:rgba(255,255,255,.3)}
+.c-main,.c-side{position:relative;z-index:1}
+.c-main .label{display:block;margin:0 0 18px;color:#f6bd47}
+.contact h2{margin:0 0 22px;font-size:clamp(34px,4.3vw,58px);line-height:1.04;letter-spacing:-.022em;text-wrap:balance}
+.contact .lead{max-width:34ch;color:#e2efe8;text-wrap:balance}
+.c-side{padding-left:clamp(28px,4.4vw,64px);border-left:1px solid rgba(255,255,255,.24)}
+.who{display:flex;align-items:center;gap:16px;margin:0 0 6px}
+.who img{flex:none;width:64px;height:64px;border-radius:50%;object-fit:cover;outline:1px solid rgba(255,255,255,.55);outline-offset:3px}
+.who b{display:block;font:500 24px/1.15 var(--serif);letter-spacing:-.01em}
+.who small{display:block;margin-top:3px;font-size:13.5px;line-height:1.4;color:#d6e8de}
+.reach{display:grid}
+.reach .row2{position:relative;display:grid;gap:6px;min-height:44px;padding:18px 0;text-decoration:none}
+.reach .row2::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:rgba(255,255,255,.24);transform-origin:0 50%}
+.reach .row2:first-child{margin-top:22px}
+.reach .row2 small{font:700 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#f6bd47}
+/* the value is a shrink-wrapped grid item, so its hairline underline is exactly as long as the text */
+.reach .row2 span{justify-self:start;max-width:100%;padding-bottom:3px;font:500 clamp(18px,5.3vw,25px)/1.2 var(--serif);letter-spacing:-.005em;font-variant-numeric:lining-nums;overflow-wrap:anywhere;background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:background-size .45s var(--ease),color .25s}
+.reach a.row2:hover span,.reach a.row2:focus-visible span{color:var(--saffron);background-size:100% 1px}
+.cta-wrap{margin-top:20px}
+.reach .btn{display:flex;justify-content:space-between;padding:18px 24px;font-size:15.5px;line-height:1.25}
+/* gold button: the arrow passes through its frame once on hover or keyboard focus */
+.arr{display:inline-flex;flex:none;width:17px;height:17px;overflow:hidden}
+.contact .btn:hover .ico,.contact .btn:focus-visible .ico{transform:none}
+@keyframes arrowpass{
+  0%{transform:translateX(0)}
+  44%{transform:translateX(130%)}
+  45%{transform:translateX(-130%)}
+  100%{transform:translateX(0)}
+}
+@media (hover:hover) and (pointer:fine){.contact .btn:hover .ico{animation:arrowpass .7s var(--ease)}}
+.contact .btn:focus-visible .ico{animation:arrowpass .7s var(--ease)}
+
+/* specular highlight on the glass: a soft light plus a bevel on the edge, both following the pointer (JS sets --mx/--my) */
+.contact-card::before,.contact-card::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .45s var(--ease)}
+.contact-card::before{background:radial-gradient(380px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.16),rgba(255,255,255,0) 65%)}
+.contact-card::after{inset:-1px;padding:1px;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.85),rgba(255,255,255,0) 70%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude}
+.contact-card.lit::before,.contact-card.lit::after{opacity:1}
+
+@media (prefers-reduced-motion:no-preference){
+  /* slow zoom of the photograph as the section scrolls through (base supplies the drift) */
+  .contact .photo-bg::before{scale:calc(1.02 + var(--sec-p,.5)*.05)}
+  /* the card itself rises; its blur comes with it because the opacity is on the glass element, not an ancestor */
+  .js .contact-card.reveal{transform:translateY(32px);transition:opacity 1s var(--ease),transform 1.1s var(--ease)}
+  .js .contact-card.reveal.in{transform:none}
+  /* contents follow in reading order (--fd is the delay in seconds) */
+  .js .contact-card .fx{opacity:0;transform:translateY(18px);transition:opacity .9s var(--ease) calc(var(--fd,0)*1s),transform .9s var(--ease) calc(var(--fd,0)*1s)}
+  .js .contact-card.in .fx{opacity:1;transform:none}
+  .js .reach .row2::before{transform:scaleX(0);transition:transform 1.1s var(--ease) calc(var(--fd,0)*1s)}
+  .js .contact-card.in .reach .row2::before{transform:none}
+  /* whatever holds keyboard focus is shown at once, never left invisible mid-reveal */
+  .js .contact-card.reveal:focus-within{opacity:1;transform:none;transition:none}
+  .js .contact-card .fx:focus-within{opacity:1;transform:none;transition:none}
+}
+@media (max-width:900px){
+  .contact-card{grid-template-columns:minmax(0,1fr);row-gap:30px}
+  .c-side{padding-left:0;border-left:0;padding-top:26px}
+  .c-side::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:rgba(255,255,255,.24)}
+  .contact .lead{max-width:44ch}
+}
+@media (max-width:640px){
+  .contact{padding:56px 0}
+  .contact-card{padding:28px 22px 24px}
+  .who img{width:56px;height:56px}
+  .who b{font-size:22px}
+  .contact .btn{width:100%}
+}
+@media (prefers-reduced-motion:reduce){
+  .reach .row2 span,.contact-card::before,.contact-card::after,.contact .btn{transition:none}
+  .contact .btn .ico,.contact .btn:hover .ico,.contact .btn:focus-visible .ico{animation:none}
+}
+/* Windows High Contrast: the hairlines are backgrounds, which the system would blank out */
+@media (forced-colors:active){
+  .reach .row2::before,.c-side::before{background-color:CanvasText}
+  .c-side{border-left-color:CanvasText}
+}
+@media print{
+  .contact-card::before,.contact-card::after{display:none}
+  .js .contact-card,.js .contact-card .fx{opacity:1!important;transform:none!important}
+  .js .reach .row2::before{transform:none!important}
+}
+@@HTML
+<section class="sec dark has-photo contact" id="contact" style="--pp:12% 30%;--ps:190%">
+  <div class="photo-bg" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="contact-card glass reveal">
+      <div class="c-main">
+        <p class="label fx" style="--fd:.15">Get in touch</p>
+        <h2>Join the AgriTech investment journey</h2>
+        <p class="lead fx" style="--fd:.55">For qualified investors, fund managers and family offices.</p>
+      </div>
+      <div class="c-side">
+        <div class="who fx" style="--fd:.45"><img src="{{PH_BEN}}" alt="" width="64" height="64" loading="lazy"><div><b>Ben Friedman</b><small>Managing Partner · Green Road Innovation</small></div></div>
+        <div class="reach">
+          <a class="row2 fx" style="--fd:.6" href="mailto:Ben@greenroad-innovation.com"><small>Email</small><span>Ben@greenroad-innovation.com</span></a>
+          <a class="row2 fx" style="--fd:.78" href="tel:+972548071444"><small>Phone</small><span>+972 54 8071444</span></a>
+          <div class="cta-wrap fx" style="--fd:.98"><a class="btn gold" href="mailto:Ben@greenroad-innovation.com?subject=Anthill%20and%20II2W%20Investment%20Enquiry">Request an investor conversation <span class="arr" aria-hidden="true"><svg class="ico"><use href="#i-arrow"/></svg></span></a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+@@JS
+  /* Contact: specular highlight that follows a fine pointer across the glass (rAF-throttled, off under reduced motion) */
+  (function(){
+    var card=document.querySelector('.contact-card');
+    if(card)card.addEventListener('focusin',function(){card.classList.add('in');});
+    if(!card||reduce||!window.matchMedia)return;
+    if(!window.matchMedia('(hover:hover) and (pointer:fine)').matches)return;
+    var raf=0,px=0,py=0;
+    function paint(){
+      raf=0;
+      var r=card.getBoundingClientRect();
+      card.style.setProperty('--mx',(px-r.left).toFixed(0)+'px');
+      card.style.setProperty('--my',(py-r.top).toFixed(0)+'px');
+    }
+    card.addEventListener('pointermove',function(e){
+      px=e.clientX;py=e.clientY;
+      card.classList.add('lit');
+      if(!raf)raf=requestAnimationFrame(paint);
+    });
+    card.addEventListener('pointerleave',function(){card.classList.remove('lit');});
+  })();
+

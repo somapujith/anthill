@@ -1,0 +1,104 @@
+@@CSS
+/* value: two ledgers. The group name sits in the margin column, each row is title | description. */
+.val-group{position:relative;display:grid;grid-template-columns:minmax(0,2.3fr) minmax(0,9.7fr);gap:0 clamp(24px,4vw,64px);border-top:2px solid var(--ink)}
+.val-group+.val-group{margin-top:clamp(40px,5vw,68px);border-top-color:var(--saffron-t)}
+.val-head{padding-top:clamp(30px,3vw,40px)}
+.val-head h3{font:700 11.5px/1.4 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--ink)}
+.val-head p{margin:8px 0 0;max-width:16em;font:normal 500 clamp(17px,1.5vw,19px)/1.35 var(--serif);color:var(--saffron-t)}
+.val-rows{margin:0;min-width:0}
+.val-row{position:relative;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:10px clamp(20px,3.5vw,56px);padding:26px 0 28px;border-top:1px solid var(--rule)}
+.val-row:first-child{border-top:0}
+.val-row dt{position:relative;font:500 clamp(26px,2.6vw,34px)/1.12 var(--serif);letter-spacing:-.012em;color:var(--ink)}
+.val-row dd{margin:0;max-width:46ch;font-size:15.5px;line-height:1.65;color:#2f4037;text-wrap:pretty;transition:color .3s}
+.val-group:last-child{border-bottom:1px solid var(--rule)}
+@media (hover:hover) and (pointer:fine){
+  .val-row:hover dd,.val-row:focus-within dd{color:var(--ink)}
+}
+@media (max-width:900px){
+  .val-group{grid-template-columns:minmax(0,1fr)}
+  .val-head{padding:20px 0 14px}
+  .val-head p{margin-top:6px;max-width:none}
+  .val-row:first-child{border-top:1px solid var(--rule)}
+}
+@media (max-width:640px){
+  .val-row{grid-template-columns:minmax(0,1fr);gap:8px;padding:22px 0 24px}
+  .val-row dd{font-size:15.5px}
+}
+
+/* value motion: each group's rule draws and its label follows; rows then arrive one by one
+   (hairline, then the serif title, then the description). Armed states carry no transition; the .in rules carry the timing.
+   Screen + motion only: reduced-motion, print and no-JS get the end state above. */
+@media screen and (prefers-reduced-motion:no-preference){
+  .js #value .val-group.reveal,.js #value .val-row.reveal{opacity:1;transform:none}
+  .js #value .sh>*{opacity:0;transform:translateX(-10px)}
+  .js #value .sh.in>*{opacity:1;transform:none;transition:opacity .8s var(--ease) .25s,transform .8s var(--ease) .25s}
+  .js #value .sh.in>span{transition-delay:.33s}
+  /* group rule + label */
+  .js #value .val-group{border-top-color:transparent;border-bottom-color:transparent}
+  .js #value .val-group::before{content:"";position:absolute;left:0;right:0;top:-2px;height:2px;background:var(--ink);transform:scaleX(0);transform-origin:0 50%}
+  .js #value .val-group+.val-group::before{background:var(--saffron-t)}
+  .js #value .val-group.in::before{transform:none;transition:transform 1.3s var(--ease)}
+  .js #value .val-head h3,.js #value .val-head p{opacity:0;transform:translateX(-14px)}
+  .js #value .val-group.in .val-head h3,.js #value .val-group.in .val-head p{opacity:1;transform:none;transition:opacity .9s var(--ease) .3s,transform .9s var(--ease) .3s}
+  .js #value .val-group.in .val-head p{transition-delay:.44s}
+  /* rows */
+  .js #value .val-row{border-top-color:transparent}
+  .js #value .val-row::before,.js #value .val-group:last-child .val-row:last-child::after{content:"";position:absolute;left:0;right:0;height:1px;background:var(--rule);transform:scaleX(0);transform-origin:0 50%}
+  .js #value .val-row::before{top:-1px}
+  .js #value .val-row:first-child::before{display:none}
+  .js #value .val-group:last-child .val-row:last-child::after{bottom:-1px;left:calc(-23.7113% - clamp(24px,4vw,64px))}
+  .js #value .val-row.in::before{transform:none;transition:transform 1s var(--ease) calc(var(--d,0s) + .05s)}
+  .js #value .val-group:last-child .val-row.in:last-child::after{transform:none;transition:transform 1s var(--ease) calc(var(--d,0s) + .45s)}
+  .js #value .val-row dt{opacity:0;transform:translateY(20px)}
+  .js #value .val-row dd{opacity:0;transform:translateY(16px)}
+  .js #value .val-row.in dt{opacity:1;transform:none;transition:opacity .9s var(--ease) calc(var(--d,0s) + .15s),transform .9s var(--ease) calc(var(--d,0s) + .15s),translate .35s var(--ease)}
+  .js #value .val-row.in dd{opacity:1;transform:none;transition:opacity .9s var(--ease) calc(var(--d,0s) + .3s),transform .9s var(--ease) calc(var(--d,0s) + .3s),color .3s}
+}
+@media screen and (prefers-reduced-motion:no-preference) and (max-width:900px){
+  .js #value .val-row:first-child::before{display:block}
+  .js #value .val-group:last-child .val-row:last-child::after{left:0}
+}
+/* row hover / focus: the title steps right and a saffron tick grows in the gutter (pointer devices) */
+@media screen and (prefers-reduced-motion:no-preference) and (hover:hover) and (pointer:fine) and (min-width:901px){
+  #value .val-row dt{transition:translate .35s var(--ease)}
+  #value .val-row dt::before{content:"";position:absolute;left:-34px;top:.6em;width:0;height:2px;background:var(--saffron-t);transition:width .35s var(--ease)}
+  #value .val-row:hover dt,#value .val-row:focus-within dt{translate:12px 0}
+  #value .val-row:hover dt::before,#value .val-row:focus-within dt::before{width:20px}
+}
+@media (forced-colors:active){
+  .js #value .val-group::before{forced-color-adjust:none;background:CanvasText}
+  .js #value .val-group+.val-group::before{background:Highlight}
+  .js #value .val-row::before,.js #value .val-group:last-child .val-row:last-child::after{forced-color-adjust:none;background:GrayText}
+}
+@@HTML
+<section class="sec paper" id="value">
+  <div class="wrap">
+    <div class="sh"><b>07</b><span>Drivers of investor value</span></div>
+    <div class="head2">
+      <h2>Investing in AgriTech commercialization and growth in India</h2>
+      <p class="lead reveal" style="--d:.3s">Fund investment, combined with potential opportunities to participate in selected AgriTech companies and Indian joint ventures, subject to the fund’s final terms.</p>
+    </div>
+    <div class="val-group reveal">
+      <div class="val-head">
+        <h3>Through the fund</h3>
+      </div>
+      <dl class="val-rows" data-stagger=".09">
+        <div class="val-row"><dt>Fund investment</dt><dd>Exposure to AgriTech companies selected through agricultural, technical and commercial assessment, supported by field validation and market access in India.</dd></div>
+        <div class="val-row"><dt>Investment returns</dt><dd>Potential returns from portfolio growth and realizations, with distributions governed by the fund’s terms and actual performance.</dd></div>
+        <div class="val-row"><dt>Fund profits</dt><dd>Participation in profits generated by exits and other investment realizations, according to the fund’s distribution arrangements.</dd></div>
+      </dl>
+    </div>
+    <div class="val-group reveal">
+      <div class="val-head">
+        <h3>Alongside the fund</h3>
+        <p>Potential opportunities</p>
+      </div>
+      <dl class="val-rows" data-stagger=".09">
+        <div class="val-row"><dt>Co-investment</dt><dd>Potential opportunities to invest alongside the fund in selected companies as they expand commercial operations.</dd></div>
+        <div class="val-row"><dt>Indian joint ventures</dt><dd>Potential participation in local ventures that combine Israeli agricultural technologies with Indian partners, manufacturing capabilities and distribution networks.</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+@@JS
+

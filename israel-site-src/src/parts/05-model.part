@@ -1,0 +1,167 @@
+@@CSS
+/* model: seed to tree. One story, told column by column: the ground line extends, the plant draws itself on it,
+   then its number, title, sentence and tags arrive in that order, then the next stage begins. */
+#model h2{text-wrap:balance}
+#model{--gx:clamp(18px,2.6vw,40px)}
+.growth{--ease-g:cubic-bezier(.23,1,.32,1);margin-top:clamp(8px,2vw,24px)}
+.g-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:var(--gx)}
+.g-step{--k:1.35;--s:0s;position:relative;min-width:0}
+.g-step:nth-child(2){--s:.42s}
+.g-step:nth-child(3){--s:.84s}
+.g-step:nth-child(4){--s:1.26s}
+@supports (grid-template-rows:subgrid){
+  .g-steps{grid-template-rows:repeat(5,auto)}
+  .g-step{display:grid;grid-row:span 5;grid-template-rows:subgrid;row-gap:0}
+}
+/* illustration: every plant stands on the ground line, drawn 1:1 so the stroke weight is identical */
+.g-art{position:relative;display:flex;align-items:flex-end;height:calc(160px*var(--k));margin-bottom:32px}
+.g-art::before,.g-art::after{content:"";position:absolute;left:0;right:calc(var(--gx)*-1);bottom:-2px;height:2px}
+.g-step:last-child .g-art::before,.g-step:last-child .g-art::after{right:0}
+.g-art::before{background:var(--rule)}
+.g-art::after{background:var(--saffron);transform-origin:0 50%}
+.plant{display:block;flex:none;overflow:visible;transform-origin:0 100%;width:calc(var(--w)*var(--k)*1px);height:calc(var(--h)*var(--k)*1px);fill:none;stroke:var(--forest);stroke-width:calc(1.7px/var(--k));stroke-linecap:round;stroke-linejoin:round}
+/* step text */
+.g-no{position:relative;display:block;justify-self:start;width:max-content;margin:0 0 12px;font:700 11.5px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--ink);font-variant-numeric:lining-nums tabular-nums}
+.g-n{margin-right:.7em;color:var(--saffron-t)}
+.g-no::after{content:"";position:absolute;left:calc(100% + 10px);top:50%;width:28px;height:2px;margin-top:-1px;background:var(--saffron);transform:scaleX(0);transform-origin:0 50%;transition:transform .4s var(--ease)}
+.g-step h3{margin:0 0 12px;font:500 clamp(23px,2.1vw,28px)/1.14 var(--serif);letter-spacing:-.012em;text-wrap:balance}
+.g-step p{margin:0 0 18px;max-width:26em;font-size:15px;line-height:1.55;color:var(--muted)}
+.g-tags{position:relative;display:flex;flex-wrap:wrap;align-content:flex-start;margin:0 0 0 -1.3em;padding-top:13px;clip-path:inset(0 0 0 1.3em);font-size:13px;font-weight:600;line-height:1.65;color:var(--ink)}
+.g-tags::before{content:"";position:absolute;left:1.3em;right:0;top:0;height:1px;background:var(--rule);transform-origin:0 50%}
+.g-tags li{position:relative;margin-left:1.3em;white-space:nowrap}
+.g-tags li:nth-child(2){--j:1}
+.g-tags li:nth-child(3){--j:2}
+.g-tags li:nth-child(4){--j:3}
+.g-tags li::before{content:"·";content:"·" / "";position:absolute;left:-.8em;color:var(--saffron-t)}
+/* structure note, set on the same four-column grid as the steps */
+.m-foot-note{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:var(--gx);margin-top:clamp(52px,6vw,84px);padding-top:26px}
+.m-foot-note::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:var(--ink);transform-origin:0 50%}
+.m-foot-note .mini{--d:.2s;margin:7px 0 0;color:var(--ink)}
+.m-foot-note p{--d:.34s;grid-column:2/-1;margin:0;max-width:35em;font:500 clamp(19px,1.6vw,22px)/1.45 var(--serif);letter-spacing:-.005em;color:var(--ink);text-wrap:pretty}
+@media (max-width:1279px){
+  .g-step{--k:1.2}
+}
+@media (max-width:1100px){
+  .g-step{--k:1.05}
+}
+@media (max-width:900px){
+  .g-steps{display:block}
+  .g-step{--k:.55;display:grid;grid-template-columns:calc(140px*var(--k)) minmax(0,1fr);grid-template-rows:none;grid-row:auto;column-gap:18px;padding:28px 0 30px;border-top:1px solid var(--rule)}
+  .g-step:nth-child(n){--s:0s}
+  .g-step>*{grid-column:2}
+  .g-step>.g-art{grid-column:1;grid-row:1/span 4;align-self:start;height:calc(160px*var(--k));margin:0}
+  .g-step .g-art::before,.g-step .g-art::after,.g-step:last-child .g-art::before,.g-step:last-child .g-art::after{right:0}
+  .g-step p{max-width:34em}
+  .m-foot-note{grid-template-columns:1fr;gap:12px}
+  .m-foot-note p{grid-column:1}
+}
+@media (max-width:900px) and (min-width:601px){
+  .g-step{--k:.72}
+}
+
+/* ---- motion: nothing is hidden unless JS is on and motion is allowed ---- */
+.js .m-foot-note.reveal{opacity:1;transform:none;transition:none}
+@media (prefers-reduced-motion:no-preference){
+  .js .plant path{stroke-dasharray:1 2}
+  .js .g-step:not(.in) .plant path{stroke-dashoffset:1}
+  .js .g-step:not(.in) .g-art::after,.js .g-step:not(.in) .g-tags::before,.js .m-foot-note:not(.in)::before{transform:scaleX(0)}
+  .js .g-step:not(.in) .g-no,.js .g-step:not(.in) h3,.js .g-step:not(.in) p{opacity:0;transform:translateY(16px)}
+  .js .g-step:not(.in) .g-tags li{opacity:0;transform:translateY(10px)}
+  .js .m-foot-note:not(.in) .mini,.js .m-foot-note:not(.in) p{opacity:0;transform:translateY(18px)}
+
+  .g-step.in .g-art::after{transition:transform .7s var(--ease-g) var(--s)}
+  .g-step.in .plant path{transition:stroke-dashoffset 1.1s var(--ease-g) calc(var(--s) + .12s + var(--n,0)*.1s)}
+  .g-step.in .g-no{transition:opacity .7s var(--ease) calc(var(--s) + .5s),transform .7s var(--ease) calc(var(--s) + .5s)}
+  .g-step.in h3{transition:opacity .8s var(--ease) calc(var(--s) + .58s),transform .8s var(--ease) calc(var(--s) + .58s)}
+  .g-step.in p{transition:opacity .8s var(--ease) calc(var(--s) + .68s),transform .8s var(--ease) calc(var(--s) + .68s)}
+  .g-step.in .g-tags::before{transition:transform .8s var(--ease) calc(var(--s) + .8s)}
+  .g-step.in .g-tags li{transition:opacity .7s var(--ease) calc(var(--s) + .9s + var(--j,0)*.06s),transform .7s var(--ease) calc(var(--s) + .9s + var(--j,0)*.06s)}
+  .m-foot-note.in::before{transition:transform 1.2s var(--ease)}
+  .m-foot-note.in .mini,.m-foot-note.in p{transition:opacity .9s var(--ease) var(--d),transform .9s var(--ease) var(--d)}
+}
+/* quiet hover: the stage stands a little taller and its number gets a saffron tick */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .plant{transition:transform .45s var(--ease)}
+  .g-step:hover .plant,.g-step:focus-within .plant{transform:scale(1.05)}
+  .g-step:hover .g-no::after,.g-step:focus-within .g-no::after{transform:scaleX(1)}
+}
+@media print{
+  .js .g-art::after,.js .g-tags::before,.js .m-foot-note::before{transform:none!important}
+  .js .g-step .plant path{stroke-dashoffset:0!important}
+  .js .g-no,.js .g-step h3,.js .g-step p,.js .g-tags li,.js .m-foot-note .mini,.js .m-foot-note p{opacity:1!important;transform:none!important}
+}
+@media (forced-colors:active){
+  .g-art::before,.g-tags::before,.m-foot-note::before{background-color:CanvasText}
+  .g-art::after,.g-no::after{background-color:Highlight}
+  .plant{stroke:CanvasText}
+}
+@media (prefers-reduced-motion:reduce){
+  .g-no::after{transition:none}
+}
+@@HTML
+<section class="sec paper2" id="model">
+  <div class="wrap">
+    <div class="sh reveal"><b>04</b><span>The investment model</span></div>
+    <div class="head2">
+      <h2>Combining capital, field validation and market access</h2>
+      <p class="lead reveal" style="--d:.35s">A structured process for selecting AgriTech companies, validating their solutions under Indian farming conditions and supporting commercial growth.</p>
+    </div>
+    <div class="growth" id="growth">
+      <ol class="g-steps" role="list">
+        <li class="g-step">
+          <div class="g-art" aria-hidden="true"><svg class="plant" viewBox="0 0 48 31.5" style="--w:48;--h:31.5" focusable="false"><path pathLength="1" style="--n:0" d="M2.4 26.4C12 9.6 33.6 7.2 45.6 16.8C38.4 32.4 14.4 37.2 2.4 26.4Z"/><path pathLength="1" style="--n:1" d="M10.8 22.8C20.4 16.8 31.2 14.4 38.4 16.8"/></svg></div>
+          <span class="g-no"><span class="g-n">01</span> Select</span>
+          <h3>Identification and selection</h3>
+          <p>Technologies that address specific agricultural needs in India and globally.</p>
+          <ul class="g-tags" role="list"><li>Crop productivity</li><li>Water efficiency</li><li>Automation</li><li>Reduced crop losses</li></ul>
+        </li>
+        <li class="g-step">
+          <div class="g-art" aria-hidden="true"><svg class="plant" viewBox="0 0 64 80" style="--w:64;--h:80" focusable="false"><path pathLength="1" style="--n:0" d="M32 80C32 68 31 58 32 46"/><path pathLength="1" style="--n:1" d="M32 52C31 40 22 30 6 28C5 42 16 52 32 52Z"/><path pathLength="1" style="--n:2" d="M32 46C32 32 42 22 58 18C60 34 48 46 32 46Z"/></svg></div>
+          <span class="g-no"><span class="g-n">02</span> Validate</span>
+          <h3>Speed Scaler Studio</h3>
+          <p>Field trials, technology adaptation and commercial validation, ahead of market entry.</p>
+          <ul class="g-tags" role="list"><li>Performance</li><li>Farmer economics</li><li>Customer demand</li><li>Market entry</li></ul>
+        </li>
+        <li class="g-step">
+          <div class="g-art" aria-hidden="true"><svg class="plant" viewBox="0 0 100 116" style="--w:100;--h:116" focusable="false"><path pathLength="1" style="--n:0" d="M44 116C44 90 47 56 50 22"/><path pathLength="1" style="--n:1" d="M44 100C34 102 16 96 8 80C26 76 40 84 44 100Z"/><path pathLength="1" style="--n:2" d="M46 76C58 80 80 74 94 56C76 50 52 58 46 76Z"/><path pathLength="1" style="--n:3" d="M48 50C38 52 20 46 12 30C30 26 44 34 48 50Z"/><path pathLength="1" style="--n:4" d="M50 22C45 15 46 6 54 1C58 10 56 18 50 22Z"/></svg></div>
+          <span class="g-no"><span class="g-n">03</span> Invest</span>
+          <h3>Speed Scaler Fund</h3>
+          <p>Investing, following validation, in selected companies that demonstrate:</p>
+          <ul class="g-tags" role="list"><li>Practical value</li><li>Commercial potential</li><li>Credible path to adoption</li></ul>
+        </li>
+        <li class="g-step">
+          <div class="g-art" aria-hidden="true"><svg class="plant" viewBox="0 0 140 160" style="--w:140;--h:160" focusable="false"><path pathLength="1" style="--n:0" d="M56 160C64 150 67 128 70 104C73 128 76 150 84 160"/><path pathLength="1" style="--n:1" d="M70 104C64 94 52 88 38 72"/><path pathLength="1" style="--n:1" d="M70 104C76 94 88 88 102 72"/><path pathLength="1" style="--n:1" d="M70 104C70 88 70 72 70 46"/><path pathLength="1" style="--n:2" d="M57 90C49 80 45 68 46 54"/><path pathLength="1" style="--n:2" d="M83 90C91 80 95 68 94 54"/><path pathLength="1" style="--n:2" d="M63 96C54 96 44 100 34 110"/><path pathLength="1" style="--n:2" d="M77 96C86 96 96 100 106 110"/><path pathLength="1" style="--n:3" d="M70 46C83.2 36.5 79.9 21.5 70 12C60.1 21.5 56.8 36.5 70 46Z"/><path pathLength="1" style="--n:3.5" d="M70 46C73.7 33.1 64 25.1 52.8 23.9C51.1 35.2 56.6 46.5 70 46Z"/><path pathLength="1" style="--n:3.5" d="M70 46C83.4 46.5 88.9 35.2 87.2 23.9C76 25.1 66.3 33.1 70 46Z"/><path pathLength="1" style="--n:4" d="M38 72C36 57.8 23 54.1 11.5 57.9C14.8 69.6 25.1 78.3 38 72Z"/><path pathLength="1" style="--n:4" d="M38 72C44.6 61.5 38 51.8 28.3 47.9C23.9 57.5 25.9 69 38 72Z"/><path pathLength="1" style="--n:4" d="M102 72C114.9 78.3 125.2 69.6 128.5 57.9C117 54.1 104 57.8 102 72Z"/><path pathLength="1" style="--n:4" d="M102 72C114.1 69 116.1 57.5 111.7 47.9C102 51.8 95.4 61.5 102 72Z"/><path pathLength="1" style="--n:4.5" d="M46 54C55.7 44.7 51.3 32.9 42.1 26.3C35.1 35.2 34.2 47.7 46 54Z"/><path pathLength="1" style="--n:4.5" d="M94 54C105.8 47.7 104.9 35.2 97.9 26.3C88.7 32.9 84.3 44.7 94 54Z"/><path pathLength="1" style="--n:5" d="M34 110C25.4 101 14.4 105.1 8.3 113.6C16.5 120.1 28.2 121 34 110Z"/><path pathLength="1" style="--n:5" d="M106 110C111.8 121 123.5 120.1 131.7 113.6C125.6 105.1 114.6 101 106 110Z"/></svg></div>
+          <span class="g-no"><span class="g-n">04</span> Scale</span>
+          <h3>Commercial growth</h3>
+          <p>Combining Green Road’s agricultural expertise and project execution with Anthill’s market access network to connect companies with:</p>
+          <ul class="g-tags" role="list"><li>Growers</li><li>Agribusinesses</li><li>Distributors</li><li>Strategic partners</li></ul>
+        </li>
+      </ol>
+    </div>
+    <div class="m-foot-note reveal">
+      <h3 class="mini">Structure</h3>
+      <p>Through holding-company structures and Indian joint ventures, the platform aims to capture value from local commercialization and expansion, with potential to serve global markets. These arrangements remain subject to final investment and partnership terms.</p>
+    </div>
+  </div>
+</section>
+@@JS
+  /* Model: the stages play once, in order, when the row scrolls into view (per step on phones).
+     Without IntersectionObserver, or if it never calls back (4s failsafe), every stage is simply shown. */
+  (function(){
+    var steps=$('#growth .g-step');
+    if(!steps.length)return;
+    function all(){steps.forEach(function(s){s.classList.add('in');});}
+    if(reduce||!('IntersectionObserver' in window)){all();return;}
+    var wide=window.matchMedia('(min-width:901px)'),started=false,called=false;
+    var io=new IntersectionObserver(function(es){
+      called=true;
+      es.forEach(function(e){
+        if(!e.isIntersecting)return;
+        io.unobserve(e.target);started=true;
+        if(wide.matches)all();else e.target.parentNode.classList.add('in');
+      });
+    },{threshold:.6});
+    $('#growth .g-art').forEach(function(a){io.observe(a);});
+    setTimeout(function(){if(!called)all();},4000);
+    if(wide.addEventListener)wide.addEventListener('change',function(){if(wide.matches&&started)all();});
+  })();
