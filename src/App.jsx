@@ -21,6 +21,7 @@ import NightSky from "./components/NightSky.jsx";
 import { footerLines } from "./components/footer-lines.js";
 import { drawSurface, surfaceY } from "./components/growth-curve.js";
 import site from "./data/view-content.json";
+import Seo from "./seo/Seo.jsx";
 import { COUNTRIES, REGION_LABEL, SECTORS_PHRASE } from "./data/deck-facts.js";
 
 gsap.registerPlugin(SplitText, useGSAP);
@@ -724,11 +725,10 @@ export default function App() {
   const reduce = useReducedMotion();
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
-    const page = site.pages?.[location.pathname.replace(/\/$/, "") || "/"];
-    document.title = page?.title || "Page not found | Anthill Ventures";
   }, [location.pathname]);
   return (
     <MotionConfig reducedMotion="user">
+      <Seo />
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>

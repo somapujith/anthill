@@ -1,1 +1,17 @@
-/* /index.html 200
+# Netlify / Cloudflare Pages redirects. First match wins; rules never shadow real files.
+#
+# The build (scripts/seo-build.mjs) writes one real HTML file per route
+# (/about/index.html, /portfolio/zypp-electric/index.html, ...), so every valid URL is served
+# by its own file and the old "/* /index.html 200" SPA fallback is gone: an unknown URL now
+# returns a genuine 404 (with the app's "Page not found" view) instead of a soft 404.
+
+# Removed on purpose: this profile was taken off the site. Send visitors to the team page.
+/team/lasya-nadimpally  /team  301
+
+# Parent paths of detail-page families. The listing pages live elsewhere:
+# /speedscalers links to all 12 /mentors/* pages, /insights links to all 3 /playbooks/* pages.
+/mentors    /speedscalers  301
+/playbooks  /insights      301
+
+# Anything else is a real 404.
+/*  /404.html  404

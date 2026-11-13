@@ -9,10 +9,12 @@
     "dev": "vite --host 0.0.0.0 --port 5180 --strictPort",
     "prebuild": "npm run prepare:content",
     "build": "vite build",
+    "postbuild": "node scripts/seo-build.mjs",
     "preview": "vite preview --host 0.0.0.0 --port 4180 --strictPort",
     "check": "python scripts/verify-content.py",
     "test:content": "node scripts/verify-rendered.mjs",
-    "test:viewports": "node scripts/viewport-check.mjs"
+    "test:viewports": "node scripts/viewport-check.mjs",
+    "seo:validate": "node scripts/seo-validate.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
