@@ -1,0 +1,34 @@
+# Netlify / Cloudflare Pages response headers (also read by some other static hosts).
+# Hosts that ignore this file: see the "SEO" section of README.md for the equivalent config.
+#
+# Cache rules for the HTML routes, sitemap.xml, robots.txt and llms.txt are appended to
+# dist/_headers by scripts/seo-build.mjs (one rule per generated route), so no header is
+# ever set twice for the same path.
+
+# Safe on every response. No CSP on purpose: it would need a full audit of the app's inline
+# styles, fonts and media and a mistake breaks the page.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+
+# Content-hashed build output: safe to cache for a year.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Self-hosted fonts and media are served under stable names. They are immutable by policy:
+# to change one, publish it under a new file name.
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+/media/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Brand marks, icons, share images and downloadable documents: cached for a day, then revalidated.
+/brand/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/icons/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/og/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/documents/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
