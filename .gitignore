@@ -5,3 +5,12 @@ test-results/
 playwright-report/
 .DS_Store
 Gaming Studios/
+
+# Local-only working files. The fund materials are confidential and this repo is public,
+# so they are never committed. To publish one on purpose, use: git add -f <file>
+/deck/
+/anthill-india-opportunities-fund-deck*.pptx
+/Anthill India Opportunities Fund LP Presentation*.pdf
+# Local copies of the Israel page. The deployable copy is israel-site/.
+/Anthill_Israel_2*.html
+/israel-site.zip
